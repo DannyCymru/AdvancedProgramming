@@ -44,11 +44,11 @@ function simpleOkayCodeComment() {
 
 Now, this is becoming a lecture so I am not going to bore you with more information here. I will just give some links that I feel could be useful/important.
 
-*https://git-scm.com/
-*https://git-scm.com/docs/git-pull
-*https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging
-*https://www.gitkraken.com/
+* https://git-scm.com/
+* https://git-scm.com/docs/git-pull
+* https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging
+* https://www.gitkraken.com/
 
 ## Refrences 
-*https://www.learnjavaonline.org/en/Hello%2C_World%21
-*https://www.elegantthemes.com/blog/wordpress/how-to-comment-your-code-like-a-pro-best-practices-and-good-habits
+* https://www.learnjavaonline.org/en/Hello%2C_World%21
+* https://www.elegantthemes.com/blog/wordpress/how-to-comment-your-code-like-a-pro-best-practices-and-good-habits
