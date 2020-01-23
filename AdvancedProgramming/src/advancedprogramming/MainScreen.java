@@ -34,7 +34,7 @@ public class MainScreen extends javax.swing.JFrame {
         jScrollPane4 = new javax.swing.JScrollPane();
         jTextArea4 = new javax.swing.JTextArea();
         jbuttonconnect = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
+        uniqueId = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -59,7 +59,9 @@ public class MainScreen extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setText("Unique ID");
+        uniqueId.setText("Unique ID");
+        uniqueId.setRequestFocusEnabled(false);
+        uniqueId.setVerifyInputWhenFocusTarget(false);
 
         jTextField1.setText("jTextField1");
 
@@ -76,7 +78,7 @@ public class MainScreen extends javax.swing.JFrame {
                         .addComponent(jScrollPane1))
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(uniqueId)
                         .addGap(10, 10, 10)
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 489, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -104,12 +106,13 @@ public class MainScreen extends javax.swing.JFrame {
                                 .addGap(7, 7, 7)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(uniqueId, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(jScrollPane4))
                         .addContainerGap())))
         );
 
-        jLabel1.getAccessibleContext().setAccessibleName("uniqueIdLabel");
+        uniqueId.getAccessibleContext().setAccessibleName("uniqueIdLabel");
+        uniqueId.getAccessibleContext().setAccessibleDescription("");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -117,10 +120,15 @@ public class MainScreen extends javax.swing.JFrame {
     private void jbuttonconnectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbuttonconnectActionPerformed
         // connect button to show connect screen and remove button
          new Conscreen().setVisible(true); 
-         jbuttonconnect.setVisible(false); 
-        
+         jbuttonconnect.setVisible(false);
     }//GEN-LAST:event_jbuttonconnectActionPerformed
-
+    
+    //Unique ID setter method. It obtains the correct text but doesn't update
+    //the JLabel. Possibly a concurrency issue?
+    public void setUniqueId(String text) {
+        uniqueId.setText(text);
+        System.out.print(text);
+    }
     /**
      * @param args the command line arguments
      */
@@ -157,7 +165,6 @@ public class MainScreen extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
@@ -166,5 +173,6 @@ public class MainScreen extends javax.swing.JFrame {
     private javax.swing.JTextArea jTextArea4;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JButton jbuttonconnect;
+    private javax.swing.JLabel uniqueId;
     // End of variables declaration//GEN-END:variables
 }

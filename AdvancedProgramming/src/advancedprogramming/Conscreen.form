@@ -33,7 +33,7 @@
                       <Group type="102" attributes="0">
                           <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jTextField1" min="-2" pref="229" max="-2" attributes="0"/>
+                          <Component id="uniqueIdTextField" min="-2" pref="229" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
@@ -48,8 +48,8 @@
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jTextField3" min="-2" pref="229" max="-2" attributes="0"/>
-                              <Component id="jTextField2" min="-2" pref="229" max="-2" attributes="0"/>
+                              <Component id="connectAddrTextField" min="-2" pref="229" max="-2" attributes="0"/>
+                              <Component id="listeningPortTextField" min="-2" pref="229" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -64,17 +64,17 @@
               <EmptySpace pref="101" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jTextField1" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="uniqueIdTextField" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jTextField2" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="listeningPortTextField" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jTextField3" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="connectAddrTextField" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="81" max="-2" attributes="0"/>
               <Component id="jbtnconnect" min="-2" max="-2" attributes="0"/>
@@ -113,17 +113,17 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbtnconnectActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextField1">
+    <Component class="javax.swing.JTextField" name="uniqueIdTextField">
       <Properties>
         <Property name="text" type="java.lang.String" value="dr3344j"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextField2">
+    <Component class="javax.swing.JTextField" name="listeningPortTextField">
       <Properties>
         <Property name="text" type="java.lang.String" value="70"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextField3">
+    <Component class="javax.swing.JTextField" name="connectAddrTextField">
       <Properties>
         <Property name="text" type="java.lang.String" value="192.168.1.1:170"/>
         <Property name="toolTipText" type="java.lang.String" value=""/>
