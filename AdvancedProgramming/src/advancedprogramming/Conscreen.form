@@ -99,6 +99,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Connect"/>
       </Properties>
+      <AccessibilityProperties>
+        <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="connect"/>
+      </AccessibilityProperties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbtnconnectActionPerformed"/>
       </Events>
@@ -112,7 +115,6 @@
       <SubComponents>
         <Component class="javax.swing.JTextArea" name="jtextid">
           <Properties>
-            <Property name="editable" type="boolean" value="false"/>
             <Property name="tabSize" type="int" value="0"/>
             <Property name="text" type="java.lang.String" value="dm5376y"/>
           </Properties>

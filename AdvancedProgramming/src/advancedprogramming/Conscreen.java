@@ -53,7 +53,6 @@ public class Conscreen extends javax.swing.JFrame {
             }
         });
 
-        jtextid.setEditable(false);
         jtextid.setTabSize(0);
         jtextid.setText("dm5376y");
         jtextid.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -121,12 +120,12 @@ public class Conscreen extends javax.swing.JFrame {
                 .addGap(30, 30, 30))
         );
 
+        jbtnconnect.getAccessibleContext().setAccessibleName("connect");
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbtnconnectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnconnectActionPerformed
-        // TODO add your handling code here:
-        
         
     }//GEN-LAST:event_jbtnconnectActionPerformed
 
