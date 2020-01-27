@@ -7,12 +7,9 @@ package advancedprogramming;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
@@ -141,6 +138,7 @@ public class Conscreen extends javax.swing.JFrame {
         //if no then pop ups error telling user about the issue.
         try {
             BufferedReader br = new BufferedReader(new FileReader(filepath1));
+
             String line;
 
             while ((line = br.readLine()) != null) {

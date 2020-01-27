@@ -5,6 +5,20 @@
  */
 package advancedprogramming;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
+import javax.swing.JFrame;
+import javax.swing.JTextArea;
+import javax.swing.text.BadLocationException;
+
 /**
  *
  * @author dm5376y
@@ -20,7 +34,110 @@ public class MainScreen extends javax.swing.JFrame {
      */
     public MainScreen() {
         initComponents();
+        SendText.setVisible(false);
+        input.setEditable(false);
+    }
 
+// Very simple multithreaded server that spins a thread
+// for each client connection.
+    class HandleConnection extends Thread {
+
+        Socket s = null;
+
+        public HandleConnection(Socket s, JTextArea MainDisplay) {
+            this.s = s;
+        }
+
+        public void run() {
+            display.append("Connected!\n");
+            try {
+                InputStream is = s.getInputStream();
+                BufferedReader br = new BufferedReader(new InputStreamReader(is));
+                String str = br.readLine();
+                while (str != null) {
+                    display.append(ID + " : " + str + "\n");
+                    str = br.readLine();
+                }
+            } catch (IOException ioe) {
+                ioe.printStackTrace();
+            }
+            display.append("Disconnected!\n");
+        } // end of run()
+    }
+
+    class MultiThreadedServer extends Thread {
+
+        private JTextArea display;
+
+        public MultiThreadedServer(JTextArea display) {
+            this.display = display;
+        }
+
+        public void run() {
+            display.append("Connecting...\n");
+            try {
+                // wait for a client connection
+                ServerSocket ss = new ServerSocket(2000);
+                // then a spin off a thread to handle it
+                while (true) {
+                    Socket mySocket = ss.accept();
+                    HandleConnection hc = new HandleConnection(mySocket, display);
+                    hc.start();
+                }
+            } catch (IOException ioe) {
+                ioe.printStackTrace();
+            }
+            display.append("Server closing\n");
+        }
+    }
+
+    public class ServerAdminMultiThread extends JFrame implements ActionListener {
+
+        private Thread theServer = new MultiThreadedServer(display);
+
+        public ServerAdminMultiThread() {
+
+        }
+
+        public void actionPerformed(ActionEvent event) {
+        }
+
+    }
+    private PrintWriter pw;
+    private Socket ss;
+
+    public void contactServer() {
+        try {
+            ss = new Socket("127.0.0.1", 2000);
+            OutputStream os = ss.getOutputStream();
+            pw = new PrintWriter(os, true);
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+    }
+
+    public void sendText() {
+        int inputLines = input.getLineCount();
+        try {
+            for (int i = 0; i < inputLines; i++) {
+                int start = input.getLineStartOffset(i);
+                int end = input.getLineEndOffset(i);
+                pw.print(input.getText(start, end - start));
+            }
+            pw.println();
+        } catch (BadLocationException ble) {
+            ble.printStackTrace();
+        }
+    }
+
+    public void closeConnection() {
+        try {
+            if (ss != null) {
+                ss.close();
+            }
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
     }
 
     /**
@@ -33,15 +150,18 @@ public class MainScreen extends javax.swing.JFrame {
     private void initComponents() {
 
         jDialog1 = new javax.swing.JDialog();
+        jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        display = new javax.swing.JTextArea();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTextArea3 = new javax.swing.JTextArea();
+        Onliners = new javax.swing.JTextArea();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTextArea4 = new javax.swing.JTextArea();
+        ServerInfo = new javax.swing.JTextArea();
         jbuttonconnect = new javax.swing.JButton();
         uniqueId = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        SendText = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        input = new javax.swing.JTextArea();
 
         javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
         jDialog1.getContentPane().setLayout(jDialog1Layout);
@@ -54,20 +174,26 @@ public class MainScreen extends javax.swing.JFrame {
             .addGap(0, 300, Short.MAX_VALUE)
         );
 
+        jButton1.setText("jButton1");
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTextArea1.setEditable(false);
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        display.setEditable(false);
+        display.setColumns(20);
+        display.setRows(5);
+        jScrollPane1.setViewportView(display);
 
-        jTextArea3.setColumns(1);
-        jTextArea3.setRows(5);
-        jScrollPane3.setViewportView(jTextArea3);
+        Onliners.setEditable(false);
+        Onliners.setColumns(1);
+        Onliners.setRows(5);
+        Onliners.setText("Onliners");
+        jScrollPane3.setViewportView(Onliners);
 
-        jTextArea4.setColumns(1);
-        jTextArea4.setRows(5);
-        jScrollPane4.setViewportView(jTextArea4);
+        ServerInfo.setEditable(false);
+        ServerInfo.setColumns(1);
+        ServerInfo.setRows(5);
+        ServerInfo.setText("ServerInfo");
+        jScrollPane4.setViewportView(ServerInfo);
 
         jbuttonconnect.setText("Connect");
         jbuttonconnect.addActionListener(new java.awt.event.ActionListener() {
@@ -80,7 +206,16 @@ public class MainScreen extends javax.swing.JFrame {
         uniqueId.setRequestFocusEnabled(false);
         uniqueId.setVerifyInputWhenFocusTarget(false);
 
-        jTextField1.setText("jTextField1");
+        SendText.setText("Send");
+        SendText.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SendTextActionPerformed(evt);
+            }
+        });
+
+        input.setColumns(20);
+        input.setRows(5);
+        jScrollPane2.setViewportView(input);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -94,37 +229,44 @@ public class MainScreen extends javax.swing.JFrame {
                         .addGap(10, 10, 10)
                         .addComponent(jScrollPane1))
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
                         .addComponent(uniqueId)
-                        .addGap(10, 10, 10)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 489, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 490, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(SendText)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(12, 12, 12)
-                        .addComponent(jbuttonconnect)))
+                    .addComponent(jbuttonconnect, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jbuttonconnect)
-                        .addGap(0, 12, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jScrollPane1)
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jbuttonconnect))
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addGap(32, 32, 32))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
                                 .addGap(7, 7, 7)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(uniqueId, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(jScrollPane4))
+                                .addComponent(uniqueId, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(SendText))
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addContainerGap())))
         );
 
@@ -139,15 +281,29 @@ public class MainScreen extends javax.swing.JFrame {
         new Conscreen().setVisible(true);
         jbuttonconnect.setVisible(false);
         dispose();
+        SendText.setVisible(true);
 
     }//GEN-LAST:event_jbuttonconnectActionPerformed
+
+    private void SendTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SendTextActionPerformed
+        sendText();
+    }//GEN-LAST:event_SendTextActionPerformed
 
     //Unique ID setter method. It obtains the correct text but doesn't update
     //the JLabel. Possibly a concurrency issue?
     //Now it is fixed and working.
-    public void setUniqueId(String ID) {
-        uniqueId.setText(ID);
+    public void setUniqueId(String iD) {
+        uniqueId.setText(iD);
+
         jbuttonconnect.setVisible(false);
+        Thread theServer = new MultiThreadedServer(display);
+        SendText.setVisible(true);
+
+        theServer.start();
+        contactServer();
+        ID = uniqueId.getText();
+        input.setEditable(true);
+
     }
 
     public void setlisteningPort(String ListPort) {
@@ -194,14 +350,17 @@ public class MainScreen extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextArea Onliners;
+    private javax.swing.JButton SendText;
+    private javax.swing.JTextArea ServerInfo;
+    private javax.swing.JTextArea display;
+    private javax.swing.JTextArea input;
+    private javax.swing.JButton jButton1;
     private javax.swing.JDialog jDialog1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextArea jTextArea3;
-    private javax.swing.JTextArea jTextArea4;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JButton jbuttonconnect;
     public javax.swing.JLabel uniqueId;
     // End of variables declaration//GEN-END:variables
