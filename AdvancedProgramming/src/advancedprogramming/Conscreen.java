@@ -118,6 +118,8 @@ public class Conscreen extends javax.swing.JFrame {
         String uId = uniqueIdTextField.getText();
         temp.setUniqueId(uId);       
         dispose();
+        temp.setVisible(false);
+        temp.setVisible(true);
     }//GEN-LAST:event_jbtnconnectActionPerformed
     
     /**
