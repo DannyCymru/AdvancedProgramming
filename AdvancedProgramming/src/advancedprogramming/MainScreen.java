@@ -10,6 +10,11 @@ package advancedprogramming;
  * @author dm5376y
  */
 public class MainScreen extends javax.swing.JFrame {
+
+    String ID = "";
+    String ListPort = "";
+    String ConAddr = "";
+
     /**
      * Creates new form MainScreen
      */
@@ -131,19 +136,28 @@ public class MainScreen extends javax.swing.JFrame {
 
     private void jbuttonconnectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbuttonconnectActionPerformed
         // connect button to show connect screen and remove button
-         new Conscreen().setVisible(true); 
-         jbuttonconnect.setVisible(false);
-         dispose();
-  
+        new Conscreen().setVisible(true);
+        jbuttonconnect.setVisible(false);
+        dispose();
+
     }//GEN-LAST:event_jbuttonconnectActionPerformed
-    
+
     //Unique ID setter method. It obtains the correct text but doesn't update
     //the JLabel. Possibly a concurrency issue?
     //Now it is fixed and working.
-    public void setUniqueId(String text) {
-        uniqueId.setText(text);
-         jbuttonconnect.setVisible(false);
+    public void setUniqueId(String ID) {
+        uniqueId.setText(ID);
+        jbuttonconnect.setVisible(false);
     }
+
+    public void setlisteningPort(String ListPort) {
+        System.out.println(ListPort);
+    }
+
+    public void setConAddress(String ConAddr) {
+        System.out.println(ConAddr);
+    }
+
     /**
      * @param args the command line arguments
      */

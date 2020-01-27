@@ -5,11 +5,27 @@
  */
 package advancedprogramming;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author dm5376y
  */
 public class Conscreen extends javax.swing.JFrame {
+
+    String filepath1 = "IDs.txt";
+    File file = new File(filepath1);
 
     /**
      * Creates new form Conscreen
@@ -110,18 +126,50 @@ public class Conscreen extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-   
+
     private void jbtnconnectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnconnectActionPerformed
         /*Attempts to get the new value from the textfield and send it to the
         setter created on the MainScreen java file*/
         MainScreen temp = new MainScreen();
         String uId = uniqueIdTextField.getText();
-        temp.setUniqueId(uId);       
-        dispose();
-        temp.setVisible(false);
-        temp.setVisible(true);
+
+        String listeningPort = listeningPortTextField.getText();
+
+        String ConAddress = connectAddrTextField.getText();
+
+        // Checks the IDs.txt file for the entered ID and if it is there it proceeds to connect
+        //if no then pop ups error telling user about the issue.
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(filepath1));
+            String line;
+
+            while ((line = br.readLine()) != null) {
+
+                if (line.equals(uId)) {
+                    temp.setUniqueId(uId);
+                    temp.setlisteningPort(listeningPort);
+                    temp.setConAddress(ConAddress);
+                    dispose();
+                    temp.setVisible(false);
+                    temp.setVisible(true);
+                    break;
+
+                }
+            }
+            br.close();
+            if (line == null) {
+                JOptionPane.showMessageDialog(new JFrame(), "Error! Entered Unique ID doesn't exist in the database.");
+            }
+
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Conscreen.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Conscreen.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+
     }//GEN-LAST:event_jbtnconnectActionPerformed
-    
+
     /**
      * @param args the command line arguments
      */
