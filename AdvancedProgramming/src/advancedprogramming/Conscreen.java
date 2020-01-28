@@ -127,7 +127,7 @@ public class Conscreen extends javax.swing.JFrame {
     private void jbtnconnectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnconnectActionPerformed
         /*Attempts to get the new value from the textfield and send it to the
         setter created on the MainScreen java file*/
-        MainScreen temp = new MainScreen();
+        MainScreen mainS = new MainScreen();
         String uId = uniqueIdTextField.getText();
 
         String listeningPort = listeningPortTextField.getText();
@@ -144,14 +144,14 @@ public class Conscreen extends javax.swing.JFrame {
             while ((line = br.readLine()) != null) {
 
                 if (line.equals(uId)) {
-                    temp.setUniqueId(uId);
-                    temp.setlisteningPort(listeningPort);
-                    temp.setConAddress(ConAddress);
+                    mainS.setUniqueId(uId);
+                    mainS.setlisteningPort(listeningPort);
+                    mainS.setConAddress(ConAddress);
                     dispose();
-                    temp.setVisible(false);
-                    temp.setVisible(true);
-                    temp.activateSendButton();
-                    temp.connectServer();
+                    mainS.setVisible(false);
+                    mainS.setVisible(true);
+                    mainS.activateSendButton();
+                    mainS.connectServer();
                     break;
 
                 }

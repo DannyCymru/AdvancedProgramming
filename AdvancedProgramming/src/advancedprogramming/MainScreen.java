@@ -15,6 +15,8 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.JFrame;
 import javax.swing.JTextArea;
 import javax.swing.text.BadLocationException;
@@ -55,7 +57,7 @@ public class MainScreen extends javax.swing.JFrame {
                 BufferedReader br = new BufferedReader(new InputStreamReader(is));
                 String str = br.readLine();
                 while (str != null) {
-                    display.append(ID + " : " + str + "\n");
+                    display.append(currTime() + ID + " : " + str + "\n");
                     str = br.readLine();
                 }
             } catch (IOException ioe) {
@@ -290,6 +292,7 @@ public class MainScreen extends javax.swing.JFrame {
         SendText.setVisible(true);
         connectButton.setVisible(false);
         input.setEditable(true);
+        currTime();
     }
     
     //Function to create a new thread and connect to the server.
@@ -298,6 +301,13 @@ public class MainScreen extends javax.swing.JFrame {
         theServer.start();
         contactServer();
     }
+    
+    //Function to get the current time.
+    public String currTime() {
+        SimpleDateFormat formatter= new SimpleDateFormat( "[HH:mm:ss] ");
+        Date date = new Date(System.currentTimeMillis());
+        return formatter.format(date);
+        }
     
 
     public void setlisteningPort(String ListPort) {
