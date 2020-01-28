@@ -28,15 +28,15 @@ import javax.swing.text.BadLocationException;
 public class MainScreen extends javax.swing.JFrame {
 
     String ID = "";
-    String ListPort = "";
-    String ConAddr = "";
+    String listPort = "";
+    String conAddr = "";
 
     /**
      * Creates new form MainScreen
      */
     public MainScreen() {
         initComponents();
-        SendText.setVisible(false);
+        sendText.setVisible(false);
         input.setEditable(true);
     }
 
@@ -158,10 +158,10 @@ public class MainScreen extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         Onliners = new javax.swing.JTextArea();
         jScrollPane4 = new javax.swing.JScrollPane();
-        ServerInfo = new javax.swing.JTextArea();
+        serverInfo = new javax.swing.JTextArea();
         connectButton = new javax.swing.JButton();
         uniqueId = new javax.swing.JLabel();
-        SendText = new javax.swing.JButton();
+        sendText = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         input = new javax.swing.JTextArea();
 
@@ -191,11 +191,11 @@ public class MainScreen extends javax.swing.JFrame {
         Onliners.setText("Online Members");
         jScrollPane3.setViewportView(Onliners);
 
-        ServerInfo.setEditable(false);
-        ServerInfo.setColumns(1);
-        ServerInfo.setRows(5);
-        ServerInfo.setText("Host");
-        jScrollPane4.setViewportView(ServerInfo);
+        serverInfo.setEditable(false);
+        serverInfo.setColumns(1);
+        serverInfo.setRows(5);
+        serverInfo.setText("Host");
+        jScrollPane4.setViewportView(serverInfo);
 
         connectButton.setText("Connect");
         connectButton.addActionListener(new java.awt.event.ActionListener() {
@@ -208,10 +208,10 @@ public class MainScreen extends javax.swing.JFrame {
         uniqueId.setRequestFocusEnabled(false);
         uniqueId.setVerifyInputWhenFocusTarget(false);
 
-        SendText.setText("Send");
-        SendText.addActionListener(new java.awt.event.ActionListener() {
+        sendText.setText("Send");
+        sendText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SendTextActionPerformed(evt);
+                sendTextActionPerformed(evt);
             }
         });
 
@@ -236,7 +236,7 @@ public class MainScreen extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 490, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(SendText)
+                        .addComponent(sendText)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -260,7 +260,7 @@ public class MainScreen extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(connectButton)
                     .addComponent(uniqueId, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(SendText))
+                    .addComponent(sendText))
                 .addGap(32, 32, 32))
         );
 
@@ -277,9 +277,10 @@ public class MainScreen extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_connectButtonActionPerformed
 
-    private void SendTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SendTextActionPerformed
+    private void sendTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendTextActionPerformed
         sendText();
-    }//GEN-LAST:event_SendTextActionPerformed
+        input.setText(null);
+    }//GEN-LAST:event_sendTextActionPerformed
 
     //Function to set the unique id.
     public void setUniqueId(String uId) {
@@ -289,7 +290,7 @@ public class MainScreen extends javax.swing.JFrame {
     
     //Activates and allows for the use of sending text.
     public void activateSendButton(){
-        SendText.setVisible(true);
+        sendText.setVisible(true);
         connectButton.setVisible(false);
         input.setEditable(true);
         currTime();
@@ -310,12 +311,16 @@ public class MainScreen extends javax.swing.JFrame {
         }
     
 
-    public void setlisteningPort(String ListPort) {
-        System.out.println(ListPort);
+    public void setlisteningPort(String port) {
+        listPort= port;
     }
 
-    public void setConAddress(String ConAddr) {
-        System.out.println(ConAddr);
+    //Saves the address in the pre initialised variable conAddr for future use
+    //Then sets the server info to use the current address.
+    public void setConAddress(String address) {
+        conAddr=address;
+        serverInfo.setText(conAddr);
+        
     }
 
     /**
@@ -355,8 +360,6 @@ public class MainScreen extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea Onliners;
-    private javax.swing.JButton SendText;
-    private javax.swing.JTextArea ServerInfo;
     private javax.swing.JButton connectButton;
     private javax.swing.JTextArea display;
     private javax.swing.JTextArea input;
@@ -366,6 +369,8 @@ public class MainScreen extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JButton sendText;
+    private javax.swing.JTextArea serverInfo;
     public javax.swing.JLabel uniqueId;
     // End of variables declaration//GEN-END:variables
 }
