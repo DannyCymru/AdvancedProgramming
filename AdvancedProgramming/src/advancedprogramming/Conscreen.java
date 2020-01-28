@@ -150,6 +150,8 @@ public class Conscreen extends javax.swing.JFrame {
                     dispose();
                     temp.setVisible(false);
                     temp.setVisible(true);
+                    temp.activateSendButton();
+                    temp.connectServer();
                     break;
 
                 }
@@ -164,8 +166,6 @@ public class Conscreen extends javax.swing.JFrame {
         } catch (IOException ex) {
             Logger.getLogger(Conscreen.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-
     }//GEN-LAST:event_jbtnconnectActionPerformed
 
     /**

@@ -35,7 +35,7 @@ public class MainScreen extends javax.swing.JFrame {
     public MainScreen() {
         initComponents();
         SendText.setVisible(false);
-        input.setEditable(false);
+        input.setEditable(true);
     }
 
 // Very simple multithreaded server that spins a thread
@@ -157,7 +157,7 @@ public class MainScreen extends javax.swing.JFrame {
         Onliners = new javax.swing.JTextArea();
         jScrollPane4 = new javax.swing.JScrollPane();
         ServerInfo = new javax.swing.JTextArea();
-        jbuttonconnect = new javax.swing.JButton();
+        connectButton = new javax.swing.JButton();
         uniqueId = new javax.swing.JLabel();
         SendText = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -186,19 +186,19 @@ public class MainScreen extends javax.swing.JFrame {
         Onliners.setEditable(false);
         Onliners.setColumns(1);
         Onliners.setRows(5);
-        Onliners.setText("Onliners");
+        Onliners.setText("Online Members");
         jScrollPane3.setViewportView(Onliners);
 
         ServerInfo.setEditable(false);
         ServerInfo.setColumns(1);
         ServerInfo.setRows(5);
-        ServerInfo.setText("ServerInfo");
+        ServerInfo.setText("Host");
         jScrollPane4.setViewportView(ServerInfo);
 
-        jbuttonconnect.setText("Connect");
-        jbuttonconnect.addActionListener(new java.awt.event.ActionListener() {
+        connectButton.setText("Connect");
+        connectButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbuttonconnectActionPerformed(evt);
+                connectButtonActionPerformed(evt);
             }
         });
 
@@ -222,52 +222,44 @@ public class MainScreen extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(10, 10, 10)
                         .addComponent(jScrollPane1))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
+                        .addGap(131, 131, 131)
                         .addComponent(uniqueId)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 490, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(SendText)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jbuttonconnect, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)
+                    .addComponent(connectButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(298, 298, 298)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(26, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jbuttonconnect))
-                            .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addGap(32, 32, 32))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(7, 7, 7)
-                                .addComponent(uniqueId, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(SendText))
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap())))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(connectButton)
+                    .addComponent(uniqueId, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(SendText))
+                .addGap(32, 32, 32))
         );
 
         uniqueId.getAccessibleContext().setAccessibleName("uniqueIdLabel");
@@ -276,35 +268,37 @@ public class MainScreen extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jbuttonconnectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbuttonconnectActionPerformed
+    private void connectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectButtonActionPerformed
         // connect button to show connect screen and remove button
         new Conscreen().setVisible(true);
-        jbuttonconnect.setVisible(false);
+        connectButton.setVisible(false);
         dispose();
-        SendText.setVisible(true);
-
-    }//GEN-LAST:event_jbuttonconnectActionPerformed
+    }//GEN-LAST:event_connectButtonActionPerformed
 
     private void SendTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SendTextActionPerformed
         sendText();
     }//GEN-LAST:event_SendTextActionPerformed
 
-    //Unique ID setter method. It obtains the correct text but doesn't update
-    //the JLabel. Possibly a concurrency issue?
-    //Now it is fixed and working.
-    public void setUniqueId(String iD) {
-        uniqueId.setText(iD);
-
-        jbuttonconnect.setVisible(false);
-        Thread theServer = new MultiThreadedServer(display);
+    //Function to set the unique id.
+    public void setUniqueId(String uId) {
+        uniqueId.setText(uId);
+        ID = uId;
+    }
+    
+    //Activates and allows for the use of sending text.
+    public void activateSendButton(){
         SendText.setVisible(true);
-
+        connectButton.setVisible(false);
+        input.setEditable(true);
+    }
+    
+    //Function to create a new thread and connect to the server.
+    public void connectServer(){
+        Thread theServer = new MultiThreadedServer(display);
         theServer.start();
         contactServer();
-        ID = uniqueId.getText();
-        input.setEditable(true);
-
     }
+    
 
     public void setlisteningPort(String ListPort) {
         System.out.println(ListPort);
@@ -353,6 +347,7 @@ public class MainScreen extends javax.swing.JFrame {
     private javax.swing.JTextArea Onliners;
     private javax.swing.JButton SendText;
     private javax.swing.JTextArea ServerInfo;
+    private javax.swing.JButton connectButton;
     private javax.swing.JTextArea display;
     private javax.swing.JTextArea input;
     private javax.swing.JButton jButton1;
@@ -361,7 +356,6 @@ public class MainScreen extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JButton jbuttonconnect;
     public javax.swing.JLabel uniqueId;
     // End of variables declaration//GEN-END:variables
 }
