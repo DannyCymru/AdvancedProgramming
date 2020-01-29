@@ -1,6 +1,8 @@
 
 package advancedprogramming;
 
+
+
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
@@ -20,39 +22,40 @@ public static void main(String args[]) throws SocketException
     {
         
         ArrayList<NetworkInterface> NiList = Collections.list(NetworkInterface.getNetworkInterfaces()); 
-        ArrayList<String> data = new ArrayList<>();
+        ArrayList<String> Data = new ArrayList<>();
         
         for (NetworkInterface Ips1 : NiList)  
-        {
-             Enumeration<InetAddress> ipList = Ips1.getInetAddresses();
+        { 
              
-                while (ipList.hasMoreElements())  
+             Enumeration<InetAddress> Iplist = Ips1.getInetAddresses();
+             
+                while (Iplist.hasMoreElements())  
                 {   
-                        String intel = ipList.nextElement().toString();
-                        data.add(intel);
+                        String Intel = Iplist.nextElement().toString();
+                        Data.add(Intel);
                 } 
         }
        
-        int SizeList = data.size();
+        int SizeList = Data.size();
         int i = 0;
         int j = 0;
-        String LoopBackAdre=data.get(SizeList - 1);
+        String LoopBackAdre=Data.get(SizeList - 1);
         
-        ArrayList<String> ipArray = new ArrayList<String>();
+        ArrayList<String> IPs = new ArrayList<String>();
         
         while(i != SizeList)
         {
-            String ItemCheked = data.get(i);
+            String ItemCheked = Data.get(i);
             
             if(ItemCheked.contains(".") && ItemCheked != LoopBackAdre) 
             {
-                ipArray.add(data.get(i));
+                IPs.add(Data.get(i));
                 
             }
             
             i++;
         }
-        System.out.println("ipArray: "+ ipArray);
+        System.out.println("IPs: "+ IPs);
         
     }
     
