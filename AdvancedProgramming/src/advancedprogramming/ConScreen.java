@@ -19,7 +19,7 @@ import javax.swing.JOptionPane;
  *
  * @author dm5376y
  */
-public class Conscreen extends javax.swing.JFrame {
+public class ConScreen extends javax.swing.JFrame {
 
     String filepath1 = "IDs.txt";
     File file = new File(filepath1);
@@ -27,7 +27,7 @@ public class Conscreen extends javax.swing.JFrame {
     /**
      * Creates new form Conscreen
      */
-    public Conscreen() {
+    public ConScreen() {
         initComponents();
     }
 
@@ -162,9 +162,9 @@ public class Conscreen extends javax.swing.JFrame {
             }
 
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(Conscreen.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ConScreen.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(Conscreen.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ConScreen.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jbtnconnectActionPerformed
 
@@ -185,20 +185,21 @@ public class Conscreen extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Conscreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ConScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Conscreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ConScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Conscreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ConScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Conscreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ConScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Conscreen().setVisible(true);
+                new ConScreen().setVisible(true);
             }
         });
     }
