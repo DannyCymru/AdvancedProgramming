@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package advancedprogramming;
 
 
@@ -50,7 +46,30 @@ public static void main(String args[]) throws SocketException
                 
         }
         System.out.println("data: "+Data);
-        System.out.println("IP: "+ Data.get(7));
+        
+        int SizeList = Data.size();
+        int i = 0;
+        int j = 0;
+        String LoopBackAdre=Data.get(SizeList - 1);
+        System.out.println(Data.get(10));
+        
+        ArrayList<String> IPs = new ArrayList<String>();
+        
+        while(i != SizeList)
+        {
+            String ItemCheked = Data.get(i);
+            
+            if(ItemCheked.contains(".") && ItemCheked != LoopBackAdre) 
+            {
+                IPs.add(Data.get(i));
+                
+            }
+            
+            i++;
+            
+        }
+        System.out.println("IPs: "+ IPs);
+        
     }
     
     
