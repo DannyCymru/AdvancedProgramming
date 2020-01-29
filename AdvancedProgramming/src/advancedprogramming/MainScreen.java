@@ -272,7 +272,7 @@ public class MainScreen extends javax.swing.JFrame {
 
     private void connectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectButtonActionPerformed
         // connect button to show connect screen and remove button
-        new Conscreen().setVisible(true);
+        new ConScreen().setVisible(true);
         connectButton.setVisible(false);
         dispose();
     }//GEN-LAST:event_connectButtonActionPerformed
