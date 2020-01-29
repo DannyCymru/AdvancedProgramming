@@ -305,7 +305,7 @@ public class MainScreen extends javax.swing.JFrame {
     
     //Function to get the current time.
     public String currTime() {
-        SimpleDateFormat formatter= new SimpleDateFormat( "[HH:mm:ss] ");
+        SimpleDateFormat formatter= new SimpleDateFormat("[HH:mm:ss] ");
         Date date = new Date(System.currentTimeMillis());
         return formatter.format(date);
         }
