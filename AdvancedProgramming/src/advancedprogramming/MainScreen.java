@@ -18,6 +18,7 @@ import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.text.BadLocationException;
 
@@ -42,70 +43,7 @@ public class MainScreen extends javax.swing.JFrame {
 
 // Very simple multithreaded server that spins a thread
 // for each client connection.
-    class HandleConnection extends Thread {
-
-        Socket s = null;
-
-        public HandleConnection(Socket s, JTextArea MainDisplay) {
-            this.s = s;
-        }
-
-        public void run() {
-            display.append("Connected!\n");
-            try {
-                InputStream is = s.getInputStream();
-                BufferedReader br = new BufferedReader(new InputStreamReader(is));
-                String str = br.readLine();
-                while (str != null) {
-                    display.append(currTime() + ID + " : " + str + "\n");
-                    str = br.readLine();
-                }
-            } catch (IOException ioe) {
-                ioe.printStackTrace();
-            }
-            display.append("Disconnected!\n");
-        } // end of run()
-    }
-
-    class MultiThreadedServer extends Thread {
-
-        private JTextArea display;
-
-        public MultiThreadedServer(JTextArea display) {
-            this.display = display;
-        }
-
-        public void run() {
-            display.append("Connecting...\n");
-            try {
-                // wait for a client connection
-                ServerSocket ss = new ServerSocket(2000);
-                // then a spin off a thread to handle it
-                while (true) {
-                    Socket mySocket = ss.accept();
-                    HandleConnection hc = new HandleConnection(mySocket, display);
-                    hc.start();
-                }
-            } catch (IOException ioe) {
-                ioe.printStackTrace();
-            }
-            display.append("Server closing\n");
-        }
-    }
-
-    public class ServerAdminMultiThread extends JFrame implements ActionListener {
-
-        private Thread theServer = new MultiThreadedServer(display);
-
-        public ServerAdminMultiThread() {
-
-        }
-
-        public void actionPerformed(ActionEvent event) {
-        }
-
-    }
-    private PrintWriter pw;
+     private PrintWriter pw;
     private Socket ss;
 
     public void contactServer() {
@@ -114,7 +52,8 @@ public class MainScreen extends javax.swing.JFrame {
             OutputStream os = ss.getOutputStream();
             pw = new PrintWriter(os, true);
         } catch (IOException ioe) {
-            ioe.printStackTrace();
+                    JOptionPane.showMessageDialog(this, "You coudn't connect to the server successfully, possibly server is offline or your connection details are invalid", "Connection Error!", JOptionPane.OK_OPTION);
+
         }
     }
 
@@ -164,6 +103,7 @@ public class MainScreen extends javax.swing.JFrame {
         sendText = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         input = new javax.swing.JTextArea();
+        jbtnAdmin = new javax.swing.JButton();
 
         javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
         jDialog1.getContentPane().setLayout(jDialog1Layout);
@@ -219,6 +159,13 @@ public class MainScreen extends javax.swing.JFrame {
         input.setRows(5);
         jScrollPane2.setViewportView(input);
 
+        jbtnAdmin.setText("Admin Panel");
+        jbtnAdmin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnAdminActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -231,7 +178,9 @@ public class MainScreen extends javax.swing.JFrame {
                         .addGap(10, 10, 10)
                         .addComponent(jScrollPane1))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(131, 131, 131)
+                        .addGap(34, 34, 34)
+                        .addComponent(jbtnAdmin)
+                        .addGap(18, 18, 18)
                         .addComponent(uniqueId)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 490, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -260,7 +209,8 @@ public class MainScreen extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(connectButton)
                     .addComponent(uniqueId, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(sendText))
+                    .addComponent(sendText)
+                    .addComponent(jbtnAdmin))
                 .addGap(32, 32, 32))
         );
 
@@ -273,7 +223,6 @@ public class MainScreen extends javax.swing.JFrame {
     private void connectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectButtonActionPerformed
         // connect button to show connect screen and remove button
         new ConScreen().setVisible(true);
-        connectButton.setVisible(false);
         dispose();
     }//GEN-LAST:event_connectButtonActionPerformed
 
@@ -282,26 +231,27 @@ public class MainScreen extends javax.swing.JFrame {
         input.setText(null);
     }//GEN-LAST:event_sendTextActionPerformed
 
+    private void jbtnAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnAdminActionPerformed
+        new AdminPanel().setVisible(true);
+    }//GEN-LAST:event_jbtnAdminActionPerformed
+
     //Function to set the unique id.
     public void setUniqueId(String uId) {
         uniqueId.setText(uId);
         ID = uId;
+                contactServer();
+
     }
     
     //Activates and allows for the use of sending text.
     public void activateSendButton(){
         sendText.setVisible(true);
-        connectButton.setVisible(false);
         input.setEditable(true);
         currTime();
     }
     
     //Function to create a new thread and connect to the server.
-    public void connectServer(){
-        Thread theServer = new MultiThreadedServer(display);
-        theServer.start();
-        contactServer();
-    }
+  
     
     //Function to get the current time.
     public String currTime() {
@@ -369,6 +319,7 @@ public class MainScreen extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JButton jbtnAdmin;
     private javax.swing.JButton sendText;
     private javax.swing.JTextArea serverInfo;
     public javax.swing.JLabel uniqueId;

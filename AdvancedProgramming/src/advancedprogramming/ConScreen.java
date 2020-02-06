@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.ConnectException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
@@ -151,7 +152,6 @@ public class ConScreen extends javax.swing.JFrame {
                     mainS.setVisible(false);
                     mainS.setVisible(true);
                     mainS.activateSendButton();
-                    mainS.connectServer();
                     break;
 
                 }
@@ -163,9 +163,13 @@ public class ConScreen extends javax.swing.JFrame {
 
         } catch (FileNotFoundException ex) {
             Logger.getLogger(ConScreen.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
+            
+        }catch (IOException ex) {
             Logger.getLogger(ConScreen.class.getName()).log(Level.SEVERE, null, ex);
+            
         }
+
+
     }//GEN-LAST:event_jbtnconnectActionPerformed
 
     /**
