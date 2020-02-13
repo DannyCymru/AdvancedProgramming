@@ -15,7 +15,8 @@ public class AdvancedProgramming {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-         new MainScreen().setVisible(true);
+         MainScreen client=new MainScreen("127.0.0.1");
+        client.startRunning();
     }
     
 }

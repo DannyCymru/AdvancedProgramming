@@ -5,21 +5,16 @@
  */
 package advancedprogramming;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.net.ServerSocket;
+import java.net.InetAddress;
 import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JTextArea;
 import javax.swing.text.BadLocationException;
 
 /**
@@ -28,59 +23,33 @@ import javax.swing.text.BadLocationException;
  */
 public class MainScreen extends javax.swing.JFrame {
 
-    String ID = "";
+    public String ID = "TestUser";
     String listPort = "";
     String conAddr = "";
+    
+    private ObjectOutputStream output;
+    private ObjectInputStream input;
+    private String message="";
+    private String serverIP;
+    private Socket connection;
+    private int port = 6789;
+    
 
     /**
      * Creates new form MainScreen
      */
-    public MainScreen() {
-        initComponents();
-        sendText.setVisible(false);
-        input.setEditable(true);
+    public MainScreen(String s) {
+
+        initComponents();   
+        this.setTitle("Client");
+        this.setVisible(true);
+        status.setVisible(true);
+        serverIP = s;
     }
 
 // Very simple multithreaded server that spins a thread
 // for each client connection.
-     private PrintWriter pw;
-    private Socket ss;
-
-    public void contactServer() {
-        try {
-            ss = new Socket("127.0.0.1", 2000);
-            OutputStream os = ss.getOutputStream();
-            pw = new PrintWriter(os, true);
-        } catch (IOException ioe) {
-                    JOptionPane.showMessageDialog(this, "You coudn't connect to the server successfully, possibly server is offline or your connection details are invalid", "Connection Error!", JOptionPane.OK_OPTION);
-
-        }
-    }
-
-    public void sendText() {
-        int inputLines = input.getLineCount();
-        try {
-            for (int i = 0; i < inputLines; i++) {
-                int start = input.getLineStartOffset(i);
-                int end = input.getLineEndOffset(i);
-                pw.print(input.getText(start, end - start));
-            }
-            pw.println();
-        } catch (BadLocationException ble) {
-            ble.printStackTrace();
-        }
-    }
-
-    public void closeConnection() {
-        try {
-            if (ss != null) {
-                ss.close();
-            }
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-        }
-    }
-
+   
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -101,9 +70,8 @@ public class MainScreen extends javax.swing.JFrame {
         connectButton = new javax.swing.JButton();
         uniqueId = new javax.swing.JLabel();
         sendText = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        input = new javax.swing.JTextArea();
-        jbtnAdmin = new javax.swing.JButton();
+        jTextField1 = new javax.swing.JTextField();
+        status = new javax.swing.JLabel();
 
         javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
         jDialog1.getContentPane().setLayout(jDialog1Layout);
@@ -155,63 +123,59 @@ public class MainScreen extends javax.swing.JFrame {
             }
         });
 
-        input.setColumns(20);
-        input.setRows(5);
-        jScrollPane2.setViewportView(input);
+        jTextField1.setText("jTextField1");
 
-        jbtnAdmin.setText("Admin Panel");
-        jbtnAdmin.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbtnAdminActionPerformed(evt);
-            }
-        });
+        status.setText("...");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(10, 10, 10)
-                        .addComponent(jScrollPane1))
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(34, 34, 34)
-                        .addComponent(jbtnAdmin)
-                        .addGap(18, 18, 18)
-                        .addComponent(uniqueId)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 490, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(sendText)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(56, 56, 56)
+                        .addComponent(uniqueId)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)
-                    .addComponent(connectButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 490, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(30, 30, 30)
+                        .addComponent(sendText)
+                        .addGap(18, 18, 18)
+                        .addComponent(connectButton, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(53, Short.MAX_VALUE))))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(168, 168, 168)
+                .addComponent(status, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(298, 298, 298)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(26, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(uniqueId, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(sendText)
+                            .addComponent(connectButton)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(connectButton)
-                    .addComponent(uniqueId, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(sendText)
-                    .addComponent(jbtnAdmin))
-                .addGap(32, 32, 32))
+                .addComponent(status, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         uniqueId.getAccessibleContext().setAccessibleName("uniqueIdLabel");
@@ -227,28 +191,22 @@ public class MainScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_connectButtonActionPerformed
 
     private void sendTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendTextActionPerformed
-        sendText();
-        input.setText(null);
+       
+        sendMessage(jTextField1.getText());
+	jTextField1.setText("");
     }//GEN-LAST:event_sendTextActionPerformed
-
-    private void jbtnAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnAdminActionPerformed
-        new AdminPanel().setVisible(true);
-    }//GEN-LAST:event_jbtnAdminActionPerformed
 
     //Function to set the unique id.
     public void setUniqueId(String uId) {
         uniqueId.setText(uId);
-        ID = uId;
-                contactServer();
+         ID = uniqueId.getText();
+     
+                
 
     }
     
     //Activates and allows for the use of sending text.
-    public void activateSendButton(){
-        sendText.setVisible(true);
-        input.setEditable(true);
-        currTime();
-    }
+
     
     //Function to create a new thread and connect to the server.
   
@@ -272,7 +230,63 @@ public class MainScreen extends javax.swing.JFrame {
         serverInfo.setText(conAddr);
         
     }
+public void startRunning()
+    {
+       try
+       {
+            status.setText("Attempting Connection ...");
+            try
+            {
+                connection = new Socket(InetAddress.getByName(serverIP),port);
+            }catch(IOException ioEception)
+            {
+                    JOptionPane.showMessageDialog(null,"Server Might Be Down!","Warning",JOptionPane.WARNING_MESSAGE);
+            }
+            status.setText("Connected to: " + connection.getInetAddress().getHostName());
 
+
+            output = new ObjectOutputStream(connection.getOutputStream());
+            output.flush();
+            input = new ObjectInputStream(connection.getInputStream());
+
+            whileChatting();
+       }
+       catch(IOException ioException)
+       {
+            ioException.printStackTrace();
+       }
+    }
+    
+    private void whileChatting() throws IOException
+    {
+      jTextField1.setEditable(true);
+      do{
+              try
+              {
+                      message = (String) input.readObject();
+                      display.append("\n"+message);
+              }
+              catch(ClassNotFoundException classNotFoundException)
+              {
+              }
+      }while(!message.equals("Client - END"));
+    }
+  
+    
+    private void sendMessage(String message)
+    {
+        try
+        {
+            output.writeObject(ID + message);
+            output.flush();
+            display.append(
+                    "\n"+ID+message);
+        }
+        catch(IOException ioException)
+        {
+            display.append("\n Unable to Send Message");
+        }
+    }
     /**
      * @param args the command line arguments
      */
@@ -303,7 +317,7 @@ public class MainScreen extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MainScreen().setVisible(true);
+                
             }
         });
     }
@@ -312,16 +326,15 @@ public class MainScreen extends javax.swing.JFrame {
     private javax.swing.JTextArea Onliners;
     private javax.swing.JButton connectButton;
     private javax.swing.JTextArea display;
-    private javax.swing.JTextArea input;
     private javax.swing.JButton jButton1;
     private javax.swing.JDialog jDialog1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JButton jbtnAdmin;
+    private javax.swing.JTextField jTextField1;
     private javax.swing.JButton sendText;
     private javax.swing.JTextArea serverInfo;
+    private javax.swing.JLabel status;
     public javax.swing.JLabel uniqueId;
     // End of variables declaration//GEN-END:variables
 }

@@ -15,6 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -128,11 +129,9 @@ public class ConScreen extends javax.swing.JFrame {
     private void jbtnconnectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnconnectActionPerformed
         /*Attempts to get the new value from the textfield and send it to the
         setter created on the MainScreen java file*/
-        MainScreen mainS = new MainScreen();
+        MainScreen mainS = new MainScreen("127.0.0.1");
         String uId = uniqueIdTextField.getText();
-
         String listeningPort = listeningPortTextField.getText();
-
         String ConAddress = connectAddrTextField.getText();
 
         // Checks the IDs.txt file for the entered ID and if it is there it proceeds to connect
@@ -146,12 +145,10 @@ public class ConScreen extends javax.swing.JFrame {
 
                 if (line.equals(uId)) {
                     mainS.setUniqueId(uId);
+                    mainS.setUniqueId(uId);
                     mainS.setlisteningPort(listeningPort);
                     mainS.setConAddress(ConAddress);
                     dispose();
-                    mainS.setVisible(false);
-                    mainS.setVisible(true);
-                    mainS.activateSendButton();
                     break;
 
                 }
@@ -163,18 +160,20 @@ public class ConScreen extends javax.swing.JFrame {
 
         } catch (FileNotFoundException ex) {
             Logger.getLogger(ConScreen.class.getName()).log(Level.SEVERE, null, ex);
-            
-        }catch (IOException ex) {
+
+        } catch (IOException ex) {
             Logger.getLogger(ConScreen.class.getName()).log(Level.SEVERE, null, ex);
-            
+
         }
 
-
+MainScreen client=new MainScreen("127.0.0.1");
+        client.startRunning();
     }//GEN-LAST:event_jbtnconnectActionPerformed
 
     /**
      * @param args the command line arguments
      */
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
