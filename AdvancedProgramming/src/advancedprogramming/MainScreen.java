@@ -6,19 +6,28 @@
 package advancedprogramming;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author dm5376y
  */
 public class MainScreen extends javax.swing.JFrame {
-
+    String filepath1 = "IDs.txt";
+    File file = new File(filepath1);
     public String ID;
     String listPort = "";
     String conAddr = "";
@@ -377,7 +386,18 @@ public class MainScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_b_disconnectActionPerformed
 
     private void b_connect1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_connect1ActionPerformed
-          if (isConnected == false) 
+         
+         
+    String uId = tf_username.getText();
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(filepath1));
+
+            String line;
+
+            while ((line = br.readLine()) != null) {
+
+                if (line.equals(uId)) {
+                    if (isConnected == false) 
         {
             username = tf_username.getText();
             tf_username.setEditable(false);
@@ -390,7 +410,8 @@ public class MainScreen extends javax.swing.JFrame {
                 writer = new PrintWriter(sock.getOutputStream());
                 writer.println(username + ":has connected.:Connect");
                 writer.flush(); 
-                isConnected = true; 
+                isConnected = true;
+                uniqueId.setText(uId);
             } 
             catch (Exception ex) 
             {
@@ -404,6 +425,24 @@ public class MainScreen extends javax.swing.JFrame {
         {
             display.append("You are already connected. \n");
         }
+                    break;
+
+                }
+            }
+            br.close();
+            if (line == null) {
+                JOptionPane.showMessageDialog(new JFrame(), "Error! Entered Unique ID doesn't exist in the database.");
+            }
+
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
+            
+        }catch (IOException ex) {
+            Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
+            
+        }
+        
+        
     }//GEN-LAST:event_b_connect1ActionPerformed
 
     //Function to set the unique id.
