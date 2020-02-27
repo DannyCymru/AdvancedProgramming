@@ -87,7 +87,7 @@ public class MainScreen extends javax.swing.JFrame {
             writer.flush(); 
         } catch (Exception e) 
         {
-            display.append("Could not send Disconnect message.\n");
+            display.append(currTime() + "Could not send Disconnect message.\n");
         }
     }
 
@@ -97,10 +97,10 @@ public class MainScreen extends javax.swing.JFrame {
     {
         try 
         {
-            display.append("Disconnected.\n");
+            display.append(currTime() + "Disconnected.\n");
             sock.close();
         } catch(Exception ex) {
-            display.append("Failed to disconnect. \n");
+            display.append(currTime() + "Failed to disconnect. \n");
         }
         isConnected = false;
         tf_username.setEditable(true);
@@ -129,7 +129,7 @@ public class MainScreen extends javax.swing.JFrame {
 
                      if (data[2].equals(chat)) 
                      {
-                        display.append(data[0] + ": " + data[1] + "\n");
+                        display.append(currTime() + data[0] + ": " + data[1] + "\n");
                         display.setCaretPosition(display.getDocument().getLength());
                      } 
                      else if (data[2].equals(connect))
@@ -225,6 +225,7 @@ public class MainScreen extends javax.swing.JFrame {
             }
         });
 
+        tf_address.setText("localhost");
         tf_address.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tf_addressActionPerformed(evt);
@@ -244,6 +245,7 @@ public class MainScreen extends javax.swing.JFrame {
 
         lb_username.setText("Username :");
 
+        tf_username.setText("dm5376y");
         tf_username.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tf_usernameActionPerformed(evt);
@@ -427,7 +429,7 @@ public class MainScreen extends javax.swing.JFrame {
             } 
             catch (Exception ex) 
             {
-                display.append("Cannot Connect! Try Again. \n");
+                display.append("Cannot Connect! The server us Offline! Become a coordinator! \n");
                 tf_username.setEditable(true);
             }
             
@@ -435,7 +437,7 @@ public class MainScreen extends javax.swing.JFrame {
             
         } else if (isConnected == true) 
         {
-            display.append("You are already connected. \n");
+            display.append(currTime() + "You are already connected. \n");
         }
                     break;
 
@@ -478,7 +480,7 @@ public class MainScreen extends javax.swing.JFrame {
     
     //Function to get the current time.
     public String currTime() {
-        SimpleDateFormat formatter= new SimpleDateFormat("[HH:mm:ss] ");
+        SimpleDateFormat formatter= new SimpleDateFormat("[HH.mm.ss] ");
         Date date = new Date(System.currentTimeMillis());
         return formatter.format(date);
         }
@@ -518,8 +520,8 @@ public class MainScreen extends javax.swing.JFrame {
                 new MainScreen().setVisible(true);
             }
         });
+        
     }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea Onliners;
     private javax.swing.JButton b_connect1;

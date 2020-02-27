@@ -223,6 +223,9 @@
     <Component class="javax.swing.JTextField" name="input">
     </Component>
     <Component class="javax.swing.JTextField" name="tf_address">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="localhost"/>
+      </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tf_addressActionPerformed"/>
       </Events>
@@ -251,6 +254,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="tf_username">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="dm5376y"/>
+      </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tf_usernameActionPerformed"/>
       </Events>
