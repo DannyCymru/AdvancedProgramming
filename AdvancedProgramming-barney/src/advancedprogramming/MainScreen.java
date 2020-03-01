@@ -433,7 +433,7 @@ public class MainScreen extends javax.swing.JFrame {
             } 
             catch (Exception ex) 
             {
-                display.append("Cannot Connect! The server is Offline! Become a coordinator! \n");
+                display.append(currTime() + "Cannot Connect! The server is Offline! Become a coordinator! \n");
                 tf_username.setEditable(true);
                 
                 /* barney: i added this so that if server  inactive it 
