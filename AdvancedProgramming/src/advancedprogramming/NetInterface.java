@@ -3,33 +3,42 @@ package advancedprogramming;
 
 
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.InetAddress;
+import java.net.MalformedURLException;
 import java.net.NetworkInterface;
 import java.net.SocketException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import org.graalvm.compiler.asm.sparc.SPARCAssembler.Br;
 
 
 /**
- *
- * @author barnabe
- */
+*
+* @author barnabe
+*/
 
 public class NetInterface{
 
 
 
-public static void main(String args[]) throws SocketException
+    public static void main(String args[]) throws SocketException, IOException
     {
         IpUser();
+        PulicIp(); 
     }
 
 
-static ArrayList<String> GetIp() throws SocketException
+    static ArrayList<String> GetIp() throws SocketException
     {
 
 
@@ -43,22 +52,22 @@ static ArrayList<String> GetIp() throws SocketException
 
         for (NetworkInterface Ips1 : NiList)
         {
-             /*InetAddress is a method used to get IP address of any hostname which in
-               this case would be the IPs of where the code run*/
+            /*InetAddress is a method used to get IP address of any hostname which in
+            this case would be the IPs of where the code run*/
 
             Enumeration<InetAddress> ipList = Ips1.getInetAddresses();
 
-                while (ipList.hasMoreElements())
-                {
-                    // here i am changing all the data from ipList which are of type InetAddress and changing
-                    //them to string as it is easier for me to manipulate
+            while (ipList.hasMoreElements())
+            {
+                // here i am changing all the data from ipList which are of type InetAddress and changing
+                //them to string as it is easier for me to manipulate
 
-                    String Intel = ipList.nextElement().toString();
+                String Intel = ipList.nextElement().toString();
 
-                    // and then add them to an arraylist
-                    //System.out.println("Intel:"+Intel);
-                    data.add(Intel);
-                }
+                // and then add them to an arraylist
+                //System.out.println("Intel:"+Intel);
+                data.add(Intel);
+            }
         }
 
         int SizeList = data.size();
@@ -88,15 +97,15 @@ static ArrayList<String> GetIp() throws SocketException
 
             i++;
         }
-        
+
         if(ipArray.contains("/127.0.0.1"))
         {
             //System.out.println("before loopback: "+ipArray);
-            int LoopBak = ipArray.indexOf("/127.0.0.1");  
+            int LoopBak = ipArray.indexOf("/127.0.0.1");
             ipArray.remove(LoopBak);
             //System.out.println("after loopback: "+ipArray);
         }
-        
+
         //System.out.println("ipArray: "+ ipArray);
         return ipArray;
 
@@ -105,9 +114,9 @@ static ArrayList<String> GetIp() throws SocketException
     }
 
 
-static String IpUser()
-     /* this method as for purpose to remove the "/" character and
-        to turn the arraylist string into just a string */
+    static String IpUser()
+    /* this method as for purpose to remove the "/" character and
+    to turn the arraylist string into just a string */
     {
         ArrayList<String> yolo = new ArrayList<String>() ;
         try {
@@ -122,11 +131,13 @@ static String IpUser()
         System.out.println("print right before the return: "+UsIp);
         return UsIp;
     }
+
+    static String PulicIp() throws MalformedURLException, IOException
+    {       
+        URL PublicIp = new URL("http://checkip.amazonaws.com");
+        BufferedReader in = new BufferedReader(new InputStreamReader(PublicIp.openStream()));
+        String ip = in.readLine();             
+        return ip;
+    }
+
 }
-
-
-
-    
-
-
- 

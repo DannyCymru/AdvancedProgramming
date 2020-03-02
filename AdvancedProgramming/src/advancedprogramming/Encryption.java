@@ -1,8 +1,8 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+* To change this license header, choose License Headers in Project Properties.
+* To change this template file, choose Tools | Templates
+* and open the template in the editor.
+*/
 package advancedprogramming;
 
 import static advancedprogramming.Encryption.GenerateKey;
@@ -32,16 +32,16 @@ import javax.crypto.ShortBufferException;
 
 
 /**
- *
- * @author barnabe
- */
+*
+* @author barnabe
+*/
 public class Encryption
 {
 
 
-//////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////
     /* KEY GENERATION AND STORAGE */
-//////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////
 
 
 
@@ -127,89 +127,89 @@ public class Encryption
     }
 
 
-//////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////
     /* ENCRYPTION PART */
-//////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////
 
 
-private static byte[] EncryptionPart(String message, PublicKey a) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException, ShortBufferException, BadPaddingException, UnsupportedEncodingException
-{
-
-
-    Cipher cipher1 = Cipher.getInstance("RSA/ECB/PKCS1Padding");
-    cipher1.init(Cipher.PUBLIC_KEY, a);
-    
-    // encrypt a string and store it into a byte array
-    byte[] encryptedText = cipher1.doFinal(message.getBytes());
-    System.out.println("encrypted text: "+Arrays.toString(encryptedText));
-
-
-    return encryptedText;
-}
-
-
-
-
-
-
-//////////////////////////////////////////////////////////////////////////////////
-    /* DECRYPTION PART */
-//////////////////////////////////////////////////////////////////////////////////
-
-
-private static String DecryptionPart(byte[] message, PrivateKey b) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException, ShortBufferException, BadPaddingException, UnsupportedEncodingException
-{
-    byte[] encryptedText = message;
-
-    Cipher cipher2 = Cipher.getInstance("RSA/ECB/PKCS1Padding");
-    cipher2.init(Cipher.PRIVATE_KEY, b);
-
-    //text decrypted in byte array
-    byte[] decryptedText = cipher2.doFinal(encryptedText);
-    System.out.println("decrypted text: "+Arrays.toString(decryptedText));
-
-    String textfinal = new String(decryptedText); //text in string decrypted
-    System.out.println("text final: " + textfinal);
-
-    return textfinal;
-
-}
-
-
-//////////////////////////////////////////////////////////////////////////////////
-    /* SIGNATURE PART */
-//////////////////////////////////////////////////////////////////////////////////
-
-private static String Signature(String message) throws NoSuchAlgorithmException
-{
-    String Tmessage = message;
-
-    MessageDigest HashTmessage = MessageDigest.getInstance("SHA-256");
-    byte[] HashSHA2 = HashTmessage.digest(Tmessage.getBytes(StandardCharsets.UTF_8));
-
-    System.out.println("hash-byte[]: "+Arrays.toString(HashSHA2));
-
-    
-
-    int lengthHash = HashSHA2.length;
-
-    String HashStr = "";
-
-    /* loop that turn the byte array into hex and store it as a string 
-    to be used as comparaison to check if the message have not been taempered 
-    with */
-    for( int i = 0; i < lengthHash; i++ )
+    private static byte[] EncryptionPart(String message, PublicKey a) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException, ShortBufferException, BadPaddingException, UnsupportedEncodingException
     {
-        String hex = Integer.toHexString(0xff & HashSHA2[i]);
-        HashStr = HashStr+hex;
+
+
+        Cipher cipher1 = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+        cipher1.init(Cipher.PUBLIC_KEY, a);
+
+        // encrypt a string and store it into a byte array
+        byte[] encryptedText = cipher1.doFinal(message.getBytes());
+        System.out.println("encrypted text: "+Arrays.toString(encryptedText));
+
+
+        return encryptedText;
     }
 
-    /* to put it in string i had no choice but to  put it in hexadecimal*/
-    System.out.println("HashStr"+HashStr);
 
 
-    return HashStr;
-}
+
+
+
+    //////////////////////////////////////////////////////////////////////////////////
+    /* DECRYPTION PART */
+    //////////////////////////////////////////////////////////////////////////////////
+
+
+    private static String DecryptionPart(byte[] message, PrivateKey b) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException, ShortBufferException, BadPaddingException, UnsupportedEncodingException
+    {
+        byte[] encryptedText = message;
+
+        Cipher cipher2 = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+        cipher2.init(Cipher.PRIVATE_KEY, b);
+
+        //text decrypted in byte array
+        byte[] decryptedText = cipher2.doFinal(encryptedText);
+        System.out.println("decrypted text: "+Arrays.toString(decryptedText));
+
+        String textfinal = new String(decryptedText); //text in string decrypted
+        System.out.println("text final: " + textfinal);
+
+        return textfinal;
+
+    }
+
+
+    //////////////////////////////////////////////////////////////////////////////////
+    /* SIGNATURE PART */
+    //////////////////////////////////////////////////////////////////////////////////
+
+    private static String Signature(String message) throws NoSuchAlgorithmException
+    {
+        String Tmessage = message;
+
+        MessageDigest HashTmessage = MessageDigest.getInstance("SHA-256");
+        byte[] HashSHA2 = HashTmessage.digest(Tmessage.getBytes(StandardCharsets.UTF_8));
+
+        System.out.println("hash-byte[]: "+Arrays.toString(HashSHA2));
+
+
+
+        int lengthHash = HashSHA2.length;
+
+        String HashStr = "";
+
+        /* loop that turn the byte array into hex and store it as a string
+        to be used as comparaison to check if the message have not been taempered
+        with */
+        for( int i = 0; i < lengthHash; i++ )
+        {
+            String hex = Integer.toHexString(0xff & HashSHA2[i]);
+            HashStr = HashStr+hex;
+        }
+
+        /* to put it in string i had no choice but to  put it in hexadecimal*/
+        System.out.println("HashStr"+HashStr);
+
+
+        return HashStr;
+    }
 
 
 
@@ -221,8 +221,8 @@ private static String Signature(String message) throws NoSuchAlgorithmException
     public static void main(String[] args) throws NoSuchAlgorithmException, NoSuchProviderException, IOException, NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException, ShortBufferException, BadPaddingException
     {
         String yolo = "Sentence to encrypt and create signature of";
-        
-        KeyPair A = GenerateKey1();//method to generate key 
+
+        KeyPair A = GenerateKey1();//method to generate key
 
         //separation of keys
         PrivateKey PrivaKey = Encryption.PrK(A);
@@ -234,9 +234,9 @@ private static String Signature(String message) throws NoSuchAlgorithmException
         // decryption of textEnc
         Encryption.DecryptionPart(textEnc, PrivaKey);
 
-        // signature of the message to be sent and compared with 
+        // signature of the message to be sent and compared with
         Encryption.Signature(yolo);
-
+        
 
     }
 
