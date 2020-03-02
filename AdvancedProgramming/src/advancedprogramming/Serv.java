@@ -2,6 +2,7 @@ package advancedprogramming;
 
 
 import static advancedprogramming.NetInterface.IpUser;
+import static advancedprogramming.NetInterface.PulicIp;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;

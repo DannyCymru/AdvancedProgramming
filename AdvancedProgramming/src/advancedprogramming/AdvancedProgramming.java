@@ -6,6 +6,7 @@
 package advancedprogramming;
 
 import advancedprogramming.MainScreen;
+import java.io.IOException;
 /**
  *
  * @author dm5376y
@@ -15,7 +16,7 @@ public class AdvancedProgramming {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
          new MainScreen().setVisible(true);
         
     }

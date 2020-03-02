@@ -135,7 +135,8 @@ public class NetInterface{
     {       
         URL PublicIp = new URL("http://checkip.amazonaws.com");
         BufferedReader in = new BufferedReader(new InputStreamReader(PublicIp.openStream()));
-        String ip = in.readLine();             
+        String ip = in.readLine();
+        System.out.println("public ip: "+ip);
         return ip;
     }
 

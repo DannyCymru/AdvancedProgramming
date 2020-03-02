@@ -7,6 +7,7 @@ package advancedprogramming;
 
 import advancedprogramming.Serv;
 import advancedprogramming.NetInterface;
+import static advancedprogramming.NetInterface.PulicIp;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -110,7 +111,7 @@ public class MainScreen extends javax.swing.JFrame {
     }
 
 
-    public MainScreen() {
+    public MainScreen() throws IOException {
 
         initComponents();
 
@@ -162,7 +163,7 @@ public class MainScreen extends javax.swing.JFrame {
     */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">
-    private void initComponents() {
+    private void initComponents() throws IOException {
 
         jDialog1 = new javax.swing.JDialog();
         jButton1 = new javax.swing.JButton();
@@ -527,7 +528,11 @@ public class MainScreen extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MainScreen().setVisible(true);
+                try {
+                    new MainScreen().setVisible(true);
+                } catch (IOException ex) {
+                    Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
 
