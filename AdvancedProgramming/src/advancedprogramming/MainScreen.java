@@ -82,7 +82,7 @@ public class MainScreen extends javax.swing.JFrame {
 
     public void sendDisconnect()
     {
-        String bye = (username + ": :Disconnect");
+        String bye = (currTime() + username + ": :Disconnect");
         try
         {
             writer.println(bye);
@@ -374,7 +374,7 @@ public class MainScreen extends javax.swing.JFrame {
                 writer.println(username + ":" + input.getText() + ":" + "Chat");
                 writer.flush(); // flushes the buffer
             } catch (Exception ex) {
-                display.append("Message was not sent. \n");
+                display.append(currTime() + "Message was not sent. \n");
             }
             input.setText("");
             input.requestFocus();
@@ -434,7 +434,7 @@ public class MainScreen extends javax.swing.JFrame {
                         }
                         catch (Exception ex)
                         {
-                            display.append("Cannot Connect! The server is Offline! Become a coordinator! \n");
+                            display.append(currTime() + "Cannot Connect! The server is Offline! Become a coordinator! \n");
                             tf_username.setEditable(true);
 
                             /* barney: i added this so that if server inactive it
