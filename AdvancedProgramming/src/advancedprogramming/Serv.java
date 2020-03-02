@@ -8,7 +8,9 @@ import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 
 /*
@@ -47,14 +49,14 @@ public class Serv extends javax.swing.JFrame {
                 sock = clientSocket;
 
                 //System.out.println("client socket: "+sock);
-                ta_chat.append("client socket: "+sock+"\n");
+                ta_chat.append(currTime() + "client socket: "+sock+"\n");
 
                 InputStreamReader isReader = new InputStreamReader(sock.getInputStream());
                 reader = new BufferedReader(isReader);
             }
             catch (Exception ex)
             {
-                ta_chat.append("Unexpected error... \n");
+                ta_chat.append(currTime() + "Unexpected error... \n");
             }
 
         }
@@ -69,13 +71,8 @@ public class Serv extends javax.swing.JFrame {
             {
                 while ((message = reader.readLine()) != null)
                 {
-                    ta_chat.append("Received: " + message + "\n");
+                    ta_chat.append(currTime() + "Received: " + message + "\n");
                     data = message.split(":");
-
-                    for (String token:data)
-                    {
-                        ta_chat.append(token + "\n");
-                    }
 
                     if (data[2].equals(connect))
                     {
@@ -94,13 +91,13 @@ public class Serv extends javax.swing.JFrame {
                     }
                     else
                     {
-                        ta_chat.append("No Conditions were met. \n");
+                        ta_chat.append(currTime() + "No Conditions were met. \n");
                     }
                 }
             }
             catch (Exception ex)
             {
-                ta_chat.append("Lost a connection. \n");
+                ta_chat.append(currTime() + "Lost a connection. \n");
                 ex.printStackTrace();
                 clientOutputStreams.remove(client);
             }
@@ -211,15 +208,15 @@ public class Serv extends javax.swing.JFrame {
         }
         catch(InterruptedException ex) {Thread.currentThread().interrupt();}
 
-        tellEveryone("Server:is stopping and all users will be disconnected.\n:Chat");
-        ta_chat.append("Server stopping... \n");
+        tellEveryone(currTime() + "Server:is stopping and all users will be disconnected.\n:Chat");
+        ta_chat.append(currTime() + "Server stopping... \n");
 
         ta_chat.setText("");
     }//GEN-LAST:event_b_endActionPerformed
 
     //ONLINE USER
     private void b_usersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_usersActionPerformed
-        ta_chat.append("\n Online users : \n");
+        ta_chat.append("\n " + currTime() + "Online users : \n");
         for (String current_user : users)
         {
             ta_chat.append(current_user);
@@ -237,7 +234,7 @@ public class Serv extends javax.swing.JFrame {
         Thread starter = new Thread(new ServerStart());
         starter.start();
 
-        ta_chat.append("Server started...\n");
+        ta_chat.append(currTime() +"Server started...\n");
 
 
     }//GEN-LAST:event_b_startActionPerformed
@@ -269,7 +266,7 @@ public class Serv extends javax.swing.JFrame {
                 InetAddress IpAddrs = InetAddress.getByName(NetInterface.IpUser());/////////////////////////////////////////////
 
                 ServerSocket serverSock = new ServerSocket(7721, 50, IpAddrs);
-                ta_chat.append("Socket: "+ serverSock +"\n");
+                ta_chat.append(currTime() +"Socket: "+ serverSock +"\n");
                 System.out.println("serverSock.getInetAddress(): "+serverSock.getInetAddress());
 
                 while (true)
@@ -280,12 +277,12 @@ public class Serv extends javax.swing.JFrame {
 
                     Thread listener = new Thread(new ClientHandler(clientSock, writer));
                     listener.start();
-                    ta_chat.append("Got a connection. \n");
+                    ta_chat.append(currTime() +"Got a connection. \n");
                 }
             }
             catch (Exception ex)
             {
-                ta_chat.append("Error making a connection. \n");
+                ta_chat.append(currTime() +"Error making a connection. \n");
             }
         }
     }
@@ -294,9 +291,9 @@ public class Serv extends javax.swing.JFrame {
     public void userAdd (String data)
     {
         String message, add = ": :Connect", done = "Server: :Done", name = data;
-        ta_chat.append("Before " + name + " added. \n");
+        ta_chat.append(currTime() +"Before " + name + " added. \n");
         users.add(name);
-        ta_chat.append("After " + name + " added. \n");
+        ta_chat.append(currTime() +"After " + name + " added. \n");
         String[] tempList = new String[(users.size())];
         users.toArray(tempList);
 
@@ -333,16 +330,22 @@ public class Serv extends javax.swing.JFrame {
             {
                 PrintWriter writer = (PrintWriter) it.next();
                 writer.println(message);
-                ta_chat.append("Sending: " + message + "\n");
+                ta_chat.append(currTime() + "Sending: " + message + "\n");
                 writer.flush();
                 ta_chat.setCaretPosition(ta_chat.getDocument().getLength());
 
             }
             catch (Exception ex)
             {
-                ta_chat.append("Error telling everyone. \n");
+                ta_chat.append(currTime() +"Error telling everyone. \n");
             }
         }
+    }
+    
+    public String currTime() {
+        SimpleDateFormat formatter= new SimpleDateFormat("[HH.mm.ss] ");
+        Date date = new Date(System.currentTimeMillis());
+        return formatter.format(date);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
