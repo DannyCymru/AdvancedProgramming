@@ -418,11 +418,12 @@ public class MainScreen extends javax.swing.JFrame {
         {
             username = tf_username.getText();
             tf_username.setEditable(false);
-            System.out.println(address);
+            System.out.println("address main screen421: "+address);
 
             try 
             {
                 sock = new Socket(address, port);
+                System.out.println("sock MainScreen 426: "+sock);
                 InputStreamReader streamreader = new InputStreamReader(sock.getInputStream());
                 reader = new BufferedReader(streamreader);
                 writer = new PrintWriter(sock.getOutputStream());
@@ -433,7 +434,7 @@ public class MainScreen extends javax.swing.JFrame {
             } 
             catch (Exception ex) 
             {
-                display.append(currTime() + "Cannot Connect! The server is Offline! Become a coordinator! \n");
+                display.append("Cannot Connect! The server is Offline! Become a coordinator! \n");
                 tf_username.setEditable(true);
                 
                 /* barney: i added this so that if server  inactive it 

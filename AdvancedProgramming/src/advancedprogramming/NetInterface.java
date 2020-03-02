@@ -52,7 +52,7 @@ static ArrayList<String> GetIp() throws SocketException
                     String Intel = ipList.nextElement().toString();
 
                     // and then add them to an arraylist
-                    System.out.println("Intel:"+Intel);
+                    //System.out.println("Intel:"+Intel);
                     data.add(Intel);
                 }
         }
@@ -87,13 +87,13 @@ static ArrayList<String> GetIp() throws SocketException
         
         if(ipArray.contains("/127.0.0.1"))
         {
-            System.out.println("before loopback: "+ipArray);
+            //System.out.println("before loopback: "+ipArray);
             int LoopBak = ipArray.indexOf("/127.0.0.1");  
             ipArray.remove(LoopBak);
-            System.out.println("after loopback: "+ipArray);
+            //System.out.println("after loopback: "+ipArray);
         }
         
-        System.out.println("ipArray: "+ ipArray);
+        //System.out.println("ipArray: "+ ipArray);
         return ipArray;
 
 
@@ -111,11 +111,11 @@ static String IpUser()
         } catch (SocketException ex) {
             Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
         }
-        System.out.println(yolo);
+        //System.out.println(yolo);
         String UsIp = yolo.get(0);
-        System.out.println(UsIp);
+        //System.out.println(UsIp);
         UsIp = UsIp.replace("/", "");
-        System.out.println(UsIp);
+        //System.out.println(UsIp);
         return UsIp;
     }
 
