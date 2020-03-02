@@ -5,7 +5,6 @@
  */
 package advancedprogramming;
 
-<<<<<<< HEAD
 import advancedprogramming.Serv;
 import advancedprogramming.NetInterface;
 import java.io.BufferedReader;
@@ -23,7 +22,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-=======
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
@@ -40,84 +39,82 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.text.BadLocationException;
->>>>>>> gui
 
 /**
  *
  * @author dm5376y
  */
 public class MainScreen extends javax.swing.JFrame {
-<<<<<<< HEAD
     String filepath1 = "IDs.txt";
     File file = new File(filepath1);
     public String ID;
     String listPort = "";
     String conAddr = "";
-    
+
     String username, address;
     ArrayList<String> users = new ArrayList();
     int port = 7721;
     Boolean isConnected = false;
-    
+
     Socket sock;
     BufferedReader reader;
     PrintWriter writer;
-    
-    
+
+
     //--------------------------//
-    
-    public void ListenThread() 
+
+    public void ListenThread()
     {
          Thread IncomingReader = new Thread(new IncomingReader());
          IncomingReader.start();
     }
-    
+
     //--------------------------//
-    
-    public void userAdd(String data) 
+
+    public void userAdd(String data)
     {
          users.add(data);
     }
-    
+
     //--------------------------//
-    
-    public void userRemove(String data) 
+
+    public void userRemove(String data)
     {
          display.append(data + " is now offline.\n");
     }
-    
+
     //--------------------------//
-    
-    public void writeUsers() 
+
+    public void writeUsers()
     {
          String[] tempList = new String[(users.size())];
          users.toArray(tempList);
-         for (String token:tempList) 
+         for (String token:tempList)
          {
              //users.append(token + "\n");
          }
     }
-    
+
     //--------------------------//
-    
-    public void sendDisconnect() 
+
+    public void sendDisconnect()
     {
         String bye = (username + ": :Disconnect");
         try
         {
-            writer.println(bye); 
-            writer.flush(); 
-        } catch (Exception e) 
+            writer.println(bye);
+            writer.flush();
+        } catch (Exception e)
         {
             display.append(currTime() + "Could not send Disconnect message.\n");
         }
     }
 
     //--------------------------//
-    
-    public void Disconnect() 
+
+    public void Disconnect()
     {
-        try 
+        try
         {
             display.append(currTime() + "Disconnected.\n");
             sock.close();
@@ -128,43 +125,43 @@ public class MainScreen extends javax.swing.JFrame {
         tf_username.setEditable(true);
 
     }
-    
+
 
     public MainScreen() {
 
-        initComponents();   
-        
+        initComponents();
+
     }
-    
+
  public class IncomingReader implements Runnable
     {
         @Override
-        public void run() 
+        public void run()
         {
             String[] data;
             String stream, done = "Done", connect = "Connect", disconnect = "Disconnect", chat = "Chat";
 
-            try 
+            try
             {
-                while ((stream = reader.readLine()) != null) 
+                while ((stream = reader.readLine()) != null)
                 {
                      data = stream.split(":");
 
-                     if (data[2].equals(chat)) 
+                     if (data[2].equals(chat))
                      {
                         display.append(currTime() + data[0] + ": " + data[1] + "\n");
                         display.setCaretPosition(display.getDocument().getLength());
-                     } 
+                     }
                      else if (data[2].equals(connect))
                      {
                         display.removeAll();
                         userAdd(data[0]);
-                     } 
-                     else if (data[2].equals(disconnect)) 
+                     }
+                     else if (data[2].equals(disconnect))
                      {
                          userRemove(data[0]);
-                     } 
-                     else if (data[2].equals(done)) 
+                     }
+                     else if (data[2].equals(done))
                      {
                         //users.setText("");
                         writeUsers();
@@ -174,8 +171,8 @@ public class MainScreen extends javax.swing.JFrame {
            }catch(Exception ex) { }
         }
     }
-   
-=======
+
+
 
     String ID = "";
     String listPort = "";
@@ -230,7 +227,7 @@ public class MainScreen extends javax.swing.JFrame {
         }
     }
 
->>>>>>> gui
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -513,14 +510,14 @@ public class MainScreen extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-<<<<<<< HEAD
-    private void sendTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendTextActionPerformed
+
+    private void sendTextActionPerformed(java.awt.event.ActionEvent evt) {
          String nothing = "";
         if ((input.getText()).equals(nothing)) {
             input.setText("");
             input.requestFocus();
         } else {
-            try {   
+            try {
                writer.println(username + ":" + input.getText() + ":" + "Chat");
                writer.flush(); // flushes the buffer
             } catch (Exception ex) {
@@ -532,10 +529,10 @@ public class MainScreen extends javax.swing.JFrame {
 
         input.setText("");
         input.requestFocus();
-    }//GEN-LAST:event_sendTextActionPerformed
+    }
 
     private void tf_addressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_addressActionPerformed
-        
+
     }//GEN-LAST:event_tf_addressActionPerformed
 
     private void tf_portActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_portActionPerformed
@@ -552,8 +549,8 @@ public class MainScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_b_disconnectActionPerformed
 
     private void b_connect1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_connect1ActionPerformed
-         
-         
+
+
     String uId = tf_username.getText();
     address =  tf_address.getText();
         try {
@@ -564,13 +561,13 @@ public class MainScreen extends javax.swing.JFrame {
             while ((line = br.readLine()) != null) {
 
                 if (line.equals(uId)) {
-                    if (isConnected == false) 
+                    if (isConnected == false)
         {
             username = tf_username.getText();
             tf_username.setEditable(false);
             System.out.println("address main screen421: "+address);
 
-            try 
+            try
             {
                 sock = new Socket(address, port);
                 System.out.println("sock MainScreen 426: "+sock);
@@ -578,24 +575,24 @@ public class MainScreen extends javax.swing.JFrame {
                 reader = new BufferedReader(streamreader);
                 writer = new PrintWriter(sock.getOutputStream());
                 writer.println(username + ":has connected.:Connect");
-                writer.flush(); 
+                writer.flush();
                 isConnected = true;
                 uniqueId.setText(uId);
-            } 
-            catch (Exception ex) 
+            }
+            catch (Exception ex)
             {
                 display.append("Cannot Connect! The server is Offline! Become a coordinator! \n");
                 tf_username.setEditable(true);
-                
-                /* barney: i added this so that if server  inactive it 
+
+                /* barney: i added this so that if server  inactive it
                 automaticaly launches the server panel*/
-                Serv try1 = new Serv(); 
+                Serv try1 = new Serv();
                 Serv.main(null);
             }
-            
+
             ListenThread();
-            
-        } else if (isConnected == true) 
+
+        } else if (isConnected == true)
         {
             display.append(currTime() + "You are already connected. \n");
         }
@@ -610,19 +607,19 @@ public class MainScreen extends javax.swing.JFrame {
 
         } catch (FileNotFoundException ex) {
             Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
-            
+
         }catch (IOException ex) {
             Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
-            
+
         }
-        
-        
+
+
     }//GEN-LAST:event_b_connect1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        
+
     }//GEN-LAST:event_jButton2ActionPerformed
-=======
+
     private void connectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectButtonActionPerformed
         // connect button to show connect screen and remove button
         new ConScreen().setVisible(true);
@@ -637,51 +634,49 @@ public class MainScreen extends javax.swing.JFrame {
     private void jbtnAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnAdminActionPerformed
         new AdminPanel().setVisible(true);
     }//GEN-LAST:event_jbtnAdminActionPerformed
->>>>>>> gui
 
     //Function to set the unique id.
     public void setUniqueId(String uId) {
         uniqueId.setText(uId);
-<<<<<<< HEAD
+
          ID = uniqueId.getText();
-     
-                
-=======
+
+
+
         ID = uId;
                 contactServer();
->>>>>>> gui
+
 
     }
-    
-    //Activates and allows for the use of sending text.
-<<<<<<< HEAD
 
-=======
+    //Activates and allows for the use of sending text.
+
+
+
     public void activateSendButton(){
         sendText.setVisible(true);
         input.setEditable(true);
         currTime();
     }
->>>>>>> gui
-    
+
+
     //Function to create a new thread and connect to the server.
-  
-    
+
+
     //Function to get the current time.
     public String currTime() {
-<<<<<<< HEAD
+
         SimpleDateFormat formatter= new SimpleDateFormat("[HH.mm.ss] ");
-=======
-        SimpleDateFormat formatter= new SimpleDateFormat("[HH:mm:ss] ");
->>>>>>> gui
+
+        //SimpleDateFormat formatter= new SimpleDateFormat("[HH:mm:ss] ");
+
         Date date = new Date(System.currentTimeMillis());
         return formatter.format(date);
         }
-    
 
-<<<<<<< HEAD
-    
-=======
+
+
+
     public void setlisteningPort(String port) {
         listPort= port;
     }
@@ -691,10 +686,10 @@ public class MainScreen extends javax.swing.JFrame {
     public void setConAddress(String address) {
         conAddr=address;
         serverInfo.setText(conAddr);
-        
+
     }
 
->>>>>>> gui
+
     /**
      * @param args the command line arguments
      */
@@ -702,7 +697,7 @@ public class MainScreen extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -728,10 +723,10 @@ public class MainScreen extends javax.swing.JFrame {
                 new MainScreen().setVisible(true);
             }
         });
-<<<<<<< HEAD
-        
+
+
     }
-    // Variables declaration - do not modify//GEN-BEGIN:variables
+    // Variables declaration - do not modify
     private javax.swing.JTextArea Onliners;
     private javax.swing.JButton b_connect1;
     private javax.swing.JButton b_disconnect;
@@ -751,7 +746,7 @@ public class MainScreen extends javax.swing.JFrame {
     private javax.swing.JTextField tf_address;
     private javax.swing.JTextField tf_port;
     private javax.swing.JTextField tf_username;
-=======
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -767,8 +762,7 @@ public class MainScreen extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JButton jbtnAdmin;
     private javax.swing.JButton sendText;
-    private javax.swing.JTextArea serverInfo;
->>>>>>> gui
+
     public javax.swing.JLabel uniqueId;
     // End of variables declaration//GEN-END:variables
 }
