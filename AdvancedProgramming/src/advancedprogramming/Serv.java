@@ -264,8 +264,8 @@ public class Serv extends javax.swing.JFrame {
 
             try
             {
-                InetAddress IpAddrs = InetAddress.getByName(NetInterface.IpUser());/////////////////////////////////////////////
-
+                InetAddress IpAddrs = InetAddress.getByName(NetInterface.PulicIp());
+                
                 ServerSocket serverSock = new ServerSocket(7721, 50, IpAddrs);
                 ta_chat.append(currTime() +"Socket: "+ serverSock +"\n");
                 System.out.println("serverSock.getInetAddress(): "+serverSock.getInetAddress());

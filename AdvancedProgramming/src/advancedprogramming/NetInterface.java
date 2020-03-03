@@ -137,7 +137,7 @@ public class NetInterface{
         BufferedReader in = new BufferedReader(new InputStreamReader(PublicIp.openStream()));
         String ip = in.readLine();
         System.out.println("public ip: "+ip);
-        return ip;
+        return ip; 
     }
 
 }
