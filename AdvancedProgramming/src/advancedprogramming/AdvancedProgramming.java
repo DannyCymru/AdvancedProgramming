@@ -18,6 +18,8 @@ public class AdvancedProgramming {
      */
     public static void main(String[] args) throws IOException {
          new MainScreen().setVisible(true);
+         Thread starter = new Thread(new MainScreen.ServerStart());
+        starter.start();
         
     }
     
