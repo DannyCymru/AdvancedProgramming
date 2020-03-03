@@ -77,12 +77,15 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <Component id="sendText" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                  </Group>
-                  <Group type="102" attributes="0">
                       <Component id="jScrollPane3" min="-2" pref="108" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
+                  </Group>
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="sendText" min="-2" max="-2" attributes="0"/>
+                          <Component id="jButton2" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
               </Group>
           </Group>
@@ -109,13 +112,16 @@
                   <Component id="jScrollPane1" alignment="0" min="-2" pref="280" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="tf_address" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="lb_address" alignment="3" min="-2" pref="29" max="-2" attributes="0"/>
-                  <Component id="lb_port" alignment="3" min="-2" pref="29" max="-2" attributes="0"/>
-                  <Component id="tf_port" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="b_connect1" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="b_disconnect" alignment="3" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="tf_address" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lb_address" alignment="3" min="-2" pref="29" max="-2" attributes="0"/>
+                      <Component id="lb_port" alignment="3" min="-2" pref="29" max="-2" attributes="0"/>
+                      <Component id="tf_port" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="b_connect1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="b_disconnect" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Component id="jButton2" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
           </Group>
       </Group>
@@ -245,6 +251,14 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="b_disconnectActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="jButton2">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="jButton2"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton2ActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>
