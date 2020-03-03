@@ -39,19 +39,13 @@ public class Encryption
 {
 
 
-    //////////////////////////////////////////////////////////////////////////////////
-    /* KEY GENERATION AND STORAGE */
-    //////////////////////////////////////////////////////////////////////////////////
-
-
-
-
     static KeyPairGenerator GenerateKey;
 
     static byte[] KeyByte;
 
 
 
+    
     private static KeyPair GenerateKey1() throws NoSuchAlgorithmException, NoSuchProviderException, FileNotFoundException, UnsupportedEncodingException, IOException
     {
 
@@ -127,12 +121,8 @@ public class Encryption
     }
 
 
-    //////////////////////////////////////////////////////////////////////////////////
-    /* ENCRYPTION PART */
-    //////////////////////////////////////////////////////////////////////////////////
 
-
-    private static byte[] EncryptionPart(String message, PublicKey a) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException, ShortBufferException, BadPaddingException, UnsupportedEncodingException
+    private static String EncryptionPart(String message, PublicKey a) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException, ShortBufferException, BadPaddingException, UnsupportedEncodingException
     {
 
 
@@ -141,10 +131,15 @@ public class Encryption
 
         // encrypt a string and store it into a byte array
         byte[] encryptedText = cipher1.doFinal(message.getBytes());
-        System.out.println("encrypted text: "+Arrays.toString(encryptedText));
+        System.out.println("in encryption encrypted text: "+Arrays.toString(encryptedText));
 
+        String EncryptedString = new String(encryptedText);
+        System.out.println("EncryptedString: "+EncryptedString);
+        
+        byte[] encryptedText2 = EncryptedString.getBytes();
+        System.out.println("in decryption encrypted text: "+Arrays.toString(encryptedText));
 
-        return encryptedText;
+        return EncryptedString;
     }
 
 
@@ -152,14 +147,10 @@ public class Encryption
 
 
 
-    //////////////////////////////////////////////////////////////////////////////////
-    /* DECRYPTION PART */
-    //////////////////////////////////////////////////////////////////////////////////
-
-
-    private static String DecryptionPart(byte[] message, PrivateKey b) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException, ShortBufferException, BadPaddingException, UnsupportedEncodingException
+    private static String DecryptionPart(String message, PrivateKey b) throws Exception
     {
-        byte[] encryptedText = message;
+        byte[] encryptedText = message.getBytes();
+        System.out.println("in decryption encrypted text: "+Arrays.toString(encryptedText));
 
         Cipher cipher2 = Cipher.getInstance("RSA/ECB/PKCS1Padding");
         cipher2.init(Cipher.PRIVATE_KEY, b);
@@ -174,11 +165,6 @@ public class Encryption
         return textfinal;
 
     }
-
-
-    //////////////////////////////////////////////////////////////////////////////////
-    /* SIGNATURE PART */
-    //////////////////////////////////////////////////////////////////////////////////
 
     private static String Signature(String message) throws NoSuchAlgorithmException
     {
@@ -218,7 +204,7 @@ public class Encryption
 
 
 
-    public static void main(String[] args) throws NoSuchAlgorithmException, NoSuchProviderException, IOException, NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException, ShortBufferException, BadPaddingException
+    public static void main(String[] args) throws Exception
     {
         String yolo = "Sentence to encrypt and create signature of";
 
@@ -229,8 +215,10 @@ public class Encryption
         PublicKey PubliKey = Encryption.PuK(A);
 
         //creation of encrypted text stored in byte array
-        byte[]  textEnc = Encryption.EncryptionPart(yolo, PubliKey);
-
+        String textEnc = Encryption.EncryptionPart(yolo, PubliKey);
+        System.out.println("textEnc str: "+textEnc);
+        byte[] encryptedText = textEnc.getBytes();
+        System.out.println("in main encrypted text: "+Arrays.toString(encryptedText));
         // decryption of textEnc
         Encryption.DecryptionPart(textEnc, PrivaKey);
 

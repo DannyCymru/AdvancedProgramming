@@ -426,7 +426,7 @@ public class MainScreen extends javax.swing.JFrame {
         {
             username = tf_username.getText();
             tf_username.setEditable(false);
-            System.out.println("address main screen421: "+address);
+            System.out.println("address main screen line 429: "+address);
 
             try 
             {
