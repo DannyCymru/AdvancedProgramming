@@ -40,28 +40,27 @@ public class Encryption
 
 
     static KeyPairGenerator GenerateKey;
-
     static byte[] KeyByte;
 
 
 
     
-    private static KeyPair GenerateKey1() throws NoSuchAlgorithmException, NoSuchProviderException, FileNotFoundException, UnsupportedEncodingException, IOException
+    private static KeyPair GenerateKey1() throws Exception
     {
 
         GenerateKey = KeyPairGenerator.getInstance("RSA");
 
-
+        //generating keypair
         KeyPair pair = GenerateKey.generateKeyPair();
-
+        
+        //selecting the keys from the keys pair
         PrivateKey priv = pair.getPrivate();
         PublicKey pub = pair.getPublic();
 
         //System.out.println("Private key: "+priv+"\n");
-
         //System.out.println("Public key: "+pub+"\n");
 
-
+        
         String PairString = pair.toString();
         byte[] PairInByte = PairString.getBytes();
         KeyByte = PairInByte;
