@@ -229,12 +229,16 @@
     <Component class="javax.swing.JTextField" name="tf_address">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="NetInterface.IpUser()" type="code"/>
+          <Connection code="NetInterface.PulicIp()" type="code"/>
         </Property>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tf_addressActionPerformed"/>
       </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="}catch (Exception ex)  &#xa;        {&#xa;        &#xa;        }"/>
+        <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="try&#xa;        {"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JLabel" name="lb_address">
       <Properties>

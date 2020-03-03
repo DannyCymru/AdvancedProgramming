@@ -30,7 +30,7 @@ public class NetInterface{
 
 
 
-    public static void main(String args[]) throws SocketException, IOException
+    public static void main(String args[]) throws Exception
     {
         IpUser();
         PulicIp(); 
@@ -113,7 +113,7 @@ public class NetInterface{
     }
 
 
-    static String IpUser()
+    static String IpUser() throws Exception
     /* this method as for purpose to remove the "/" character and
     to turn the arraylist string into just a string */
     {
