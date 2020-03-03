@@ -236,7 +236,13 @@ public class MainScreen extends javax.swing.JFrame {
             }
         });
 
-        tf_address.setText(NetInterface.IpUser());
+        try
+        {
+            tf_address.setText(NetInterface.PulicIp());
+        }catch (Exception ex)
+        {
+
+        }
         tf_address.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tf_addressActionPerformed(evt);
