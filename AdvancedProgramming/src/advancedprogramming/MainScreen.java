@@ -33,6 +33,8 @@ import javax.swing.JOptionPane;
  * @author dm5376y
  */
 public class MainScreen extends javax.swing.JFrame {
+
+ 
     String filepath1 = "IDs.txt";
     File file = new File(filepath1);
     public String ID;
@@ -698,16 +700,29 @@ public class MainScreen extends javax.swing.JFrame {
         }
         //</editor-fold>
 
+        
+
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new MainScreen().setVisible(true);
             }
+                       
         });
         
+        
+        
+       
     }
+    
+    
+    
+    
+       
+   
     //SERVER START!!!! THIS IS THE PART WHERE SERVER IS MADE AND IS CALLED FROM THE START BUTTON ATM.
-     public class ServerStart implements Runnable
+     
+    public class ServerStart implements Runnable
     {
         @Override
         public void run()
