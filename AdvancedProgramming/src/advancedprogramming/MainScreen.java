@@ -136,6 +136,8 @@ public class MainScreen extends javax.swing.JFrame {
 
             try 
             {
+                int i = 0;
+                
                 while ((stream = reader.readLine()) != null) 
                 {
                      data = stream.split(":");
@@ -151,8 +153,13 @@ public class MainScreen extends javax.swing.JFrame {
                      } 
                      else if (data[2].equals(connect))
                      {
+                         if(i == 1){jScrollPane3.revalidate();}
+                         
                         display.removeAll();
                         userAdd(data[0]);
+                        System.out.println("data[]: "+Arrays.toString(data));
+                        System.out.println("people[]: "+Arrays.toString(people));
+                        
                         String conne = Arrays.toString(people);
                          String replace = conne.replace(",", "");
                          String replace1 = replace.replace("Connect", "");
@@ -160,6 +167,8 @@ public class MainScreen extends javax.swing.JFrame {
                         Onliners.append("\n"+ replace2);
                         String nothing = "";
                         people = nothing.split("");
+                        
+                        i++;
                      } 
                      else if (data[2].equals(disconnect)) 
                      {
