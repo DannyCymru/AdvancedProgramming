@@ -1,5 +1,7 @@
 # AdvancedProgramming
-This repo is for working on the task for the module Advanced Programming where we must create a networking application using Java.
+This repo is for working on the task for the module Advanced Programming where we must create a peer to peer chat application, we originally 
+thought we had to use java for this project but as it suggests in the spec documents (email), we are allowed to use any. This version is being 
+written in C++ with the QT Framework to create a gui with it.
 
 How to interact with this project:
 
