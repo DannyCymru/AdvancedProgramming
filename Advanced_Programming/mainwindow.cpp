@@ -18,4 +18,5 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_send_button_clicked()
 {
+    p2p->send_data();
 }
