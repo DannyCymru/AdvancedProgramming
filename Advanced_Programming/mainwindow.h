@@ -22,5 +22,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
     p2p_server *p2p;
+
+    void read_data();
 };
 #endif // MAINWINDOW_H
