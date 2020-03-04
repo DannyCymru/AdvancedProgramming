@@ -2,9 +2,8 @@
 
 p2p_server::p2p_server(QObject *parent) : QObject(parent)
 {
-    net_int = new net_interface;
-
     /* Function call to check the required network config.
+    net_int = new net_interface;
     net_int->net_required();*/
 
     //UDP Socket initialisations
