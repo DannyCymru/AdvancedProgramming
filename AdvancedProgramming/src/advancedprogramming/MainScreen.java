@@ -9,6 +9,8 @@ import advancedprogramming.Serv;
 import advancedprogramming.NetInterface;
 import advancedprogramming.NetInterface;
 import advancedprogramming.Serv;
+import java.awt.Component;
+import java.awt.PopupMenu;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -28,6 +30,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import java.awt.event.*;
 
 /**
  *
@@ -174,11 +177,16 @@ public class MainScreen extends javax.swing.JFrame {
 
                          users.add(replace2);
                          Onliners.setText("Online Members" + "\n");
+                         combobox.removeAllItems();
                          for (String current_user : users)
         {
             Onliners.append(current_user);
             Onliners.append("\n");
+<<<<<<< HEAD
             //System.out.println("current user: "+current_user);
+=======
+            combobox.addItem(current_user);
+>>>>>>> 5296eb28c6463668b4771d3a3b22553216206388
         }
                        
 
@@ -192,11 +200,12 @@ public class MainScreen extends javax.swing.JFrame {
                          String replace2 = replace1.replace(" ", "");
                          users.remove(replace2);
                          Onliners.setText("Online Members" + "\n");
+                         combobox.removeAllItems();
                          for (String current_user : users)
         {
             Onliners.append(current_user);
             Onliners.append("\n");
-            System.out.println(current_user);
+            combobox.removeItem(current_user);
         }
                      } 
                      else if (data[2].equals(done)) 
@@ -237,6 +246,9 @@ public class MainScreen extends javax.swing.JFrame {
         b_connect1 = new javax.swing.JButton();
         b_disconnect = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        combobox = new javax.swing.JComboBox<>();
+        jLabel1 = new javax.swing.JLabel();
+        jButton3 = new javax.swing.JButton();
 
         javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
         jDialog1.getContentPane().setLayout(jDialog1Layout);
@@ -332,6 +344,21 @@ public class MainScreen extends javax.swing.JFrame {
             }
         });
 
+        combobox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboboxActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("Private chat: ");
+
+        jButton3.setText("Chat");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -344,6 +371,11 @@ public class MainScreen extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 698, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(56, 56, 56)
+                        .addComponent(uniqueId)
+                        .addGap(18, 18, 18)
+                        .addComponent(input))
+                    .addGroup(layout.createSequentialGroup()
                         .addGap(11, 11, 11)
                         .addComponent(lb_address, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -355,12 +387,13 @@ public class MainScreen extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(b_connect1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(b_disconnect))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(56, 56, 56)
-                        .addComponent(uniqueId)
-                        .addGap(18, 18, 18)
-                        .addComponent(input)))
+                        .addComponent(b_disconnect)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(combobox, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton3)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -395,8 +428,12 @@ public class MainScreen extends javax.swing.JFrame {
                         .addComponent(lb_port, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(tf_port, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(b_connect1)
-                        .addComponent(b_disconnect))
-                    .addComponent(jButton2)))
+                        .addComponent(b_disconnect)
+                        .addComponent(combobox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButton2)
+                        .addComponent(jButton3))))
         );
 
         uniqueId.getAccessibleContext().setAccessibleName("uniqueIdLabel");
@@ -437,6 +474,7 @@ public class MainScreen extends javax.swing.JFrame {
         sendDisconnect();
         Disconnect();
         Onliners.setText("Online Members:");
+        combobox.removeAllItems();
     }//GEN-LAST:event_b_disconnectActionPerformed
 
     private void b_connect1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_connect1ActionPerformed
@@ -510,6 +548,271 @@ public class MainScreen extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void comboboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboboxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboboxActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+       String selected = combobox.getSelectedItem().toString();
+       
+       if(selected.equals(selected)){
+           Component frame = null;
+           JOptionPane.showMessageDialog(frame, "You can't start a private chat with yourself", "Warning!", JOptionPane.WARNING_MESSAGE);
+       }
+       if(selected.equals("[dm5376y]")){
+           sendDisconnect();
+        Disconnect();
+        Onliners.setText("Online Members:");
+        combobox.removeAllItems();
+        
+        address = "192.168.1.69";
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(filepath1));
+
+            String line;
+
+            while ((line = br.readLine()) != null) {
+
+                if (line.equals(uID)) {
+                    if (isConnected == false) 
+        {
+           
+            
+            System.out.println("address main screen line 429: "+address);
+
+            try 
+            {
+                sock = new Socket(address, port);
+                System.out.println("sock MainScreen 426: "+sock);
+                InputStreamReader streamreader = new InputStreamReader(sock.getInputStream());
+                reader = new BufferedReader(streamreader);
+                writer = new PrintWriter(sock.getOutputStream());
+                writer.println(username + ":has connected.:Connect");
+                writer.flush(); 
+                isConnected = true;
+                uniqueId.setText(uID);
+            } 
+            catch (Exception ex) 
+            {
+                display.append("Cannot Connect! The server is Offline! Become a coordinator! \n");
+               
+                
+            }
+            
+            ListenThread();
+            
+        } else if (isConnected == true) 
+        {
+            display.append(currTime() + "You are already connected. \n");
+        }
+                    break;
+
+                }
+            }
+            br.close();
+            if (line == null) {
+                JOptionPane.showMessageDialog(new JFrame(), "Error! Entered Unique ID doesn't exist in the database.");
+            }
+
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
+            
+        }catch (IOException ex) {
+            Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
+            
+        }
+       }
+       if(selected.equals("[dr3344j]")){
+           sendDisconnect();
+        Disconnect();
+        Onliners.setText("Online Members:");
+        combobox.removeAllItems();
+        
+        address = "192.168.1.69";
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(filepath1));
+
+            String line;
+
+            while ((line = br.readLine()) != null) {
+
+                if (line.equals(uID)) {
+                    if (isConnected == false) 
+        {
+           
+            
+            System.out.println("address main screen line 429: "+address);
+
+            try 
+            {
+                sock = new Socket(address, port);
+                System.out.println("sock MainScreen 426: "+sock);
+                InputStreamReader streamreader = new InputStreamReader(sock.getInputStream());
+                reader = new BufferedReader(streamreader);
+                writer = new PrintWriter(sock.getOutputStream());
+                writer.println(username + ":has connected.:Connect");
+                writer.flush(); 
+                isConnected = true;
+                uniqueId.setText(uID);
+            } 
+            catch (Exception ex) 
+            {
+                display.append("Cannot Connect! The server is Offline! Become a coordinator! \n");
+               
+                
+            }
+            
+            ListenThread();
+            
+        } else if (isConnected == true) 
+        {
+            display.append(currTime() + "You are already connected. \n");
+        }
+                    break;
+
+                }
+            }
+            br.close();
+            if (line == null) {
+                JOptionPane.showMessageDialog(new JFrame(), "Error! Entered Unique ID doesn't exist in the database.");
+            }
+
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
+            
+        }catch (IOException ex) {
+            Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
+            
+        }
+       }
+       if(selected.equals("[jn9942d]")){
+           sendDisconnect();
+        Disconnect();
+        Onliners.setText("Online Members:");
+        combobox.removeAllItems();
+        
+        address = "192.168.1.69";
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(filepath1));
+
+            String line;
+
+            while ((line = br.readLine()) != null) {
+
+                if (line.equals(uID)) {
+                    if (isConnected == false) 
+        {
+           
+            
+            System.out.println("address main screen line 429: "+address);
+
+            try 
+            {
+                sock = new Socket(address, port);
+                System.out.println("sock MainScreen 426: "+sock);
+                InputStreamReader streamreader = new InputStreamReader(sock.getInputStream());
+                reader = new BufferedReader(streamreader);
+                writer = new PrintWriter(sock.getOutputStream());
+                writer.println(username + ":has connected.:Connect");
+                writer.flush(); 
+                isConnected = true;
+                uniqueId.setText(uID);
+            } 
+            catch (Exception ex) 
+            {
+                display.append("Cannot Connect! The server is Offline! Become a coordinator! \n");
+               
+                
+            }
+            
+            ListenThread();
+            
+        } else if (isConnected == true) 
+        {
+            display.append(currTime() + "You are already connected. \n");
+        }
+                    break;
+
+                }
+            }
+            br.close();
+            if (line == null) {
+                JOptionPane.showMessageDialog(new JFrame(), "Error! Entered Unique ID doesn't exist in the database.");
+            }
+
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
+            
+        }catch (IOException ex) {
+            Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
+            
+        }
+       }
+       if(selected.equals("[bm4904f]")){
+           sendDisconnect();
+        Disconnect();
+        Onliners.setText("Online Members:");
+        combobox.removeAllItems();
+        
+        address = "192.168.1.69";
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(filepath1));
+
+            String line;
+
+            while ((line = br.readLine()) != null) {
+
+                if (line.equals(uID)) {
+                    if (isConnected == false) 
+        {
+           
+            
+            System.out.println("address main screen line 429: "+address);
+
+            try 
+            {
+                sock = new Socket(address, port);
+                System.out.println("sock MainScreen 426: "+sock);
+                InputStreamReader streamreader = new InputStreamReader(sock.getInputStream());
+                reader = new BufferedReader(streamreader);
+                writer = new PrintWriter(sock.getOutputStream());
+                writer.println(username + ":has connected.:Connect");
+                writer.flush(); 
+                isConnected = true;
+                uniqueId.setText(uID);
+            } 
+            catch (Exception ex) 
+            {
+                display.append("Cannot Connect! The server is Offline! Become a coordinator! \n");
+               
+                
+            }
+            
+            ListenThread();
+            
+        } else if (isConnected == true) 
+        {
+            display.append(currTime() + "You are already connected. \n");
+        }
+                    break;
+
+                }
+            }
+            br.close();
+            if (line == null) {
+                JOptionPane.showMessageDialog(new JFrame(), "Error! Entered Unique ID doesn't exist in the database.");
+            }
+
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
+            
+        }catch (IOException ex) {
+            Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
+            
+        }
+       }
+    }//GEN-LAST:event_jButton3ActionPerformed
     //Function to set the unique id.
     public void setUniqueId(String uId) {
         uniqueId.setText(uId);
@@ -518,7 +821,6 @@ public class MainScreen extends javax.swing.JFrame {
          uID = uniqueId.getText();
          username = uniqueId.getText();
          
-         System.out.println(uID);
   }
     
     //Activates and allows for the use of sending text.
@@ -581,11 +883,14 @@ public class MainScreen extends javax.swing.JFrame {
     private javax.swing.JTextArea Onliners;
     private javax.swing.JButton b_connect1;
     private javax.swing.JButton b_disconnect;
+    private javax.swing.JComboBox<String> combobox;
     private javax.swing.JTextArea display;
     private javax.swing.JTextField input;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JDialog jDialog1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;

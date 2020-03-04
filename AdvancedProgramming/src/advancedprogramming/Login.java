@@ -118,7 +118,7 @@ String filepath1 = "IDs.txt";
             br.close();
             if (line == null) {
                 JOptionPane.showMessageDialog(new JFrame(), "Error! Entered Unique ID doesn't exist in the database.");
-            }
+            } 
 
         } catch (FileNotFoundException ex) {
             Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
