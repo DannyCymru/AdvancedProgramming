@@ -41,5 +41,5 @@ void p2p_server::read_data(){
 void p2p_server::send_data(QString new_message){
     QByteArray datagram;
     datagram.append(new_message);
-    udp_send->writeDatagram(datagram, QHostAddress::LocalHost, 57000);
+    udp_send->writeDatagram(datagram, QHostAddress::Broadcast, 57000);
 }
