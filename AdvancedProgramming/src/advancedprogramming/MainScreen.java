@@ -155,34 +155,33 @@ public class MainScreen extends javax.swing.JFrame {
                          if(i == 1){jScrollPane3.revalidate();}
                          
                         display.removeAll();
-<<<<<<< HEAD
+
                         userAdd(data[0]);
                         System.out.println("data[]: "+Arrays.toString(data));
                         System.out.println("people[]: "+Arrays.toString(people));
-=======
->>>>>>> 7d9f5003c03ab2b7290ca6dd49214ac2a0de8b23
+
                         
                         String conne = Arrays.toString(people);
                          String replace = conne.replace(",", "");
                          String replace1 = replace.replace("Connect", "");
                          String replace2 = replace1.replace(" ", "");
-<<<<<<< HEAD
+
                         Onliners.append("\n"+ replace2);
                         String nothing = "";
                         people = nothing.split("");
                         
                         i++;
-=======
+
                          users.add(replace2);
                          Onliners.setText("Online Members" + "\n");
                          for (String current_user : users)
         {
             Onliners.append(current_user);
             Onliners.append("\n");
-            System.out.println(current_user);
+            //System.out.println("current user: "+current_user);
         }
                        
->>>>>>> 7d9f5003c03ab2b7290ca6dd49214ac2a0de8b23
+
                      } 
                      else if (data[2].equals(disconnect)) 
                      {
