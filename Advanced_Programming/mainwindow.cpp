@@ -18,5 +18,8 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_send_button_clicked()
 {
-    p2p->send_data();
+    //Takes the text from main input.
+    QString new_message = ui->main_user_input->text();
+    ui->main_user_input->clear();
+    p2p->send_data(new_message);
 }
