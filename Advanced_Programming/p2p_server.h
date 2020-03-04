@@ -10,12 +10,15 @@ class p2p_server : public QObject
 public:
     explicit p2p_server(QObject *parent = nullptr);
     void read_data();
+    void send_data();
 
 signals:
 
 private:
-    QUdpSocket *udp_socket;
-    void send_data();
+    QUdpSocket *udp_send;
+    QUdpSocket *udp_get;
+
+    QHostAddress *b_cast;
 };
 
 #endif // P2P_SERVER_H
