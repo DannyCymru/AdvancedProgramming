@@ -77,5 +77,7 @@ void MainWindow::set_variables(QString initialise_vars){
     else {
         ui->message_edit->appendPlainText("You did not input enough values.");
     }
-
+    //Quick and dirty way to change a few of the UI Elements. Should get pushed to their own function.
+    ui->user_id->setText(name);
+    ui->host_list_edit->appendPlainText(ip+":"+ip_port);
 }
