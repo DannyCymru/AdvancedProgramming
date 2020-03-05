@@ -7,11 +7,14 @@ package advancedprogramming;
 import advancedprogramming.MainScreen;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.ServerSocket;
@@ -114,9 +117,12 @@ String filepath1 = "IDs.txt";
         temp.setUniqueId(usern);
         dispose();
         temp.setVisible(true);
-        PrintWriter writerip = new PrintWriter("ips.txt");
+        PrintWriter writerip = new PrintWriter("receiveips.txt");
 writerip.print("");
 writerip.close();
+ PrintWriter writerips = new PrintWriter("sendips.txt");
+writerips.print("");
+writerips.close();
          break;
 
                 }
@@ -218,10 +224,21 @@ writerip.close();
                     {
                         tellEveryone((data[0] + ":" + data[1] + ":" + chat + ":" + data[3]));
                         userAdd(data[0]);
-                                     FileWriter writer = new FileWriter("ips.txt", true);                                    
+                                     FileWriter writer = new FileWriter("sendips.txt", true);                                    
 writer.write(data[0] + ":" + data[3] + "\n");
 writer.write(uID + ":" + NetInterface.IpUser() + "\n");
 writer.close();
+Socket socket = new Socket("localhost", 11111);
+        InputStream in = new FileInputStream("sendips.txt");
+        OutputStream out = socket.getOutputStream();
+        byte[] buf = new byte[8192];
+        int len = 0;
+        while ((len = in.read(buf)) != -1) {
+            out.write(buf, 0, len);
+        }
+
+        out.close();
+        in.close();
         
 
 

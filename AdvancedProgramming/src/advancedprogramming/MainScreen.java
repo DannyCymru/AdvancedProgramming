@@ -31,7 +31,10 @@ import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import java.awt.event.*;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 /**
  *
@@ -170,6 +173,18 @@ public class MainScreen extends javax.swing.JFrame {
             Onliners.append("\n");
             combobox.addItem(current_user);
         }
+                     ServerSocket ss = new ServerSocket(11111);
+        Socket socket = ss.accept();
+        InputStream in = socket.getInputStream();
+        OutputStream out = new FileOutputStream("receiveips.txt");
+        byte[] buf = new byte[8192];
+        int len = 0;
+        while ((len = in.read(buf)) != -1) {
+            out.write(buf, 0, len);
+        }
+
+        out.close();
+        in.close();
                        
                      } 
                      else if (data[2].equals(disconnect)) 
