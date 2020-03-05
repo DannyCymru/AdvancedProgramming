@@ -5,6 +5,7 @@
  */
 package advancedprogramming;
 import advancedprogramming.MainScreen;
+import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -66,6 +67,12 @@ String filepath1 = "IDs.txt";
         });
 
         jLabel1.setText("Username:");
+
+        Username.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                UsernameKeyPressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -138,6 +145,49 @@ writerip.close();
             
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void UsernameKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_UsernameKeyPressed
+        if(evt.getKeyCode()==KeyEvent.VK_ENTER) {
+            try {
+            BufferedReader br = new BufferedReader(new FileReader(filepath1));
+
+            String line;
+            uID = Username.getText();
+
+            while ((line = br.readLine()) != null) {
+
+                if (line.equals(uID)) { 
+        Thread starter = new Thread(new ServerStart());
+        starter.start();
+        MainScreen temp = new MainScreen();
+        String usern = Username.getText();
+          temp.setResizable(false);
+                temp.setLocationRelativeTo(null);
+        temp.setUniqueId(usern);
+        dispose();
+        temp.setVisible(true);
+        PrintWriter writerip = new PrintWriter("ips.txt");
+writerip.print("");
+writerip.close();
+
+         break;
+
+                }
+            }
+            br.close();
+            if (line == null) {
+                JOptionPane.showMessageDialog(new JFrame(), "Error! Entered Unique ID doesn't exist in the database.");
+            } 
+
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
+            
+        }catch (IOException ex) {
+            Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
+            
+        }
+        }
+    }//GEN-LAST:event_UsernameKeyPressed
 
     /**
      * @param args the command line arguments

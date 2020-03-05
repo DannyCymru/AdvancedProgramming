@@ -36,6 +36,8 @@ import java.io.FileWriter;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Scanner;
+import javax.swing.JComponent;
+import javax.swing.KeyStroke;
 
 /**
  *
@@ -299,6 +301,11 @@ writer.close();
         input.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 inputActionPerformed(evt);
+            }
+        });
+        input.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                inputKeyPressed(evt);
             }
         });
 
@@ -812,6 +819,28 @@ writer.close();
         }
        }
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void inputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inputKeyPressed
+      if(evt.getKeyCode()==KeyEvent.VK_ENTER) {
+          String nothing = "";
+        if ((input.getText()).equals(nothing)) {
+            input.setText("");
+            input.requestFocus();
+        } else {
+            try {   
+               writer.println(username + ":" + input.getText() + ":" + "Chat" + ":" + NetInterface.IpUser());
+               writer.flush(); // flushes the buffer
+            } catch (Exception ex) {
+                display.append("Message was not sent. \n");
+            }
+            input.setText("");
+            input.requestFocus();
+        }
+
+        input.setText("");
+        input.requestFocus(); 
+      }
+    }//GEN-LAST:event_inputKeyPressed
     //Function to set the unique id.
     public void setUniqueId(String uId) {
         uniqueId.setText(uId);
