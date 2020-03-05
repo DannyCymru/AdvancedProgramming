@@ -23,6 +23,7 @@ private:
     Ui::MainWindow *ui;
     p2p_server *p2p;
 
-    void read_data();
+    void datagram_ui();
+    void set_variables(QString initialise_vars);
 };
 #endif // MAINWINDOW_H
