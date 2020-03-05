@@ -117,12 +117,10 @@ String filepath1 = "IDs.txt";
         temp.setUniqueId(usern);
         dispose();
         temp.setVisible(true);
-        PrintWriter writerip = new PrintWriter("receiveips.txt");
+        PrintWriter writerip = new PrintWriter("ips.txt");
 writerip.print("");
 writerip.close();
- PrintWriter writerips = new PrintWriter("sendips.txt");
-writerips.print("");
-writerips.close();
+
          break;
 
                 }
@@ -224,23 +222,6 @@ writerips.close();
                     {
                         tellEveryone((data[0] + ":" + data[1] + ":" + chat + ":" + data[3]));
                         userAdd(data[0]);
-                                     FileWriter writer = new FileWriter("sendips.txt", true);                                    
-writer.write(data[0] + ":" + data[3] + "\n");
-writer.write(uID + ":" + NetInterface.IpUser() + "\n");
-writer.close();
-Socket socket = new Socket("localhost", 11111);
-        InputStream in = new FileInputStream("sendips.txt");
-        OutputStream out = socket.getOutputStream();
-        byte[] buf = new byte[8192];
-        int len = 0;
-        while ((len = in.read(buf)) != -1) {
-            out.write(buf, 0, len);
-        }
-
-        out.close();
-        in.close();
-        
-
 
                     }
                     else if (data[2].equals(disconnect))

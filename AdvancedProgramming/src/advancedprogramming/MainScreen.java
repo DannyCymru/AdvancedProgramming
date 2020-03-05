@@ -35,6 +35,7 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Scanner;
 
 /**
  *
@@ -139,6 +140,8 @@ public class MainScreen extends javax.swing.JFrame {
             
             String[] data;
             String people[];
+           
+              String[] ips;
             String stream, done = "Done", connect = "Connect", disconnect = "Disconnect", chat = "Chat";
 
             try 
@@ -147,17 +150,32 @@ public class MainScreen extends javax.swing.JFrame {
                 {
                      data = stream.split(":");
                      people = stream.split(":");
-
+                   System.out.println(data[1]);
+                   System.out.println(data[2]);
 
                      if (data[2].equals(chat)) 
                      {
                         
                         
-                        display.append(currTime() + data[0] + ": " + data[1] + "\n");
+                        display.append(currTime() + data[0] + ": " + data[1] +"\n");
                         display.setCaretPosition(display.getDocument().getLength());
-                                        } 
+                       String joinedString = String.join(":", data);    
+                        ips = joinedString.split(":");
+                        String op = ips[0] + ":" + ips[3];
+                        System.out.println(op);
+                  FileWriter writer = new FileWriter("ips.txt", true);                                    
+writer.write(ips[0] + ":" + ips[3] + "\n");
+writer.close();
+                
+                     
+                
+                
+                                       
+                     }
                      else if (data[2].equals(connect))
                      {
+                  
+                          
                  
                         display.removeAll();
                         String conne = Arrays.toString(people);
@@ -173,18 +191,7 @@ public class MainScreen extends javax.swing.JFrame {
             Onliners.append("\n");
             combobox.addItem(current_user);
         }
-                     ServerSocket ss = new ServerSocket(11111);
-        Socket socket = ss.accept();
-        InputStream in = socket.getInputStream();
-        OutputStream out = new FileOutputStream("receiveips.txt");
-        byte[] buf = new byte[8192];
-        int len = 0;
-        while ((len = in.read(buf)) != -1) {
-            out.write(buf, 0, len);
-        }
-
-        out.close();
-        in.close();
+                   
                        
                      } 
                      else if (data[2].equals(disconnect)) 
