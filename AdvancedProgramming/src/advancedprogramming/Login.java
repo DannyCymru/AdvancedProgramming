@@ -109,9 +109,14 @@ String filepath1 = "IDs.txt";
         starter.start();
         MainScreen temp = new MainScreen();
         String usern = Username.getText();
+          temp.setResizable(false);
+                temp.setLocationRelativeTo(null);
         temp.setUniqueId(usern);
         dispose();
         temp.setVisible(true);
+        PrintWriter writerip = new PrintWriter("ips.txt");
+writerip.print("");
+writerip.close();
          break;
 
                 }
@@ -160,7 +165,10 @@ String filepath1 = "IDs.txt";
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Login().setVisible(true);
+                Login log = new Login();
+                log.setVisible(true);
+                
+                
             }
         });
     }
@@ -210,9 +218,11 @@ String filepath1 = "IDs.txt";
                     {
                         tellEveryone((data[0] + ":" + data[1] + ":" + chat + ":" + data[3]));
                         userAdd(data[0]);
-                                     FileWriter writer = new FileWriter("ips.txt", true);
-writer.write(data[0] + ":" + data[3]);
+                                     FileWriter writer = new FileWriter("ips.txt", true);                                    
+writer.write(data[0] + ":" + data[3] + "\n");
+writer.write(uID + ":" + NetInterface.IpUser() + "\n");
 writer.close();
+        
 
 
                     }

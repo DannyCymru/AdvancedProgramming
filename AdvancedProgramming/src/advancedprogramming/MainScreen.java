@@ -31,6 +31,7 @@ import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import java.awt.event.*;
+import java.io.FileWriter;
 
 /**
  *
@@ -535,11 +536,7 @@ public class MainScreen extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
        String selected = combobox.getSelectedItem().toString();
-       
-       if(selected.equals(selected)){
-           Component frame = null;
-           JOptionPane.showMessageDialog(frame, "You can't start a private chat with yourself", "Warning!", JOptionPane.WARNING_MESSAGE);
-       }
+      
        if(selected.equals("[dm5376y]")){
            sendDisconnect();
         Disconnect();
@@ -850,6 +847,9 @@ public class MainScreen extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new MainScreen().setVisible(true);
+                MainScreen temp = new MainScreen();
+                temp.setResizable(false);
+                temp.setLocationRelativeTo(null);
             }
                        
         });
