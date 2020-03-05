@@ -17,17 +17,20 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    connect_dialog.cpp \
     main.cpp \
     mainwindow.cpp \
     net_interface.cpp \
     p2p_server.cpp
 
 HEADERS += \
+    connect_dialog.h \
     mainwindow.h \
     net_interface.h \
     p2p_server.h
 
 FORMS += \
+    connect_dialog.ui \
     mainwindow.ui
 
 # Default rules for deployment.
