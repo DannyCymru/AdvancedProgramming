@@ -31,6 +31,9 @@ import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import java.awt.event.*;
+import java.security.KeyPair;
+import java.security.PrivateKey;
+import java.security.PublicKey;
 
 /**
  *
@@ -53,6 +56,7 @@ public class MainScreen extends javax.swing.JFrame {
     Socket sock;
     BufferedReader reader;
     PrintWriter writer;
+    
     
     
     //--------------------------//
@@ -123,6 +127,7 @@ public class MainScreen extends javax.swing.JFrame {
 
     public MainScreen() {
 
+        
         initComponents();   
         
     }
@@ -150,14 +155,32 @@ public class MainScreen extends javax.swing.JFrame {
 
                      if (data[2].equals(chat)) 
                      {
+                         
+                        //PrivateKey PrivaKey = Encryption.PrK(A);
+                        //byte[] MessageEncrypt = data[1].getBytes();
+                        //String MessageDecrypted = Encryption.DecryptionPart(MessageEncrypt, PrivaKey);
                         
-                        
-                        display.append(currTime() + data[0] + ": " + data[1] + "\n");
+                           
+                        display.append(currTime() + data[0] + ": " + data[1] +"\n");
                         display.setCaretPosition(display.getDocument().getLength());
-                                        } 
+                        
+                        
+                        
+                        
+
+                        
+                        
+
+                         
+                     }
+                         
+                         
+                         
+                        
+                      
                      else if (data[2].equals(connect))
                      {
-<<<<<<< HEAD
+
                          if(i == 1){jScrollPane3.revalidate();}
                          
                         display.removeAll();
@@ -167,10 +190,10 @@ public class MainScreen extends javax.swing.JFrame {
                         System.out.println("people[]: "+Arrays.toString(people));
 
                         
-=======
+
                  
                         display.removeAll();
->>>>>>> 52ca87ae5e61e341e636e6117008267b3142774a
+
                         String conne = Arrays.toString(people);
                          String replace = conne.replace(",", "");
                          String replace1 = replace.replace("Connect", "");
@@ -408,8 +431,8 @@ public class MainScreen extends javax.swing.JFrame {
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(sendText)
-                            .addComponent(jButton2))
+                            .addComponent(jButton2)
+                            .addComponent(sendText))
                         .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
@@ -450,13 +473,24 @@ public class MainScreen extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void sendTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendTextActionPerformed
-         String nothing = "";
+        
+
+        
+        String nothing = "";
         if ((input.getText()).equals(nothing)) {
             input.setText("");
             input.requestFocus();
         } else {
-            try {   
-               writer.println(username + ":" + input.getText() + ":" + "Chat" + ":" + NetInterface.IpUser());
+            try {
+                
+                //KeyPair A = Encryption.GenerateKey1();
+                String messageToEncrypt = input.getText();
+                //PublicKey PubliKey = Encryption.PuK(A);
+                //PrivateKey PrivaKey = Encryption.PrK(A);
+                
+                //byte[] MessageEncrypted = Encryption.EncryptionPart(messageToEncrypt, PubliKey);
+                
+               writer.println(username + ":" + input.getText() /*Arrays.toString(MessageEncrypted)*/ + ":" + "Chat" + ":" + NetInterface.IpUser()+ Encryption.Signature(input.getText()));
                writer.flush(); // flushes the buffer
             } catch (Exception ex) {
                 display.append("Message was not sent. \n");
@@ -501,12 +535,12 @@ public class MainScreen extends javax.swing.JFrame {
         {
            
             
-            System.out.println("address main screen line 429: "+address);
+            System.out.println("address main screen line 504: "+address);
 
             try 
             {
                 sock = new Socket(address, port);
-                System.out.println("sock MainScreen 426: "+sock);
+                System.out.println("sock MainScreen 509: "+sock);
                 InputStreamReader streamreader = new InputStreamReader(sock.getInputStream());
                 reader = new BufferedReader(streamreader);
                 writer = new PrintWriter(sock.getOutputStream());

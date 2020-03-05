@@ -45,7 +45,7 @@ public class Encryption
 
 
     
-    private static KeyPair GenerateKey1() throws Exception
+    static KeyPair GenerateKey1() throws Exception
     {
 
         GenerateKey = KeyPairGenerator.getInstance("RSA");
@@ -82,7 +82,7 @@ public class Encryption
 
 
     //PRIVATE KEY
-    private static PrivateKey PrK(KeyPair A) throws IOException
+    static PrivateKey PrK(KeyPair A) throws IOException
     {
         PrivateKey B = A.getPrivate();
 
@@ -100,7 +100,7 @@ public class Encryption
     }
 
     //PUBLIC KEY
-    private static PublicKey PuK(KeyPair A) throws FileNotFoundException, IOException
+    static PublicKey PuK(KeyPair A) throws FileNotFoundException, IOException
     {
         PublicKey B = A.getPublic();
 
@@ -121,7 +121,7 @@ public class Encryption
 
 
 
-    private static byte[] EncryptionPart(String message, PublicKey a) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException, ShortBufferException, BadPaddingException, UnsupportedEncodingException
+    static byte[] EncryptionPart(String message, PublicKey a) throws Exception
     {
 
 
@@ -131,11 +131,11 @@ public class Encryption
         // encrypt a string and store it into a byte array
         //if you want to return bytep[]
         byte[] encryptedText = cipher1.doFinal(message.getBytes());
-        System.out.println("encrypted array: "+Arrays.toString(encryptedText));
+        //System.out.println("encrypted array: "+Arrays.toString(encryptedText));
         
         //If you want to return String 
         String encryptedString = ByteToStr(encryptedText);
-        System.out.println("encrypted String: "+Arrays.toString(encryptedText));
+        //System.out.println("encrypted String: "+Arrays.toString(encryptedText));
         
         return encryptedText;
     }
@@ -145,36 +145,36 @@ public class Encryption
 
 
 
-    private static String DecryptionPart(byte[] message, PrivateKey b) throws Exception
+    static String DecryptionPart(byte[] message, PrivateKey b) throws Exception
     {    
         Cipher cipher2 = Cipher.getInstance("RSA/ECB/PKCS1Padding");
         cipher2.init(Cipher.PRIVATE_KEY, b);
         
         //byte[] try1 = message.getBytes();
         
-        System.out.println("encrypted text in decryption: "+Arrays.toString(message));
+        //System.out.println("encrypted text in decryption: "+Arrays.toString(message));
         //System.out.println("encrypted text in decryption: "+message);
         
         
         //text decrypted in byte array
         byte[] decryptedText = cipher2.doFinal(message);
-        System.out.println("decrypted array: "+Arrays.toString(decryptedText));
+        //System.out.println("decrypted array: "+Arrays.toString(decryptedText));
 
         String textfinal = new String(decryptedText); //text in string decrypted
-        System.out.println("final message " + textfinal);
+        //System.out.println("final message " + textfinal);
 
         return textfinal;
 
     }
 
-    private static String Signature(String message) throws NoSuchAlgorithmException
+    static String Signature(String message) throws NoSuchAlgorithmException
     {
         String Tmessage = message;
 
         MessageDigest HashTmessage = MessageDigest.getInstance("SHA-256");
         byte[] HashSHA2 = HashTmessage.digest(Tmessage.getBytes(StandardCharsets.UTF_8));
 
-        System.out.println("hash-byte[]: "+Arrays.toString(HashSHA2));
+        //System.out.println("hash-byte[]: "+Arrays.toString(HashSHA2));
 
 
 
@@ -192,7 +192,7 @@ public class Encryption
         }
 
         /* to put it in string i had no choice but to  put it in hexadecimal*/
-        System.out.println("HashStr"+HashStr);
+        //System.out.println("HashStr: "+HashStr);
 
 
         return HashStr;
