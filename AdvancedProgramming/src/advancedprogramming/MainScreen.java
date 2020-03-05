@@ -107,9 +107,11 @@ public class MainScreen extends javax.swing.JFrame {
 
     public void sendDisconnect()
     {
-        String bye = (username + ": :Disconnect");
+        String bye;
         try
-        {
+        { 
+             String yolo2 = Encryption.Signature(input.getText());
+            bye = username + ": :Disconnect"+ ":" + NetInterface.IpUser()+ ":"+yolo2 ;
             writer.println(bye);
             writer.flush();
         } catch (Exception e)
@@ -124,6 +126,7 @@ public class MainScreen extends javax.swing.JFrame {
     {
         try
         {
+           
             display.append(currTime() + "Disconnected.\n");
             sock.close();
         } catch(Exception ex) {
@@ -169,7 +172,7 @@ public class MainScreen extends javax.swing.JFrame {
                    System.out.println(data[0]+ data[1]);
                    System.out.println(data[2]);
 
-
+System.out.println(data[2]+data[2]+data[2]);
 
                     if (data[2].equals(chat))
                     {
@@ -188,8 +191,9 @@ public class MainScreen extends javax.swing.JFrame {
                             FileWriter writer = new FileWriter("ips.txt", true);
                             writer.write(ips[0] + ":" + ips[3] + "\n");
                             writer.close();
+                            
 
-                        if(i == 1)
+                        if(i >0)
                         {
                             display.append(currTime() + data[0] + ": " + data[1] +"\n");
                             display.setCaretPosition(display.getDocument().getLength());
@@ -199,12 +203,12 @@ public class MainScreen extends javax.swing.JFrame {
                         {
                             display.append(currTime() + data[0] + ": " + data[1] +"\n");
                             display.setCaretPosition(display.getDocument().getLength());
-                            System.out.println(yolo+"\n"+data[4]);
+                            
                         }
                         else{
                             display.append(currTime() + data[0] + ": " + data[1] +" !messsage has been modified! "+"\n");
                             display.setCaretPosition(display.getDocument().getLength());
-                            System.out.println(yolo+"\n"+data[4]);
+                            
                         }
 
 

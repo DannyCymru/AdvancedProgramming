@@ -1,2 +1,10 @@
 dm5376y:192.168.1.69
 dm5376y:192.168.1.69
+dm5376y:Disconnect
+dm5376y:Disconnect
+dm5376y:192.168.1.69
+dm5376y:192.168.1.69
+dm5376y:Disconnect
+dm5376y:Disconnect
+dm5376y:192.168.1.69
+dm5376y:192.168.1.69
