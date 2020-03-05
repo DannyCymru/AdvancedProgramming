@@ -54,7 +54,6 @@ void MainWindow::datagram_ui(){
 
 void MainWindow::set_variables(QString initialise_vars){
     //Necessary variables to be recieved from the user input
-    QString name, port, ip, ip_port;
     //Delimiter to split the text with each instance of the colon
     QStringList delimiter = initialise_vars.split(":");
     //Vector to dump all the different values into after the split.
