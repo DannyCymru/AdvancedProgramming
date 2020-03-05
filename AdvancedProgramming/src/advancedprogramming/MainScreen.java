@@ -172,8 +172,6 @@ public class MainScreen extends javax.swing.JFrame {
                    System.out.println(data[2]);
 
 
-                    //String g =  data[4];
-
 
                     if (data[2].equals(chat))
                     {
@@ -185,19 +183,19 @@ public class MainScreen extends javax.swing.JFrame {
 
                         String yolo = Encryption.Signature(data[1]);
                         //System.out.println(yolo);
-                        
+                        String joinedString = String.join(":", data);
+                            ips = joinedString.split(":");
+                            String op = ips[3];
+                            System.out.println(op);
+                            FileWriter writer = new FileWriter("ips.txt", true);
+                            writer.write(ips[0] + ":" + ips[3] + "\n");
+                            writer.close();
 
                         if(i == 0)
                         {
                             display.append(currTime() + data[0] + ": " + data[1] +"\n");
                             display.setCaretPosition(display.getDocument().getLength());
-                            String joinedString = String.join(":", data);
-                            ips = joinedString.split(":");
-                            String op = ips[3];
-                            System.out.println(op);
-                            FileWriter writer = new FileWriter("ips.txt", true);
-                            writer.write(ips[0] + ":" + ips[2] + "\n");
-                            writer.close();
+                            
                         }
                         else if(yolo.equals(data[4]))
                         {
@@ -214,41 +212,27 @@ public class MainScreen extends javax.swing.JFrame {
 
 
 
+i++;
 
 
-
-                        i++;
+                        
+                    
                     }
 
 
                      else if (data[2].equals(connect))
                      {
                   
+                          if( i == 1){
+                              jScrollPane3.revalidate();}
                           
 
                         display.removeAll();
-
-                        userAdd(data[0]);
-                        System.out.println("data[]: "+Arrays.toString(data));
-                        System.out.println("people[]: "+Arrays.toString(people));
-
-
-
-
-                        display.removeAll();
-
                         String conne = Arrays.toString(people);
-
                         String replace = conne.replace(",", "");
                         String replace1 = replace.replace("Connect", "");
                         String replace2 = replace1.replace(" ", "");
-
-                        Onliners.append("\n"+ replace2);
-                        String nothing = "";
-                        people = nothing.split("");
-
                         i++;
-
                         users.add(replace2);
                         Onliners.setText("Online Members" + "\n");
                         combobox.removeAllItems();
@@ -256,9 +240,6 @@ public class MainScreen extends javax.swing.JFrame {
                         {
                             Onliners.append(current_user);
                             Onliners.append("\n");
-
-                            //System.out.println("current user: "+current_user);
-
                             combobox.addItem(current_user);
 
                         }
@@ -277,7 +258,6 @@ public class MainScreen extends javax.swing.JFrame {
                          String replace1 = replace.replace("Connect", "");
                          String replace2 = replace1.replace(" ", "");
                          users.remove(replace2);
-                         Onliners.setText("Online Members" + "\n");
                          combobox.removeAllItems();
                          for (String current_user : users)
         {
@@ -536,7 +516,7 @@ public class MainScreen extends javax.swing.JFrame {
             input.requestFocus();
         } else {
             try {
-
+     
                 //KeyPair A = Encryption.GenerateKey1();
                 String messageToEncrypt = input.getText();
                 //PublicKey PubliKey = Encryption.PuK(A);
@@ -918,14 +898,25 @@ public class MainScreen extends javax.swing.JFrame {
 
     private void inputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inputKeyPressed
       if(evt.getKeyCode()==KeyEvent.VK_ENTER) {
-          String nothing = "";
+       
+        String nothing = "";
         if ((input.getText()).equals(nothing)) {
             input.setText("");
             input.requestFocus();
         } else {
-            try {   
-               writer.println(username + ":" + input.getText() + ":" + "Chat" + ":" + NetInterface.IpUser());
-               writer.flush(); // flushes the buffer
+            try {
+     
+                //KeyPair A = Encryption.GenerateKey1();
+                String messageToEncrypt = input.getText();
+                //PublicKey PubliKey = Encryption.PuK(A);
+                //PrivateKey PrivaKey = Encryption.PrK(A);
+
+                //byte[] MessageEncrypted = Encryption.EncryptionPart(messageToEncrypt, PubliKey);
+                String yolo2 = Encryption.Signature(input.getText());
+
+                writer.println(username + ":" + input.getText() /*Arrays.toString(MessageEncrypted)*/ + ":" + "Chat" + ":" + NetInterface.IpUser()+":"+yolo2);
+                writer.flush(); // flushes the buffer
+
             } catch (Exception ex) {
                 display.append("Message was not sent. \n");
             }
@@ -934,7 +925,7 @@ public class MainScreen extends javax.swing.JFrame {
         }
 
         input.setText("");
-        input.requestFocus(); 
+        input.requestFocus();
       }
     }//GEN-LAST:event_inputKeyPressed
     //Function to set the unique id.

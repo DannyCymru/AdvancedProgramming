@@ -22,6 +22,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
@@ -271,7 +272,8 @@ public class Login extends javax.swing.JFrame {
                     {
 
                         data = message.split(":");
-                        //System.out.println(data[2]);
+                        String aaa = Arrays.toString(data);
+                        System.out.println(aaa);
                         if (data[2].equals(connect))
                         {
                             System.out.println("goes through connect");
