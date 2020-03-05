@@ -157,13 +157,11 @@ public class MainScreen extends javax.swing.JFrame {
 
             try
             {
-                int i = 0;
+                int i = 1;
 
                 while ((stream = reader.readLine()) != null)
                 {
                     System.out.println("i: "+i);
-                    data = stream.split(":");
-                    people = stream.split(":");
 
 
                      data = stream.split(":");
@@ -191,7 +189,7 @@ public class MainScreen extends javax.swing.JFrame {
                             writer.write(ips[0] + ":" + ips[3] + "\n");
                             writer.close();
 
-                        if(i == 0)
+                        if(i == 1)
                         {
                             display.append(currTime() + data[0] + ": " + data[1] +"\n");
                             display.setCaretPosition(display.getDocument().getLength());
@@ -212,7 +210,7 @@ public class MainScreen extends javax.swing.JFrame {
 
 
 
-i++;
+i++; 
 
 
                         
@@ -223,15 +221,14 @@ i++;
                      else if (data[2].equals(connect))
                      {
                   
-                          if( i == 1){
-                              jScrollPane3.revalidate();}
+                          
                         display.removeAll();
                         userAdd(data[0]);
                         String conne = Arrays.toString(people);
                         String replace = conne.replace(",", "");
                         String replace1 = replace.replace("Connect", "");
                         String replace2 = replace1.replace(" ", "");
-                        i++;
+                     
                         
                         Onliners.setText("Online Members" + "\n");
                         combobox.removeAllItems();
@@ -251,6 +248,7 @@ i++;
                      } 
                      else if (data[2].equals(disconnect)) 
                      {
+                        
                          userRemove(data[0]);
                          String conne = Arrays.toString(people);
                          String replace = conne.replace(",", "");
@@ -271,7 +269,8 @@ i++;
                         //users.setText("");
                         writeUsers();
                         users.clear();
-                    break;}
+                        
+                    }
                 }
             }catch(Exception ex) { }
         }
