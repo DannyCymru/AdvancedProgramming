@@ -278,7 +278,7 @@ public class Login extends javax.swing.JFrame {
                         data = message.split(":");
                         String aaa = Arrays.toString(data);
                         System.out.println(aaa);
-                        System.out.println("-------->"+data[2]);
+                        System.out.println("--in login-->"+data[2]);
                         if (data[2].equals(connect))
                         {
                             System.out.println("goes through connect");
