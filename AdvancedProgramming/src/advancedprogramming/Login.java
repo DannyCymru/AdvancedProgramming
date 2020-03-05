@@ -293,7 +293,7 @@ public class Login extends javax.swing.JFrame {
                         }
                         else if (data[2].equals(chat))
                         {
-                            System.out.println("goes through chat");
+                            System.out.println("goes through chat in login ");
                             tellEveryone(message);
                         }
                         else
