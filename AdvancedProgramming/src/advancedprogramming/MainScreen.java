@@ -132,6 +132,7 @@ public class MainScreen extends javax.swing.JFrame {
         @Override
         public void run() 
         {
+            
             String[] data;
             String people[];
             String stream, done = "Done", connect = "Connect", disconnect = "Disconnect", chat = "Chat";
@@ -143,18 +144,18 @@ public class MainScreen extends javax.swing.JFrame {
                      data = stream.split(":");
                      people = stream.split(":");
 
+
                      if (data[2].equals(chat)) 
                      {
                         
                         
                         display.append(currTime() + data[0] + ": " + data[1] + "\n");
                         display.setCaretPosition(display.getDocument().getLength());
-                        
-                     } 
+                                        } 
                      else if (data[2].equals(connect))
                      {
+                 
                         display.removeAll();
-                        
                         String conne = Arrays.toString(people);
                          String replace = conne.replace(",", "");
                          String replace1 = replace.replace("Connect", "");
@@ -428,7 +429,7 @@ public class MainScreen extends javax.swing.JFrame {
             input.requestFocus();
         } else {
             try {   
-               writer.println(username + ":" + input.getText() + ":" + "Chat");
+               writer.println(username + ":" + input.getText() + ":" + "Chat" + ":" + NetInterface.IpUser());
                writer.flush(); // flushes the buffer
             } catch (Exception ex) {
                 display.append("Message was not sent. \n");
@@ -482,7 +483,7 @@ public class MainScreen extends javax.swing.JFrame {
                 InputStreamReader streamreader = new InputStreamReader(sock.getInputStream());
                 reader = new BufferedReader(streamreader);
                 writer = new PrintWriter(sock.getOutputStream());
-                writer.println(username + ":has connected.:Connect");
+                writer.println(username + ":has connected.:Connect" + ":" + NetInterface.IpUser());
                 writer.flush(); 
                 isConnected = true;
                 uniqueId.setText(uID);

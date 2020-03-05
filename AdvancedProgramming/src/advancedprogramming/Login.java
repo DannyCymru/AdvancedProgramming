@@ -207,8 +207,12 @@ String filepath1 = "IDs.txt";
 
                     if (data[2].equals(connect))
                     {
-                        tellEveryone((data[0] + ":" + data[1] + ":" + chat));
+                        tellEveryone((data[0] + ":" + data[1] + ":" + chat + ":" + data[3]));
                         userAdd(data[0]);
+                                     PrintWriter writer = new PrintWriter("ips.txt", "UTF-8");
+writer.println(data[0] + ":" + data[3]);
+writer.close();
+
 
                     }
                     else if (data[2].equals(disconnect))
