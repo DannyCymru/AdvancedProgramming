@@ -1,8 +1,8 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+* To change this license header, choose License Headers in Project Properties.
+* To change this template file, choose Tools | Templates
+* and open the template in the editor.
+*/
 package advancedprogramming;
 
 import advancedprogramming.Serv;
@@ -36,12 +36,12 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 
 /**
- *
- * @author dm5376y
- */
+*
+* @author dm5376y
+*/
 public class MainScreen extends javax.swing.JFrame {
 
- 
+
     String filepath1 = "IDs.txt";
     File file = new File(filepath1);
     public String ID;
@@ -52,67 +52,67 @@ public class MainScreen extends javax.swing.JFrame {
     ArrayList<String> users = new ArrayList();
     int port = 7721;
     Boolean isConnected = false;
-    
+
     Socket sock;
     BufferedReader reader;
     PrintWriter writer;
-    
-    
-    
+
+
+
     //--------------------------//
-    
-    public void ListenThread() 
+
+    public void ListenThread()
     {
-         Thread IncomingReader = new Thread(new IncomingReader());
-         IncomingReader.start();
+        Thread IncomingReader = new Thread(new IncomingReader());
+        IncomingReader.start();
     }
-    
+
     //--------------------------//
-    
-    public void userAdd(String data) 
+
+    public void userAdd(String data)
     {
-         users.add(data);
+        users.add(data);
     }
-    
+
     //--------------------------//
-    
-    public void userRemove(String data) 
+
+    public void userRemove(String data)
     {
-         display.append(data + " is now offline.\n");
+        display.append(data + " is now offline.\n");
     }
-    
+
     //--------------------------//
-    
-    public void writeUsers() 
+
+    public void writeUsers()
     {
-         String[] tempList = new String[(users.size())];
-         users.toArray(tempList);
-         for (String token:tempList) 
-         {
-             //users.append(token + "\n");
-         }
+        String[] tempList = new String[(users.size())];
+        users.toArray(tempList);
+        for (String token:tempList)
+        {
+            //users.append(token + "\n");
+        }
     }
-    
+
     //--------------------------//
-    
-    public void sendDisconnect() 
+
+    public void sendDisconnect()
     {
         String bye = (username + ": :Disconnect");
         try
         {
-            writer.println(bye); 
-            writer.flush(); 
-        } catch (Exception e) 
+            writer.println(bye);
+            writer.flush();
+        } catch (Exception e)
         {
             display.append(currTime() + "Could not send Disconnect message.\n");
         }
     }
 
     //--------------------------//
-    
-    public void Disconnect() 
+
+    public void Disconnect()
     {
-        try 
+        try
         {
             display.append(currTime() + "Disconnected.\n");
             sock.close();
@@ -120,140 +120,158 @@ public class MainScreen extends javax.swing.JFrame {
             display.append(currTime() + "Failed to disconnect. \n");
         }
         isConnected = false;
-        
+
 
     }
-    
+
 
     public MainScreen() {
 
-        
-        initComponents();   
-        
+
+        initComponents();
+
     }
-    
- public class IncomingReader implements Runnable
+
+    public class IncomingReader implements Runnable
     {
         @Override
-        public void run() 
+        public void run()
         {
-            
+
             String[] data;
-            
+
             String people[];
             String stream, done = "Done", connect = "Connect", disconnect = "Disconnect", chat = "Chat";
 
-            try 
+            try
             {
                 int i = 0;
-                
-                while ((stream = reader.readLine()) != null) 
+
+                while ((stream = reader.readLine()) != null)
                 {
-                     data = stream.split(":");
-                     people = stream.split(":");
+                    data = stream.split(":");
+                    people = stream.split(":");
 
 
-                     if (data[2].equals(chat)) 
-                     {
-                         
+                    //String g =  data[4];
+
+
+                    if (data[2].equals(chat))
+                    {
+
                         //PrivateKey PrivaKey = Encryption.PrK(A);
                         //byte[] MessageEncrypt = data[1].getBytes();
                         //String MessageDecrypted = Encryption.DecryptionPart(MessageEncrypt, PrivaKey);
-                        
-                           
-                        display.append(currTime() + data[0] + ": " + data[1] +"\n");
-                        display.setCaretPosition(display.getDocument().getLength());
-                        
-                        
-                        
-                        
 
-                        
-                        
 
-                         
-                     }
-                         
-                         
-                         
+                        String yolo = Encryption.Signature(data[1]);
+                        //System.out.println(yolo);
                         
-                      
-                     else if (data[2].equals(connect))
-                     {
+                        if(i == 0)
+                        {
+                            display.append(currTime() + data[0] + ": " + data[1] +"\n");
+                            display.setCaretPosition(display.getDocument().getLength());
+                        }
+                        else if(yolo.equals(data[4]))
+                        {
+                            display.append(currTime() + data[0] + ": " + data[1] +"\n");
+                            display.setCaretPosition(display.getDocument().getLength());
+                            System.out.println(yolo+"\n"+data[4]);
+                        }
+                        else{
+                            display.append(currTime() + data[0] + ": " + data[1] +" !messsage has been modified! "+"\n");
+                            display.setCaretPosition(display.getDocument().getLength());
+                            System.out.println(yolo+"\n"+data[4]);
+                        }
 
-                         if(i == 1){jScrollPane3.revalidate();}
-                         
+
+
+
+
+
+                        i++;
+                    }
+
+
+
+
+
+                    else if (data[2].equals(connect))
+                    {
+
+                        if(i == 1){jScrollPane3.revalidate();}
+
                         display.removeAll();
 
                         userAdd(data[0]);
                         System.out.println("data[]: "+Arrays.toString(data));
                         System.out.println("people[]: "+Arrays.toString(people));
 
-                        
 
-                 
+
+
                         display.removeAll();
 
                         String conne = Arrays.toString(people);
-                         String replace = conne.replace(",", "");
-                         String replace1 = replace.replace("Connect", "");
-                         String replace2 = replace1.replace(" ", "");
+                        String replace = conne.replace(",", "");
+                        String replace1 = replace.replace("Connect", "");
+                        String replace2 = replace1.replace(" ", "");
 
                         Onliners.append("\n"+ replace2);
                         String nothing = "";
                         people = nothing.split("");
-                        
+
                         i++;
 
-                         users.add(replace2);
-                         Onliners.setText("Online Members" + "\n");
-                         combobox.removeAllItems();
-                         for (String current_user : users)
-        {
-            Onliners.append(current_user);
-            Onliners.append("\n");
+                        users.add(replace2);
+                        Onliners.setText("Online Members" + "\n");
+                        combobox.removeAllItems();
+                        for (String current_user : users)
+                        {
+                            Onliners.append(current_user);
+                            Onliners.append("\n");
 
-            //System.out.println("current user: "+current_user);
+                            //System.out.println("current user: "+current_user);
 
-            combobox.addItem(current_user);
+                            combobox.addItem(current_user);
 
-        }
-                       
+                        }
 
-                     } 
-                     else if (data[2].equals(disconnect)) 
-                     {
-                         userRemove(data[0]);
-                         String conne = Arrays.toString(people);
-                         String replace = conne.replace(",", "");
-                         String replace1 = replace.replace("Connect", "");
-                         String replace2 = replace1.replace(" ", "");
-                         users.remove(replace2);
-                         Onliners.setText("Online Members" + "\n");
-                         combobox.removeAllItems();
-                         for (String current_user : users)
-        {
-            Onliners.append(current_user);
-            Onliners.append("\n");
-            combobox.removeItem(current_user);
-        }
-                     } 
-                     else if (data[2].equals(done)) 
-                     {
+
+                    }
+                    else if (data[2].equals(disconnect))
+                    {
+                        userRemove(data[0]);
+                        String conne = Arrays.toString(people);
+                        String replace = conne.replace(",", "");
+                        String replace1 = replace.replace("Connect", "");
+                        String replace2 = replace1.replace(" ", "");
+                        users.remove(replace2);
+                        Onliners.setText("Online Members" + "\n");
+                        combobox.removeAllItems();
+                        for (String current_user : users)
+                        {
+                            Onliners.append(current_user);
+                            Onliners.append("\n");
+                            combobox.removeItem(current_user);
+                        }
+                    }
+                    else if (data[2].equals(done))
+                    {
                         //users.setText("");
                         writeUsers();
                         users.clear();
-                     }
+                    }
                 }
-           }catch(Exception ex) { }
+            }catch(Exception ex) { }
         }
     }
 
     /**
-     * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
-     */
+    * This method is called from within the constructor to initialize the form.
+    * WARNING: Do NOT modify this code. The content of this method is always
+    * regenerated by the Form Editor.
+    */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -283,12 +301,12 @@ public class MainScreen extends javax.swing.JFrame {
         javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
         jDialog1.getContentPane().setLayout(jDialog1Layout);
         jDialog1Layout.setHorizontalGroup(
-            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+        jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGap(0, 400, Short.MAX_VALUE)
         );
         jDialog1Layout.setVerticalGroup(
-            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+        jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGap(0, 300, Short.MAX_VALUE)
         );
 
         jButton1.setText("jButton1");
@@ -392,78 +410,78 @@ public class MainScreen extends javax.swing.JFrame {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 698, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(56, 56, 56)
-                        .addComponent(uniqueId)
-                        .addGap(18, 18, 18)
-                        .addComponent(input))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(11, 11, 11)
-                        .addComponent(lb_address, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tf_address, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(lb_port, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(tf_port, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(b_connect1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(b_disconnect)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(combobox, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton3)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton2)
-                            .addComponent(sendText))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+        layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(layout.createSequentialGroup()
+        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+        .addGroup(layout.createSequentialGroup()
+        .addContainerGap()
+        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 698, javax.swing.GroupLayout.PREFERRED_SIZE))
+        .addGroup(layout.createSequentialGroup()
+        .addGap(56, 56, 56)
+        .addComponent(uniqueId)
+        .addGap(18, 18, 18)
+        .addComponent(input))
+        .addGroup(layout.createSequentialGroup()
+        .addGap(11, 11, 11)
+        .addComponent(lb_address, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+        .addComponent(tf_address, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addGap(18, 18, 18)
+        .addComponent(lb_port, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+        .addComponent(tf_port, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addGap(18, 18, 18)
+        .addComponent(b_connect1)
+        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+        .addComponent(b_disconnect)
+        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+        .addComponent(combobox, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        .addComponent(jButton3)))
+        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(layout.createSequentialGroup()
+        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        .addGroup(layout.createSequentialGroup()
+        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addComponent(jButton2)
+        .addComponent(sendText))
+        .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(uniqueId, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(input, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(sendText)))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(tf_address, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(lb_address, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(lb_port, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(tf_port, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(b_connect1)
-                        .addComponent(b_disconnect)
-                        .addComponent(combobox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jButton2)
-                        .addComponent(jButton3))))
+        layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(layout.createSequentialGroup()
+        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(layout.createSequentialGroup()
+        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE))
+        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+        .addComponent(uniqueId, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addComponent(input, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        .addComponent(sendText)))
+        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE))
+        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+        .addComponent(tf_address, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addComponent(lb_address, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addComponent(lb_port, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addComponent(tf_port, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addComponent(b_connect1)
+        .addComponent(b_disconnect)
+        .addComponent(combobox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+        .addComponent(jButton2)
+        .addComponent(jButton3))))
         );
 
         uniqueId.getAccessibleContext().setAccessibleName("uniqueIdLabel");
@@ -473,25 +491,27 @@ public class MainScreen extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void sendTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendTextActionPerformed
-        
 
-        
+
+
         String nothing = "";
         if ((input.getText()).equals(nothing)) {
             input.setText("");
             input.requestFocus();
         } else {
             try {
-                
+
                 //KeyPair A = Encryption.GenerateKey1();
                 String messageToEncrypt = input.getText();
                 //PublicKey PubliKey = Encryption.PuK(A);
                 //PrivateKey PrivaKey = Encryption.PrK(A);
-                
+
                 //byte[] MessageEncrypted = Encryption.EncryptionPart(messageToEncrypt, PubliKey);
-                
-               writer.println(username + ":" + input.getText() /*Arrays.toString(MessageEncrypted)*/ + ":" + "Chat" + ":" + NetInterface.IpUser()+ Encryption.Signature(input.getText()));
-               writer.flush(); // flushes the buffer
+                String yolo2 = Encryption.Signature(input.getText());
+
+                writer.println(username + ":" + input.getText() /*Arrays.toString(MessageEncrypted)*/ + ":" + "Chat" + ":" + NetInterface.IpUser()+":"+yolo2);
+                writer.flush(); // flushes the buffer
+
             } catch (Exception ex) {
                 display.append("Message was not sent. \n");
             }
@@ -504,7 +524,7 @@ public class MainScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_sendTextActionPerformed
 
     private void tf_addressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_addressActionPerformed
-        
+
     }//GEN-LAST:event_tf_addressActionPerformed
 
     private void tf_portActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_portActionPerformed
@@ -519,10 +539,10 @@ public class MainScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_b_disconnectActionPerformed
 
     private void b_connect1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_connect1ActionPerformed
-         
-         
-    
-    address =  tf_address.getText();
+
+
+
+        address =  tf_address.getText();
         try {
             BufferedReader br = new BufferedReader(new FileReader(filepath1));
 
@@ -531,37 +551,37 @@ public class MainScreen extends javax.swing.JFrame {
             while ((line = br.readLine()) != null) {
 
                 if (line.equals(uID)) {
-                    if (isConnected == false) 
-        {
-           
-            
-            System.out.println("address main screen line 504: "+address);
+                    if (isConnected == false)
+                    {
 
-            try 
-            {
-                sock = new Socket(address, port);
-                System.out.println("sock MainScreen 509: "+sock);
-                InputStreamReader streamreader = new InputStreamReader(sock.getInputStream());
-                reader = new BufferedReader(streamreader);
-                writer = new PrintWriter(sock.getOutputStream());
-                writer.println(username + ":has connected.:Connect" + ":" + NetInterface.IpUser());
-                writer.flush(); 
-                isConnected = true;
-                uniqueId.setText(uID);
-            } 
-            catch (Exception ex) 
-            {
-                display.append("Cannot Connect! The server is Offline! Become a coordinator! \n");
-               
-                
-            }
-            
-            ListenThread();
-            
-        } else if (isConnected == true) 
-        {
-            display.append(currTime() + "You are already connected. \n");
-        }
+
+                        System.out.println("address main screen line 504: "+address);
+
+                        try
+                        {
+                            sock = new Socket(address, port);
+                            System.out.println("sock MainScreen 509: "+sock);
+                            InputStreamReader streamreader = new InputStreamReader(sock.getInputStream());
+                            reader = new BufferedReader(streamreader);
+                            writer = new PrintWriter(sock.getOutputStream());
+                            writer.println(username + ":has connected.:Connect" + ":" + NetInterface.IpUser());
+                            writer.flush();
+                            isConnected = true;
+                            uniqueId.setText(uID);
+                        }
+                        catch (Exception ex)
+                        {
+                            display.append("Cannot Connect! The server is Offline! Become a coordinator! \n");
+
+
+                        }
+
+                        ListenThread();
+
+                    } else if (isConnected == true)
+                    {
+                        display.append(currTime() + "You are already connected. \n");
+                    }
                     break;
 
                 }
@@ -573,13 +593,13 @@ public class MainScreen extends javax.swing.JFrame {
 
         } catch (FileNotFoundException ex) {
             Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
-            
+
         }catch (IOException ex) {
             Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
-            
+
         }
-        
-        
+
+
     }//GEN-LAST:event_b_connect1ActionPerformed
 
     private void inputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputActionPerformed
@@ -595,298 +615,298 @@ public class MainScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_comboboxActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-       String selected = combobox.getSelectedItem().toString();
-       
-       if(selected.equals(selected)){
-           Component frame = null;
-           JOptionPane.showMessageDialog(frame, "You can't start a private chat with yourself", "Warning!", JOptionPane.WARNING_MESSAGE);
-       }
-       if(selected.equals("[dm5376y]")){
-           sendDisconnect();
-        Disconnect();
-        Onliners.setText("Online Members:");
-        combobox.removeAllItems();
-        
-        address = "192.168.1.69";
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(filepath1));
+        String selected = combobox.getSelectedItem().toString();
 
-            String line;
-
-            while ((line = br.readLine()) != null) {
-
-                if (line.equals(uID)) {
-                    if (isConnected == false) 
-        {
-           
-            
-            System.out.println("address main screen line 429: "+address);
-
-            try 
-            {
-                sock = new Socket(address, port);
-                System.out.println("sock MainScreen 426: "+sock);
-                InputStreamReader streamreader = new InputStreamReader(sock.getInputStream());
-                reader = new BufferedReader(streamreader);
-                writer = new PrintWriter(sock.getOutputStream());
-                writer.println(username + ":has connected.:Connect");
-                writer.flush(); 
-                isConnected = true;
-                uniqueId.setText(uID);
-            } 
-            catch (Exception ex) 
-            {
-                display.append("Cannot Connect! The server is Offline! Become a coordinator! \n");
-               
-                
-            }
-            
-            ListenThread();
-            
-        } else if (isConnected == true) 
-        {
-            display.append(currTime() + "You are already connected. \n");
+        if(selected.equals(selected)){
+            Component frame = null;
+            JOptionPane.showMessageDialog(frame, "You can't start a private chat with yourself", "Warning!", JOptionPane.WARNING_MESSAGE);
         }
-                    break;
+        if(selected.equals("[dm5376y]")){
+            sendDisconnect();
+            Disconnect();
+            Onliners.setText("Online Members:");
+            combobox.removeAllItems();
 
+            address = "192.168.1.69";
+            try {
+                BufferedReader br = new BufferedReader(new FileReader(filepath1));
+
+                String line;
+
+                while ((line = br.readLine()) != null) {
+
+                    if (line.equals(uID)) {
+                        if (isConnected == false)
+                        {
+
+
+                            System.out.println("address main screen line 429: "+address);
+
+                            try
+                            {
+                                sock = new Socket(address, port);
+                                System.out.println("sock MainScreen 426: "+sock);
+                                InputStreamReader streamreader = new InputStreamReader(sock.getInputStream());
+                                reader = new BufferedReader(streamreader);
+                                writer = new PrintWriter(sock.getOutputStream());
+                                writer.println(username + ":has connected.:Connect");
+                                writer.flush();
+                                isConnected = true;
+                                uniqueId.setText(uID);
+                            }
+                            catch (Exception ex)
+                            {
+                                display.append("Cannot Connect! The server is Offline! Become a coordinator! \n");
+
+
+                            }
+
+                            ListenThread();
+
+                        } else if (isConnected == true)
+                        {
+                            display.append(currTime() + "You are already connected. \n");
+                        }
+                        break;
+
+                    }
                 }
-            }
-            br.close();
-            if (line == null) {
-                JOptionPane.showMessageDialog(new JFrame(), "Error! Entered Unique ID doesn't exist in the database.");
-            }
-
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
-            
-        }catch (IOException ex) {
-            Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
-            
-        }
-       }
-       if(selected.equals("[dr3344j]")){
-           sendDisconnect();
-        Disconnect();
-        Onliners.setText("Online Members:");
-        combobox.removeAllItems();
-        
-        address = "192.168.1.69";
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(filepath1));
-
-            String line;
-
-            while ((line = br.readLine()) != null) {
-
-                if (line.equals(uID)) {
-                    if (isConnected == false) 
-        {
-           
-            
-            System.out.println("address main screen line 429: "+address);
-
-            try 
-            {
-                sock = new Socket(address, port);
-                System.out.println("sock MainScreen 426: "+sock);
-                InputStreamReader streamreader = new InputStreamReader(sock.getInputStream());
-                reader = new BufferedReader(streamreader);
-                writer = new PrintWriter(sock.getOutputStream());
-                writer.println(username + ":has connected.:Connect");
-                writer.flush(); 
-                isConnected = true;
-                uniqueId.setText(uID);
-            } 
-            catch (Exception ex) 
-            {
-                display.append("Cannot Connect! The server is Offline! Become a coordinator! \n");
-               
-                
-            }
-            
-            ListenThread();
-            
-        } else if (isConnected == true) 
-        {
-            display.append(currTime() + "You are already connected. \n");
-        }
-                    break;
-
+                br.close();
+                if (line == null) {
+                    JOptionPane.showMessageDialog(new JFrame(), "Error! Entered Unique ID doesn't exist in the database.");
                 }
-            }
-            br.close();
-            if (line == null) {
-                JOptionPane.showMessageDialog(new JFrame(), "Error! Entered Unique ID doesn't exist in the database.");
-            }
 
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
-            
-        }catch (IOException ex) {
-            Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
-            
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
+
+            }catch (IOException ex) {
+                Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
+
+            }
         }
-       }
-       if(selected.equals("[jn9942d]")){
-           sendDisconnect();
-        Disconnect();
-        Onliners.setText("Online Members:");
-        combobox.removeAllItems();
-        
-        address = "192.168.1.69";
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(filepath1));
+        if(selected.equals("[dr3344j]")){
+            sendDisconnect();
+            Disconnect();
+            Onliners.setText("Online Members:");
+            combobox.removeAllItems();
 
-            String line;
+            address = "192.168.1.69";
+            try {
+                BufferedReader br = new BufferedReader(new FileReader(filepath1));
 
-            while ((line = br.readLine()) != null) {
+                String line;
 
-                if (line.equals(uID)) {
-                    if (isConnected == false) 
-        {
-           
-            
-            System.out.println("address main screen line 429: "+address);
+                while ((line = br.readLine()) != null) {
 
-            try 
-            {
-                sock = new Socket(address, port);
-                System.out.println("sock MainScreen 426: "+sock);
-                InputStreamReader streamreader = new InputStreamReader(sock.getInputStream());
-                reader = new BufferedReader(streamreader);
-                writer = new PrintWriter(sock.getOutputStream());
-                writer.println(username + ":has connected.:Connect");
-                writer.flush(); 
-                isConnected = true;
-                uniqueId.setText(uID);
-            } 
-            catch (Exception ex) 
-            {
-                display.append("Cannot Connect! The server is Offline! Become a coordinator! \n");
-               
-                
-            }
-            
-            ListenThread();
-            
-        } else if (isConnected == true) 
-        {
-            display.append(currTime() + "You are already connected. \n");
-        }
-                    break;
+                    if (line.equals(uID)) {
+                        if (isConnected == false)
+                        {
 
+
+                            System.out.println("address main screen line 429: "+address);
+
+                            try
+                            {
+                                sock = new Socket(address, port);
+                                System.out.println("sock MainScreen 426: "+sock);
+                                InputStreamReader streamreader = new InputStreamReader(sock.getInputStream());
+                                reader = new BufferedReader(streamreader);
+                                writer = new PrintWriter(sock.getOutputStream());
+                                writer.println(username + ":has connected.:Connect");
+                                writer.flush();
+                                isConnected = true;
+                                uniqueId.setText(uID);
+                            }
+                            catch (Exception ex)
+                            {
+                                display.append("Cannot Connect! The server is Offline! Become a coordinator! \n");
+
+
+                            }
+
+                            ListenThread();
+
+                        } else if (isConnected == true)
+                        {
+                            display.append(currTime() + "You are already connected. \n");
+                        }
+                        break;
+
+                    }
                 }
-            }
-            br.close();
-            if (line == null) {
-                JOptionPane.showMessageDialog(new JFrame(), "Error! Entered Unique ID doesn't exist in the database.");
-            }
-
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
-            
-        }catch (IOException ex) {
-            Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
-            
-        }
-       }
-       if(selected.equals("[bm4904f]")){
-           sendDisconnect();
-        Disconnect();
-        Onliners.setText("Online Members:");
-        combobox.removeAllItems();
-        
-        address = "192.168.1.69";
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(filepath1));
-
-            String line;
-
-            while ((line = br.readLine()) != null) {
-
-                if (line.equals(uID)) {
-                    if (isConnected == false) 
-        {
-           
-            
-            System.out.println("address main screen line 429: "+address);
-
-            try 
-            {
-                sock = new Socket(address, port);
-                System.out.println("sock MainScreen 426: "+sock);
-                InputStreamReader streamreader = new InputStreamReader(sock.getInputStream());
-                reader = new BufferedReader(streamreader);
-                writer = new PrintWriter(sock.getOutputStream());
-                writer.println(username + ":has connected.:Connect");
-                writer.flush(); 
-                isConnected = true;
-                uniqueId.setText(uID);
-            } 
-            catch (Exception ex) 
-            {
-                display.append("Cannot Connect! The server is Offline! Become a coordinator! \n");
-               
-                
-            }
-            
-            ListenThread();
-            
-        } else if (isConnected == true) 
-        {
-            display.append(currTime() + "You are already connected. \n");
-        }
-                    break;
-
+                br.close();
+                if (line == null) {
+                    JOptionPane.showMessageDialog(new JFrame(), "Error! Entered Unique ID doesn't exist in the database.");
                 }
-            }
-            br.close();
-            if (line == null) {
-                JOptionPane.showMessageDialog(new JFrame(), "Error! Entered Unique ID doesn't exist in the database.");
-            }
 
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
-            
-        }catch (IOException ex) {
-            Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
-            
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
+
+            }catch (IOException ex) {
+                Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
+
+            }
         }
-       }
+        if(selected.equals("[jn9942d]")){
+            sendDisconnect();
+            Disconnect();
+            Onliners.setText("Online Members:");
+            combobox.removeAllItems();
+
+            address = "192.168.1.69";
+            try {
+                BufferedReader br = new BufferedReader(new FileReader(filepath1));
+
+                String line;
+
+                while ((line = br.readLine()) != null) {
+
+                    if (line.equals(uID)) {
+                        if (isConnected == false)
+                        {
+
+
+                            System.out.println("address main screen line 429: "+address);
+
+                            try
+                            {
+                                sock = new Socket(address, port);
+                                System.out.println("sock MainScreen 426: "+sock);
+                                InputStreamReader streamreader = new InputStreamReader(sock.getInputStream());
+                                reader = new BufferedReader(streamreader);
+                                writer = new PrintWriter(sock.getOutputStream());
+                                writer.println(username + ":has connected.:Connect");
+                                writer.flush();
+                                isConnected = true;
+                                uniqueId.setText(uID);
+                            }
+                            catch (Exception ex)
+                            {
+                                display.append("Cannot Connect! The server is Offline! Become a coordinator! \n");
+
+
+                            }
+
+                            ListenThread();
+
+                        } else if (isConnected == true)
+                        {
+                            display.append(currTime() + "You are already connected. \n");
+                        }
+                        break;
+
+                    }
+                }
+                br.close();
+                if (line == null) {
+                    JOptionPane.showMessageDialog(new JFrame(), "Error! Entered Unique ID doesn't exist in the database.");
+                }
+
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
+
+            }catch (IOException ex) {
+                Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
+
+            }
+        }
+        if(selected.equals("[bm4904f]")){
+            sendDisconnect();
+            Disconnect();
+            Onliners.setText("Online Members:");
+            combobox.removeAllItems();
+
+            address = "192.168.1.69";
+            try {
+                BufferedReader br = new BufferedReader(new FileReader(filepath1));
+
+                String line;
+
+                while ((line = br.readLine()) != null) {
+
+                    if (line.equals(uID)) {
+                        if (isConnected == false)
+                        {
+
+
+                            System.out.println("address main screen line 429: "+address);
+
+                            try
+                            {
+                                sock = new Socket(address, port);
+                                System.out.println("sock MainScreen 426: "+sock);
+                                InputStreamReader streamreader = new InputStreamReader(sock.getInputStream());
+                                reader = new BufferedReader(streamreader);
+                                writer = new PrintWriter(sock.getOutputStream());
+                                writer.println(username + ":has connected.:Connect");
+                                writer.flush();
+                                isConnected = true;
+                                uniqueId.setText(uID);
+                            }
+                            catch (Exception ex)
+                            {
+                                display.append("Cannot Connect! The server is Offline! Become a coordinator! \n");
+
+
+                            }
+
+                            ListenThread();
+
+                        } else if (isConnected == true)
+                        {
+                            display.append(currTime() + "You are already connected. \n");
+                        }
+                        break;
+
+                    }
+                }
+                br.close();
+                if (line == null) {
+                    JOptionPane.showMessageDialog(new JFrame(), "Error! Entered Unique ID doesn't exist in the database.");
+                }
+
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
+
+            }catch (IOException ex) {
+                Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
+
+            }
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
     //Function to set the unique id.
     public void setUniqueId(String uId) {
         uniqueId.setText(uId);
-        
-         ID = uniqueId.getText();
-         uID = uniqueId.getText();
-         username = uniqueId.getText();
-         
-  }
-    
+
+        ID = uniqueId.getText();
+        uID = uniqueId.getText();
+        username = uniqueId.getText();
+
+    }
+
     //Activates and allows for the use of sending text.
 
-    
+
     //Function to create a new thread and connect to the server.
-  
-    
+
+
     //Function to get the current time.
     public String currTime() {
         SimpleDateFormat formatter= new SimpleDateFormat("[HH.mm.ss] ");
         Date date = new Date(System.currentTimeMillis());
         return formatter.format(date);
-        }
-    
+    }
+
 
     /**
-     * @param args the command line arguments
-     */
+    * @param args the command line arguments
+    */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+        * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
+        */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -905,19 +925,19 @@ public class MainScreen extends javax.swing.JFrame {
         }
         //</editor-fold>
 
-        
+
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new MainScreen().setVisible(true);
             }
-                       
+
         });
-        
-        
-        
-       
+
+
+
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

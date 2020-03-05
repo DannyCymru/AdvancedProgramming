@@ -127,7 +127,7 @@ public class NetInterface{
         String UsIp = yolo.get(0);
         //System.out.println(UsIp);
         UsIp = UsIp.replace("/", "");
-        System.out.println("print right before the return: "+UsIp);
+        //System.out.println("print right before the return: "+UsIp);
         return UsIp;
     }
 
