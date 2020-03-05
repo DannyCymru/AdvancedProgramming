@@ -121,7 +121,7 @@ public class Encryption
 
 
 
-    private static String EncryptionPart(String message, PublicKey a) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException, ShortBufferException, BadPaddingException, UnsupportedEncodingException
+    private static byte[] EncryptionPart(String message, PublicKey a) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException, ShortBufferException, BadPaddingException, UnsupportedEncodingException
     {
 
 
@@ -129,16 +129,15 @@ public class Encryption
         cipher1.init(Cipher.PUBLIC_KEY, a);
 
         // encrypt a string and store it into a byte array
+        //if you want to return bytep[]
         byte[] encryptedText = cipher1.doFinal(message.getBytes());
-        System.out.println("in encryption encrypted text: "+Arrays.toString(encryptedText));
-
-        String EncryptedString = new String(encryptedText);
-        System.out.println("EncryptedString: "+EncryptedString);
+        System.out.println("encrypted array: "+Arrays.toString(encryptedText));
         
-        byte[] encryptedText2 = EncryptedString.getBytes();
-        System.out.println("in decryption encrypted text: "+Arrays.toString(encryptedText));
-
-        return EncryptedString;
+        //If you want to return String 
+        String encryptedString = ByteToStr(encryptedText);
+        System.out.println("encrypted String: "+Arrays.toString(encryptedText));
+        
+        return encryptedText;
     }
 
 
@@ -146,20 +145,23 @@ public class Encryption
 
 
 
-    private static String DecryptionPart(String message, PrivateKey b) throws Exception
-    {
-        byte[] encryptedText = message.getBytes();
-        System.out.println("in decryption encrypted text: "+Arrays.toString(encryptedText));
-
+    private static String DecryptionPart(byte[] message, PrivateKey b) throws Exception
+    {    
         Cipher cipher2 = Cipher.getInstance("RSA/ECB/PKCS1Padding");
         cipher2.init(Cipher.PRIVATE_KEY, b);
-
+        
+        //byte[] try1 = message.getBytes();
+        
+        System.out.println("encrypted text in decryption: "+Arrays.toString(message));
+        //System.out.println("encrypted text in decryption: "+message);
+        
+        
         //text decrypted in byte array
-        byte[] decryptedText = cipher2.doFinal(encryptedText);
-        System.out.println("decrypted text: "+Arrays.toString(decryptedText));
+        byte[] decryptedText = cipher2.doFinal(message);
+        System.out.println("decrypted array: "+Arrays.toString(decryptedText));
 
         String textfinal = new String(decryptedText); //text in string decrypted
-        System.out.println("text final: " + textfinal);
+        System.out.println("final message " + textfinal);
 
         return textfinal;
 
@@ -199,13 +201,32 @@ public class Encryption
 
 
 
+    
+    
+    private static byte[] StrToByte(String message)
+    {
+        byte[] messageByte = message.getBytes();
+        
+        
+        return messageByte;
+    }
+    
+        private static String ByteToStr(byte[] message)
+    {
+        String messageByte = new String(message);
+        
+        
+        return messageByte;
+    }
+    
+    
 
 
 
 
     public static void main(String[] args) throws Exception
     {
-        String yolo = "Sentence to encrypt and create signature of";
+        String text = "Sentence to encrypt and create signature of";
 
         KeyPair A = GenerateKey1();//method to generate key
 
@@ -214,15 +235,15 @@ public class Encryption
         PublicKey PubliKey = Encryption.PuK(A);
 
         //creation of encrypted text stored in byte array
-        String textEnc = Encryption.EncryptionPart(yolo, PubliKey);
-        System.out.println("textEnc str: "+textEnc);
-        byte[] encryptedText = textEnc.getBytes();
-        System.out.println("in main encrypted text: "+Arrays.toString(encryptedText));
+        byte[] textEnc = Encryption.EncryptionPart(text, PubliKey);
+        
+        //byte[] textEncByte = StrToByte(textEnc);
+        
         // decryption of textEnc
         Encryption.DecryptionPart(textEnc, PrivaKey);
 
         // signature of the message to be sent and compared with
-        Encryption.Signature(yolo);
+        Encryption.Signature(text);
         
 
     }

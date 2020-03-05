@@ -133,6 +133,7 @@ public class MainScreen extends javax.swing.JFrame {
         public void run() 
         {
             String[] data;
+            
             String people[];
             String stream, done = "Done", connect = "Connect", disconnect = "Disconnect", chat = "Chat";
 
@@ -182,11 +183,11 @@ public class MainScreen extends javax.swing.JFrame {
         {
             Onliners.append(current_user);
             Onliners.append("\n");
-<<<<<<< HEAD
+
             //System.out.println("current user: "+current_user);
-=======
+
             combobox.addItem(current_user);
->>>>>>> 5296eb28c6463668b4771d3a3b22553216206388
+
         }
                        
 
