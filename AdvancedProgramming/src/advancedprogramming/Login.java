@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -209,8 +210,8 @@ String filepath1 = "IDs.txt";
                     {
                         tellEveryone((data[0] + ":" + data[1] + ":" + chat + ":" + data[3]));
                         userAdd(data[0]);
-                                     PrintWriter writer = new PrintWriter("ips.txt", "UTF-8");
-writer.println(data[0] + ":" + data[3]);
+                                     FileWriter writer = new FileWriter("ips.txt", true);
+writer.write(data[0] + ":" + data[3]);
 writer.close();
 
 
