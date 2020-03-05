@@ -161,10 +161,10 @@ public class MainScreen extends javax.swing.JFrame {
                         display.setCaretPosition(display.getDocument().getLength());
                        String joinedString = String.join(":", data);    
                         ips = joinedString.split(":");
-                        String op = ips[0] + ":" + ips[3];
+                        String op = ips[3];
                         System.out.println(op);
                   FileWriter writer = new FileWriter("ips.txt", true);                                    
-writer.write(ips[0] + ":" + ips[3] + "\n");
+writer.write(ips[3] + "\n");
 writer.close();
                 
                      
