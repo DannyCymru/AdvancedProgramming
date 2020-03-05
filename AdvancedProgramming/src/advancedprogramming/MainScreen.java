@@ -31,9 +31,19 @@ import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import java.awt.event.*;
+<<<<<<< HEAD
 import java.security.KeyPair;
 import java.security.PrivateKey;
 import java.security.PublicKey;
+=======
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.Scanner;
+import javax.swing.JComponent;
+import javax.swing.KeyStroke;
+>>>>>>> 41d87fa228c4c3418f490ae364b89a7288e1a3b3
 
 /**
 *
@@ -141,6 +151,8 @@ public class MainScreen extends javax.swing.JFrame {
             String[] data;
 
             String people[];
+           
+              String[] ips;
             String stream, done = "Done", connect = "Connect", disconnect = "Disconnect", chat = "Chat";
 
             try
@@ -149,9 +161,16 @@ public class MainScreen extends javax.swing.JFrame {
 
                 while ((stream = reader.readLine()) != null)
                 {
+<<<<<<< HEAD
                     data = stream.split(":");
                     people = stream.split(":");
 
+=======
+                     data = stream.split(":");
+                     people = stream.split(":");
+                   System.out.println(data[1]);
+                   System.out.println(data[2]);
+>>>>>>> 41d87fa228c4c3418f490ae364b89a7288e1a3b3
 
                     //String g =  data[4];
 
@@ -167,6 +186,7 @@ public class MainScreen extends javax.swing.JFrame {
                         String yolo = Encryption.Signature(data[1]);
                         //System.out.println(yolo);
                         
+<<<<<<< HEAD
                         if(i == 0)
                         {
                             display.append(currTime() + data[0] + ": " + data[1] +"\n");
@@ -201,6 +221,28 @@ public class MainScreen extends javax.swing.JFrame {
 
                         if(i == 1){jScrollPane3.revalidate();}
 
+=======
+                        display.append(currTime() + data[0] + ": " + data[1] +"\n");
+                        display.setCaretPosition(display.getDocument().getLength());
+                       String joinedString = String.join(":", data);    
+                        ips = joinedString.split(":");
+                        String op = ips[3];
+                        System.out.println(op);
+                  FileWriter writer = new FileWriter("ips.txt", true);                                    
+writer.write(ips[3] + "\n");
+writer.close();
+                
+                     
+                
+                
+                                       
+                     }
+                     else if (data[2].equals(connect))
+                     {
+                  
+                          
+                 
+>>>>>>> 41d87fa228c4c3418f490ae364b89a7288e1a3b3
                         display.removeAll();
 
                         userAdd(data[0]);
@@ -213,6 +255,7 @@ public class MainScreen extends javax.swing.JFrame {
                         display.removeAll();
 
                         String conne = Arrays.toString(people);
+<<<<<<< HEAD
                         String replace = conne.replace(",", "");
                         String replace1 = replace.replace("Connect", "");
                         String replace2 = replace1.replace(" ", "");
@@ -258,6 +301,42 @@ public class MainScreen extends javax.swing.JFrame {
                     }
                     else if (data[2].equals(done))
                     {
+=======
+                         String replace = conne.replace(",", "");
+                         String replace1 = replace.replace("Connect", "");
+                         String replace2 = replace1.replace(" ", "");
+                         users.add(replace2);
+                         Onliners.setText("Online Members" + "\n");
+                         combobox.removeAllItems();
+                         for (String current_user : users)
+        {
+            Onliners.append(current_user);
+            Onliners.append("\n");
+            combobox.addItem(current_user);
+        }
+                   
+                       
+                     } 
+                     else if (data[2].equals(disconnect)) 
+                     {
+                         userRemove(data[0]);
+                         String conne = Arrays.toString(people);
+                         String replace = conne.replace(",", "");
+                         String replace1 = replace.replace("Connect", "");
+                         String replace2 = replace1.replace(" ", "");
+                         users.remove(replace2);
+                         Onliners.setText("Online Members" + "\n");
+                         combobox.removeAllItems();
+                         for (String current_user : users)
+        {
+            Onliners.append(current_user);
+            Onliners.append("\n");
+            combobox.removeItem(current_user);
+        }
+                     } 
+                     else if (data[2].equals(done)) 
+                     {
+>>>>>>> 41d87fa228c4c3418f490ae364b89a7288e1a3b3
                         //users.setText("");
                         writeUsers();
                         users.clear();
@@ -344,6 +423,11 @@ public class MainScreen extends javax.swing.JFrame {
         input.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 inputActionPerformed(evt);
+            }
+        });
+        input.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                inputKeyPressed(evt);
             }
         });
 
@@ -615,7 +699,21 @@ public class MainScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_comboboxActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+<<<<<<< HEAD
         String selected = combobox.getSelectedItem().toString();
+=======
+       String selected = combobox.getSelectedItem().toString();
+      
+       if(selected.equals("[dm5376y]")){
+           sendDisconnect();
+        Disconnect();
+        Onliners.setText("Online Members:");
+        combobox.removeAllItems();
+        
+        address = "192.168.1.69";
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(filepath1));
+>>>>>>> 41d87fa228c4c3418f490ae364b89a7288e1a3b3
 
         if(selected.equals(selected)){
             Component frame = null;
@@ -874,6 +972,28 @@ public class MainScreen extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void inputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inputKeyPressed
+      if(evt.getKeyCode()==KeyEvent.VK_ENTER) {
+          String nothing = "";
+        if ((input.getText()).equals(nothing)) {
+            input.setText("");
+            input.requestFocus();
+        } else {
+            try {   
+               writer.println(username + ":" + input.getText() + ":" + "Chat" + ":" + NetInterface.IpUser());
+               writer.flush(); // flushes the buffer
+            } catch (Exception ex) {
+                display.append("Message was not sent. \n");
+            }
+            input.setText("");
+            input.requestFocus();
+        }
+
+        input.setText("");
+        input.requestFocus(); 
+      }
+    }//GEN-LAST:event_inputKeyPressed
     //Function to set the unique id.
     public void setUniqueId(String uId) {
         uniqueId.setText(uId);
@@ -931,6 +1051,9 @@ public class MainScreen extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new MainScreen().setVisible(true);
+                MainScreen temp = new MainScreen();
+                temp.setResizable(false);
+                temp.setLocationRelativeTo(null);
             }
 
         });

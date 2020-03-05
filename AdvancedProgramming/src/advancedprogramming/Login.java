@@ -5,13 +5,17 @@
 */
 package advancedprogramming;
 import advancedprogramming.MainScreen;
+import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.ServerSocket;
@@ -64,6 +68,12 @@ public class Login extends javax.swing.JFrame {
 
         jLabel1.setText("Username:");
 
+        Username.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                UsernameKeyPressed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -104,6 +114,7 @@ public class Login extends javax.swing.JFrame {
 
             while ((line = br.readLine()) != null) {
 
+<<<<<<< HEAD
                 if (line.equals(uID)) {
                     Thread starter = new Thread(new ServerStart());
                     starter.start();
@@ -113,6 +124,23 @@ public class Login extends javax.swing.JFrame {
                     dispose();
                     temp.setVisible(true);
                     break;
+=======
+                if (line.equals(uID)) { 
+        Thread starter = new Thread(new ServerStart());
+        starter.start();
+        MainScreen temp = new MainScreen();
+        String usern = Username.getText();
+          temp.setResizable(false);
+                temp.setLocationRelativeTo(null);
+        temp.setUniqueId(usern);
+        dispose();
+        temp.setVisible(true);
+        PrintWriter writerip = new PrintWriter("ips.txt");
+writerip.print("");
+writerip.close();
+
+         break;
+>>>>>>> 41d87fa228c4c3418f490ae364b89a7288e1a3b3
 
                 }
             }
@@ -129,6 +157,49 @@ public class Login extends javax.swing.JFrame {
 
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void UsernameKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_UsernameKeyPressed
+        if(evt.getKeyCode()==KeyEvent.VK_ENTER) {
+            try {
+            BufferedReader br = new BufferedReader(new FileReader(filepath1));
+
+            String line;
+            uID = Username.getText();
+
+            while ((line = br.readLine()) != null) {
+
+                if (line.equals(uID)) { 
+        Thread starter = new Thread(new ServerStart());
+        starter.start();
+        MainScreen temp = new MainScreen();
+        String usern = Username.getText();
+          temp.setResizable(false);
+                temp.setLocationRelativeTo(null);
+        temp.setUniqueId(usern);
+        dispose();
+        temp.setVisible(true);
+        PrintWriter writerip = new PrintWriter("ips.txt");
+writerip.print("");
+writerip.close();
+
+         break;
+
+                }
+            }
+            br.close();
+            if (line == null) {
+                JOptionPane.showMessageDialog(new JFrame(), "Error! Entered Unique ID doesn't exist in the database.");
+            } 
+
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
+            
+        }catch (IOException ex) {
+            Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
+            
+        }
+        }
+    }//GEN-LAST:event_UsernameKeyPressed
 
     /**
     * @param args the command line arguments
@@ -160,7 +231,10 @@ public class Login extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Login().setVisible(true);
+                Login log = new Login();
+                log.setVisible(true);
+                
+                
             }
         });
     }
@@ -211,10 +285,13 @@ public class Login extends javax.swing.JFrame {
                         System.out.println("goes through connect");
                         tellEveryone((data[0] + ":" + data[1] + ":" + chat + ":" + data[3]));
                         userAdd(data[0]);
+<<<<<<< HEAD
                         FileWriter writer = new FileWriter("ips.txt", true);
                         writer.write(data[0] + ":" + data[3]);
                         writer.close();
 
+=======
+>>>>>>> 41d87fa228c4c3418f490ae364b89a7288e1a3b3
 
                     }
                     else if (data[2].equals(disconnect))
