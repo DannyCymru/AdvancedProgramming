@@ -157,13 +157,11 @@ public class MainScreen extends javax.swing.JFrame {
 
             try
             {
-                int i = 0;
+                int i = 1;
 
                 while ((stream = reader.readLine()) != null)
                 {
                     System.out.println("i: "+i);
-                    data = stream.split(":");
-                    people = stream.split(":");
 
 
                     data = stream.split(":");
@@ -191,7 +189,7 @@ public class MainScreen extends javax.swing.JFrame {
                         writer.write(ips[0] + ":" + ips[3] + "\n");
                         writer.close();
 
-                        if(i == 0)
+                        if(i == 1)
                         {
                             display.append(currTime() + data[0] + ": " + data[1] +"\n");
                             display.setCaretPosition(display.getDocument().getLength());
@@ -212,16 +210,42 @@ public class MainScreen extends javax.swing.JFrame {
 
 
 
+<<<<<<< HEAD
                         i++;
 
 
+=======
+i++; 
+>>>>>>> 103205ff853059a19de30e6efedc24c3e23df2cd
 
 
                     }
 
 
+<<<<<<< HEAD
                     else if (data[2].equals(connect))
                     {
+=======
+                     else if (data[2].equals(connect))
+                     {
+                  
+                          
+                        display.removeAll();
+                        userAdd(data[0]);
+                        String conne = Arrays.toString(people);
+                        String replace = conne.replace(",", "");
+                        String replace1 = replace.replace("Connect", "");
+                        String replace2 = replace1.replace(" ", "");
+                     
+                        
+                        Onliners.setText("Online Members" + "\n");
+                        combobox.removeAllItems();
+                        for (String current_user : users)
+                        {
+                            Onliners.append(current_user);
+                            Onliners.append("\n");
+                            combobox.addItem(current_user);
+>>>>>>> 103205ff853059a19de30e6efedc24c3e23df2cd
 
                         if( i == 1){
                             jScrollPane3.revalidate();}
@@ -243,6 +267,43 @@ public class MainScreen extends javax.swing.JFrame {
 
                             }
 
+<<<<<<< HEAD
+=======
+                    
+
+                   
+                       
+                     } 
+                     else if (data[2].equals(disconnect)) 
+                     {
+                        
+                         userRemove(data[0]);
+                         String conne = Arrays.toString(people);
+                         String replace = conne.replace(",", "");
+                         String replace1 = replace.replace("Connect", "");
+                         String replace2 = replace1.replace(" ", "");
+                         users.remove(replace2);
+                         combobox.removeAllItems();
+                         for (String current_user : users)
+        {
+            Onliners.append(current_user);
+            Onliners.append("\n");
+            combobox.removeItem(current_user);
+        }
+                     } 
+                     else if (data[2].equals(done)) 
+                     {
+
+                        //users.setText("");
+                        writeUsers();
+                        users.clear();
+                        
+                    }
+                }
+            }catch(Exception ex) { }
+        }
+    }
+>>>>>>> 103205ff853059a19de30e6efedc24c3e23df2cd
 
 
 
