@@ -128,9 +128,7 @@ public class Login extends javax.swing.JFrame {
                         temp.setUniqueId(usern);
                         dispose();
                         temp.setVisible(true);
-                        PrintWriter writerip = new PrintWriter("ips.txt");
-                        writerip.print("");
-                        writerip.close();
+                        
 
                         break;
 
@@ -171,9 +169,7 @@ public class Login extends javax.swing.JFrame {
                             temp.setUniqueId(usern);
                             dispose();
                             temp.setVisible(true);
-                            PrintWriter writerip = new PrintWriter("ips.txt");
-                            writerip.print("");
-                            writerip.close();
+                            
 
                             break;
 
@@ -226,7 +222,15 @@ public class Login extends javax.swing.JFrame {
                 public void run() {
                     Login log = new Login();
                     log.setVisible(true);
-
+                    PrintWriter writerip;
+                    try {
+                        writerip = new PrintWriter("ips.txt");
+                        writerip.print("");
+                            writerip.close();
+                    } catch (FileNotFoundException ex) {
+                        Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                            
 
                 }
             });
@@ -277,7 +281,8 @@ public class Login extends javax.swing.JFrame {
                         if (data[2].equals(connect))
                         {
                             System.out.println("goes through connect");
-                            tellEveryone((data[0] + ":" + data[1] + ":" + chat + ":" + data[3]));
+                            
+                            tellEveryone((data[0] + ":" + data[1] + ":" + chat + ":" + data[3]+ ":" + data[4]));
                             userAdd(data[0]);
 
                         }

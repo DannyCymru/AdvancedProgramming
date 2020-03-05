@@ -168,7 +168,7 @@ public class MainScreen extends javax.swing.JFrame {
 
                      data = stream.split(":");
                      people = stream.split(":");
-                   System.out.println(data[1]);
+                   System.out.println(data[0]+ data[1]);
                    System.out.println(data[2]);
 
 
@@ -225,15 +225,14 @@ i++;
                   
                           if( i == 1){
                               jScrollPane3.revalidate();}
-                          
-
                         display.removeAll();
+                        userAdd(data[0]);
                         String conne = Arrays.toString(people);
                         String replace = conne.replace(",", "");
                         String replace1 = replace.replace("Connect", "");
                         String replace2 = replace1.replace(" ", "");
                         i++;
-                        users.add(replace2);
+                        
                         Onliners.setText("Online Members" + "\n");
                         combobox.removeAllItems();
                         for (String current_user : users)
@@ -272,7 +271,7 @@ i++;
                         //users.setText("");
                         writeUsers();
                         users.clear();
-                    }
+                    break;}
                 }
             }catch(Exception ex) { }
         }
@@ -304,7 +303,6 @@ i++;
         tf_port = new javax.swing.JTextField();
         b_connect1 = new javax.swing.JButton();
         b_disconnect = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
         combobox = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
@@ -312,12 +310,12 @@ i++;
         javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
         jDialog1.getContentPane().setLayout(jDialog1Layout);
         jDialog1Layout.setHorizontalGroup(
-        jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 400, Short.MAX_VALUE)
+            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
         );
         jDialog1Layout.setVerticalGroup(
-        jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 300, Short.MAX_VALUE)
+            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
         );
 
         jButton1.setText("jButton1");
@@ -401,13 +399,6 @@ i++;
             }
         });
 
-        jButton2.setText("jButton2");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
         combobox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 comboboxActionPerformed(evt);
@@ -426,78 +417,74 @@ i++;
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-        layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(layout.createSequentialGroup()
-        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-        .addGroup(layout.createSequentialGroup()
-        .addContainerGap()
-        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 698, javax.swing.GroupLayout.PREFERRED_SIZE))
-        .addGroup(layout.createSequentialGroup()
-        .addGap(56, 56, 56)
-        .addComponent(uniqueId)
-        .addGap(18, 18, 18)
-        .addComponent(input))
-        .addGroup(layout.createSequentialGroup()
-        .addGap(11, 11, 11)
-        .addComponent(lb_address, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-        .addComponent(tf_address, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-        .addGap(18, 18, 18)
-        .addComponent(lb_port, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-        .addComponent(tf_port, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-        .addGap(18, 18, 18)
-        .addComponent(b_connect1)
-        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-        .addComponent(b_disconnect)
-        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-        .addComponent(combobox, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        .addComponent(jButton3)))
-        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(layout.createSequentialGroup()
-        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        .addGroup(layout.createSequentialGroup()
-        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addComponent(jButton2)
-        .addComponent(sendText))
-        .addGap(0, 0, Short.MAX_VALUE))))
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 698, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(56, 56, 56)
+                        .addComponent(uniqueId)
+                        .addGap(18, 18, 18)
+                        .addComponent(input))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(11, 11, 11)
+                        .addComponent(lb_address, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tf_address, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(lb_port, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(tf_port, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(b_connect1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(b_disconnect)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(combobox, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton3)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(sendText)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
-        layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(layout.createSequentialGroup()
-        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(layout.createSequentialGroup()
-        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE))
-        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-        .addComponent(uniqueId, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-        .addComponent(input, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        .addComponent(sendText)))
-        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE))
-        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-        .addComponent(tf_address, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-        .addComponent(lb_address, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-        .addComponent(lb_port, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-        .addComponent(tf_port, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-        .addComponent(b_connect1)
-        .addComponent(b_disconnect)
-        .addComponent(combobox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-        .addComponent(jButton2)
-        .addComponent(jButton3))))
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(uniqueId, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(input, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(sendText)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(tf_address, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lb_address, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lb_port, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(tf_port, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(b_connect1)
+                        .addComponent(b_disconnect)
+                        .addComponent(combobox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButton3)))
         );
 
         uniqueId.getAccessibleContext().setAccessibleName("uniqueIdLabel");
@@ -575,12 +562,13 @@ i++;
 
                         try
                         {
+                            String yolo2 = Encryption.Signature(input.getText());
                             sock = new Socket(address, port);
                             System.out.println("sock MainScreen 509: "+sock);
                             InputStreamReader streamreader = new InputStreamReader(sock.getInputStream());
                             reader = new BufferedReader(streamreader);
                             writer = new PrintWriter(sock.getOutputStream());
-                            writer.println(username + ":has connected.:Connect" + ":" + NetInterface.IpUser());
+                            writer.println(username + ":has connected.:Connect" + ":" + NetInterface.IpUser()+ ":"+yolo2);
                             writer.flush();
                             isConnected = true;
                             uniqueId.setText(uID);
@@ -622,10 +610,6 @@ i++;
         // TODO add your handling code here:
     }//GEN-LAST:event_inputActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
-
     private void comboboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboboxActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_comboboxActionPerformed
@@ -636,21 +620,31 @@ i++;
 
        String selected = combobox.getSelectedItem().toString();
       
-
-        if(selected.equals(selected)){
-            Component frame = null;
-            JOptionPane.showMessageDialog(frame, "You can't start a private chat with yourself", "Warning!", JOptionPane.WARNING_MESSAGE);
-        }
-        if(selected.equals("[dm5376y]")){
+        try{  
+      
+BufferedReader br = new BufferedReader(new FileReader("ips.txt")); 
+  
+  String st; 
+  while ((st = br.readLine()) != null) {
+      String[] ap = st.split(":");
+      System.out.println(ap[1] + ap[0]);
+      String test = ap[0];
+      System.out.println(test);
+     
+//        if(selected.equals(uID)){
+//            Component frame = null;
+//            JOptionPane.showMessageDialog(frame, "You can't start a private chat with yourself", "Warning!", JOptionPane.WARNING_MESSAGE);
+//        }
+        if(selected.equals("dm5376y")&& ap[0].equals(test)){
             sendDisconnect();
             Disconnect();
             Onliners.setText("Online Members:");
             combobox.removeAllItems();
-
-            address = "192.168.1.69";
+            System.out.println(ap[1] + ap[0]);
+            address = ap[1];
             
             try {
-                BufferedReader br = new BufferedReader(new FileReader(filepath1));
+                br = new BufferedReader(new FileReader(filepath1));
 
                 String line;
 
@@ -665,12 +659,13 @@ i++;
 
                             try
                             {
+                                String yolo2 = Encryption.Signature(input.getText());
                                 sock = new Socket(address, port);
                                 System.out.println("sock MainScreen 426: "+sock);
                                 InputStreamReader streamreader = new InputStreamReader(sock.getInputStream());
                                 reader = new BufferedReader(streamreader);
                                 writer = new PrintWriter(sock.getOutputStream());
-                                writer.println(username + ":has connected.:Connect");
+                                writer.println(username + ":has connected.:Connect"+ ":" + NetInterface.IpUser()+ ":"+yolo2);
                                 writer.flush();
                                 isConnected = true;
                                 uniqueId.setText(uID);
@@ -705,15 +700,15 @@ i++;
 
             }
         }
-        if(selected.equals("[dr3344j]")){
+        if(selected.equals("dr3344j")&& ap[0].equals(test)){
             sendDisconnect();
             Disconnect();
             Onliners.setText("Online Members:");
             combobox.removeAllItems();
-
-            address = "192.168.1.69";
+System.out.println(ap[1] + ap[0]);
+            address = ap[1];
             try {
-                BufferedReader br = new BufferedReader(new FileReader(filepath1));
+                 br = new BufferedReader(new FileReader(filepath1));
 
                 String line;
 
@@ -728,12 +723,13 @@ i++;
 
                             try
                             {
+                                String yolo2 = Encryption.Signature(input.getText());
                                 sock = new Socket(address, port);
                                 System.out.println("sock MainScreen 426: "+sock);
                                 InputStreamReader streamreader = new InputStreamReader(sock.getInputStream());
                                 reader = new BufferedReader(streamreader);
                                 writer = new PrintWriter(sock.getOutputStream());
-                                writer.println(username + ":has connected.:Connect");
+                                writer.println(username + ":has connected.:Connect"+ ":" + NetInterface.IpUser()+ ":"+yolo2);
                                 writer.flush();
                                 isConnected = true;
                                 uniqueId.setText(uID);
@@ -768,15 +764,15 @@ i++;
 
             }
         }
-        if(selected.equals("[jn9942d]")){
+        if(selected.equals("jn9942d")&& ap[0].equals(test)){
             sendDisconnect();
             Disconnect();
             Onliners.setText("Online Members:");
             combobox.removeAllItems();
-
-            address = "192.168.1.69";
+System.out.println(ap[1] + ap[0]);
+            address = ap[1];
             try {
-                BufferedReader br = new BufferedReader(new FileReader(filepath1));
+                 br = new BufferedReader(new FileReader(filepath1));
 
                 String line;
 
@@ -791,12 +787,13 @@ i++;
 
                             try
                             {
+                                String yolo2 = Encryption.Signature(input.getText());
                                 sock = new Socket(address, port);
                                 System.out.println("sock MainScreen 426: "+sock);
                                 InputStreamReader streamreader = new InputStreamReader(sock.getInputStream());
                                 reader = new BufferedReader(streamreader);
                                 writer = new PrintWriter(sock.getOutputStream());
-                                writer.println(username + ":has connected.:Connect");
+                                writer.println(username + ":has connected.:Connect"+ ":" + NetInterface.IpUser()+ ":"+yolo2);
                                 writer.flush();
                                 isConnected = true;
                                 uniqueId.setText(uID);
@@ -831,15 +828,15 @@ i++;
 
             }
         }
-        if(selected.equals("[bm4904f]")){
+        if(selected.equals("bm4904f")&& ap[0].equals(test)){
             sendDisconnect();
             Disconnect();
             Onliners.setText("Online Members:");
             combobox.removeAllItems();
-
-            address = "192.168.1.69";
+System.out.println(ap[1] + ap[0]);
+            address = ap[1];
             try {
-                BufferedReader br = new BufferedReader(new FileReader(filepath1));
+                 br = new BufferedReader(new FileReader(filepath1));
 
                 String line;
 
@@ -854,12 +851,13 @@ i++;
 
                             try
                             {
+                                String yolo2 = Encryption.Signature(input.getText());
                                 sock = new Socket(address, port);
                                 System.out.println("sock MainScreen 426: "+sock);
                                 InputStreamReader streamreader = new InputStreamReader(sock.getInputStream());
                                 reader = new BufferedReader(streamreader);
                                 writer = new PrintWriter(sock.getOutputStream());
-                                writer.println(username + ":has connected.:Connect");
+                                writer.println(username + ":has connected.:Connect"+ ":" + NetInterface.IpUser()+ ":"+yolo2);
                                 writer.flush();
                                 isConnected = true;
                                 uniqueId.setText(uID);
@@ -894,6 +892,14 @@ i++;
 
             }
         }
+  break;}} catch (FileNotFoundException ex) {
+            Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
+
+        }catch (IOException ex) {
+            Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
+
+        }
+    
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void inputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inputKeyPressed
@@ -905,6 +911,7 @@ i++;
             input.requestFocus();
         } else {
             try {
+                 
      
                 //KeyPair A = Encryption.GenerateKey1();
                 String messageToEncrypt = input.getText();
@@ -1005,7 +1012,6 @@ i++;
     private javax.swing.JTextArea display;
     private javax.swing.JTextField input;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JDialog jDialog1;
     private javax.swing.JLabel jLabel1;
