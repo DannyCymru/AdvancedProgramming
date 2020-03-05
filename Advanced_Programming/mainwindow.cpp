@@ -27,7 +27,6 @@ void MainWindow::on_send_button_clicked()
     QString id_check = ui->user_id->text();
     QString host_check = ui->host_list_edit->toPlainText();
     if (id_check == "user_id" && host_check == ""){
-        qDebug() << "Not connected";
         try {
             QString user_input = ui->main_user_input->text();
             ui->message_edit->appendPlainText(user_input);
@@ -54,7 +53,6 @@ void MainWindow::datagram_ui(){
 }
 
 void MainWindow::set_variables(QString initialise_vars){
-    qDebug() << initialise_vars;
     //Necessary variables to be recieved from the user input
     QString name, port, ip, ip_port;
     //Delimiter to split the text with each instance of the colon
@@ -71,10 +69,7 @@ void MainWindow::set_variables(QString initialise_vars){
     //If statement to check number of elements inside the vector, then stores the value of each element in the correct variable.
     if(elements.size() <= 4){
         try {
-            name = elements[0];
-            port = elements[1];
-            ip = elements[2];
-            ip_port = elements[3];
+            name = elements[0], port = elements[1],ip = elements[2], ip_port = elements[3];
         } catch (...) {
             ui->message_edit->appendPlainText("Please try again");
         }
@@ -82,4 +77,5 @@ void MainWindow::set_variables(QString initialise_vars){
     else {
         ui->message_edit->appendPlainText("You did not input enough values.");
     }
+
 }

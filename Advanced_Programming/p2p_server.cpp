@@ -29,7 +29,7 @@ void p2p_server::read_data(){
         datagram.resize(udp_get->pendingDatagramSize());
         //Reads the QByteArray and places data into the correct objects previously set up
         udp_get->readDatagram(datagram.data(), datagram.size(), &sender, &sender_port);
-        //Logs data to console, for debugging.
+        //Logs data to console for debugging.
         qDebug() << "Message: " << datagram;
         qDebug() << "Message from: " << sender.toString();
         qDebug() << "Port:" << sender_port;
