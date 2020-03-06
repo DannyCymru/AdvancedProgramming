@@ -103,6 +103,7 @@
     <property name="title">
      <string>File</string>
     </property>
+    <addaction name="separator"/>
     <addaction name="actionConnect"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
@@ -119,11 +120,6 @@
    <addaction name="menuHelp"/>
    <addaction name="menuAbout"/>
   </widget>
-  <action name="actionconnect">
-   <property name="text">
-    <string>connect</string>
-   </property>
-  </action>
   <action name="actionConnect">
    <property name="text">
     <string>Connect</string>
