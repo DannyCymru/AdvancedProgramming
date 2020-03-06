@@ -222,14 +222,8 @@ public class Login extends javax.swing.JFrame {
                 public void run() {
                     Login log = new Login();
                     log.setVisible(true);
-                    PrintWriter writerip;
-                    try {
-                        writerip = new PrintWriter("ips.txt");
-                        writerip.print("");
-                            writerip.close();
-                    } catch (FileNotFoundException ex) {
-                        Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                 
+                    
                             
 
                 }
@@ -276,9 +270,6 @@ public class Login extends javax.swing.JFrame {
                     {
 
                         data = message.split(":");
-                        String aaa = Arrays.toString(data);
-                        System.out.println(aaa);
-                        System.out.println("--in login-->"+data[2]);
                         if (data[2].equals(connect))
                         {
                             System.out.println("goes through connect");
@@ -342,6 +333,7 @@ public class Login extends javax.swing.JFrame {
 
                         Thread listener = new Thread(new ClientHandler(clientSock, writer));
                         listener.start();
+                         
 
                     }
                 }
