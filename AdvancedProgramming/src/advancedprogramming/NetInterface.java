@@ -4,6 +4,9 @@ package advancedprogramming;
 
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -15,6 +18,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
+import java.util.Scanner;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,8 +36,9 @@ public class NetInterface{
 
     public static void main(String args[]) throws Exception
     {
-        IpUser();
-        PulicIp(); 
+        //IpUser();
+        //PulicIp(); 
+        CheckIps();
     }
 
 
@@ -133,11 +138,77 @@ public class NetInterface{
 
     static String PulicIp() throws MalformedURLException, IOException
     {       
+        //get public ip using a website 
         URL PublicIp = new URL("http://checkip.amazonaws.com");
         BufferedReader in = new BufferedReader(new InputStreamReader(PublicIp.openStream()));
         String ip = in.readLine();
-        System.out.println("public ip: "+ip);
+        //System.out.println("public ip: "+ip);
         return ip; 
     }
 
+    
+    static String CheckIps() throws FileNotFoundException, IOException
+    {
+        Scanner s = new Scanner(new File("ips.txt"));
+        ArrayList<String> ipsArray = new ArrayList<String>();
+        
+        
+        /*this loop import the content of ips.txt to the array ipsArray*/
+        while (s.hasNext())
+        {
+            ipsArray.add(s.next());
+        }
+        s.close();
+        
+        //System.out.println(ipsArray);
+        
+        int sizeArray = ipsArray.size()-1;
+  
+        //System.out.println("sizeArray: "+sizeArray);
+        
+        
+        /*this double loop is going through the array comparing each string 
+        to ssee if they are similar and if they are they replace it by ""*/
+        for(int i = 0; i <= sizeArray; i++)
+        {
+            //System.out.println("i: "+i+"\n");
+            for(int j = 0; j <= sizeArray; j++)
+            {
+                if(ipsArray.get(i).equals(ipsArray.get(j)) && i!=j)
+                {
+                    ipsArray.set(j,"");
+                    //System.out.println("went here2");
+                }
+                //System.out.print(" j: "+j);
+ 
+                else
+                {
+                    //System.out.println("went here");
+                }
+            } 
+            
+        }
+        
+        /*here we romve the "" character from the list*/
+        ipsArray.removeAll(Collections.singleton(""));
+        //System.out.println(ipsArray);
+        
+        FileWriter writer = new FileWriter("ips.txt"); 
+        
+        sizeArray = ipsArray.size()-1;
+        
+        
+        /*and here we write the modify array back to the ips.txt file */
+        for(int l = 0; l <= sizeArray; l++) 
+        {
+        writer.write(ipsArray.get(l) + System.lineSeparator());
+        }
+        writer.close();
+        
+        
+     
+        return null;
+    }
+    
+    
 }
