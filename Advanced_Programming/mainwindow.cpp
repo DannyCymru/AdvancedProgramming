@@ -82,3 +82,14 @@ void MainWindow::set_variables(QString initialise_vars){
             ui->message_edit->appendPlainText("Please try again");
         }
 }
+
+void MainWindow::on_actionConnect_triggered(){
+  connect = new connect_dialog;
+    if ( connect->exec()== QDialog::Accepted) {
+        QVector<QString>v = connect->get_data();
+        for (QString s : v){
+            qDebug() << s;
+        }
+    }
+
+}

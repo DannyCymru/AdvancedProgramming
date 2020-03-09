@@ -81,7 +81,7 @@
     <string>Port:</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="ID_input">
+  <widget class="QLineEdit" name="id_input">
    <property name="geometry">
     <rect>
      <x>120</x>
