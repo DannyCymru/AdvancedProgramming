@@ -14,6 +14,7 @@ class connect_dialog : public QDialog
 public:
     explicit connect_dialog(QWidget *parent = nullptr);
     ~connect_dialog();
+    QVector<QString> get_data();
 
 private slots:
     void on_buttonBox_accepted();

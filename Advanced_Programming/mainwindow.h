@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "p2p_server.h"
+#include "connect_dialog.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -20,9 +21,12 @@ public:
 private slots:
     void on_send_button_clicked();
 
+    void on_actionConnect_triggered();
+
 private:
     Ui::MainWindow *ui;
     p2p_server *p2p;
+    connect_dialog *connect;
 
     void datagram_ui();
     void set_variables(QString initialise_vars);
