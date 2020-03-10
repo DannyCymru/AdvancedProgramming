@@ -20,15 +20,17 @@ void connect_dialog::on_buttonBox_accepted()
 
 
 QVector<QString> connect_dialog::get_data(){
-    QVector<QString>v;
+
 
     QString id_value = ui->id_input->text();
     QString my_port = ui->open_port_input->text();
     QString ip_value= ui->ip_input->text();
     QString ip_port_value = ui->ip_port_input->text();
-    v.push_back(id_value);
-    v.push_back(my_port);
-    v.push_back(ip_value);
-    v.push_back(ip_port_value);
+    QVector<QString>v = {
+        {id_value},
+        {my_port},
+        {ip_value},
+        {ip_port_value}
+    };
     return v;
 }
