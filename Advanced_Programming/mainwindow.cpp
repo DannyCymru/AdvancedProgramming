@@ -77,6 +77,15 @@ void MainWindow::set_variables(QString initialise_vars){
                 //Quick and dirty way to change a few of the UI Elements. Should probably get pushed to their own function.
                 ui->user_id->setText(name);
                 ui->host_list_edit->appendPlainText(ip+":"+ip_port);
+
+                //Local port
+                int port_number = port.toInt();
+                p2p->local_socket(port_number);
+
+                //Port of address to connect to.
+                int ip_port_number = ip_port.toInt();
+                p2p->ip_socket(ip_port_number);
+
             }
             else {
                 ui->message_edit->appendPlainText("You did not input enough values.");
@@ -107,4 +116,7 @@ void MainWindow::on_actionConnect_triggered(){
 
   }
 
+}
+
+void MainWindow::on_actionClose_triggered(){
 }

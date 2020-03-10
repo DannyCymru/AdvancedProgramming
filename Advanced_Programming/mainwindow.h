@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QKeyEvent>
 #include "p2p_server.h"
 #include "connect_dialog.h"
 
@@ -18,10 +19,11 @@ public:
     ~MainWindow();
     QString name, port, ip, ip_port;
 
+
 private slots:
     void on_send_button_clicked();
-
     void on_actionConnect_triggered();
+    void on_actionClose_triggered();
 
 private:
     Ui::MainWindow *ui;

@@ -105,6 +105,7 @@
     </property>
     <addaction name="separator"/>
     <addaction name="actionConnect"/>
+    <addaction name="actionClose"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -125,6 +126,14 @@
     <string>Connect</string>
    </property>
   </action>
+  <action name="actionClose">
+   <property name="text">
+    <string>Close</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+C</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections>
@@ -140,6 +149,22 @@
     </hint>
     <hint type="destinationlabel">
      <x>445</x>
+     <y>290</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionClose</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>520</x>
      <y>290</y>
     </hint>
    </hints>
