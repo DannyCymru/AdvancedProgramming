@@ -28,6 +28,10 @@ void MainWindow::on_send_button_clicked()
     QString host_check = ui->host_list_edit->toPlainText();
     if (id_check == "user_id" && host_check == ""){
         try {
+
+            //Updates UI elements.)
+            ui->message_edit->clear();
+
             QString user_input = ui->main_user_input->text();
             ui->message_edit->appendPlainText(user_input);
             ui->main_user_input->clear();

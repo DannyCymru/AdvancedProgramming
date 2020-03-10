@@ -25,6 +25,7 @@ private:
     void output_socket();
     void input_socket();
     void group_broadcast();
+    void connect_request();
 };
 
 #endif // P2P_SERVER_H
