@@ -272,7 +272,7 @@ public class Login extends javax.swing.JFrame {
             @Override
             public void run()
             {
-                String message, connect = "Connect", disconnect = "Disconnect", chat = "Chat" ;
+                String message, connect = "Connect", disconnect = "Disconnect", chat = "Chat", disconnectt = "Disconnectt" ;
                 String[] data;
 
                 try
@@ -291,8 +291,14 @@ public class Login extends javax.swing.JFrame {
                         }
                         else if (data[2].equals(disconnect))
                         {
-                            System.out.println("Reached dissconnecttt");
+                            System.out.println("Reached dissconnect");
                             tellEveryone((data[0] + ":has disconnected." + ":" + chat+ ":" + data[2]+ ":" + data[3]));
+                            userRemove(data[0]);
+                        }
+                        else if (data[2].equals(disconnectt))
+                        {
+                            System.out.println("Reached dissconnect");
+                            tellEveryone((data[0] + ":has disconnected" + ":" + chat+ ":" + data[2]+ ":" + data[3]));
                             userRemove(data[0]);
                         }
                         else if (data[2].equals(chat))

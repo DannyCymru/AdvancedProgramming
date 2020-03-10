@@ -68,6 +68,8 @@ public class MainScreen extends javax.swing.JFrame {
     BufferedReader reader;
     PrintWriter writer;
     int a = 0;
+    Boolean Connected = false;
+    String Ipnew = "";
 
     //--------------------------//
     public void ListenThread() {
@@ -106,6 +108,17 @@ public class MainScreen extends javax.swing.JFrame {
             display.append(currTime() + "Could not send Disconnect message.\n");
         }
     }
+    public void sendDisconnect1() {
+        String bye;
+        try {
+            String yolo2 = Encryption.Signature(input.getText());
+            bye = username + ": :Disconnectt" + ":" + NetInterface.IpUser() + ":" + yolo2;
+            writer.println(bye);
+            writer.flush();
+        } catch (Exception e) {
+            display.append(currTime() + "Could not send Disconnect message.\n");
+        }
+    }
 
     //--------------------------//
     public void Disconnect() {
@@ -135,12 +148,12 @@ public class MainScreen extends javax.swing.JFrame {
             String people[];
 
             String[] ips;
-            String stream, done = "Done", connect = "Connect", disconnect = "Disconnect", chat = "Chat", hdisconnect = "has disconnected.";
+            String stream, done = "Done", connect = "Connect", disconnect = "Disconnect", chat = "Chat", hdisconnect = "has disconnected";
 
             try {
                 address =  "";
                 int i = 0;
-
+                int x = 0;
                 while ((stream = reader.readLine()) != null) {
                     System.out.println("i: " + i);
 
@@ -148,9 +161,9 @@ public class MainScreen extends javax.swing.JFrame {
                     people = stream.split(":");
 
                     if (data[2].equals(chat) && data[1].equals(hdisconnect)) {
-                        sock.close();
-                        isConnected = false;
                         
+              
+                        System.out.println("_________________________________________" + "\n" + "\n" + "\n" + "...............................");
                         Scanner inFile1 = new Scanner(new File("ips.txt")).useDelimiter(":");
                         String joinedString = String.join(":", data);
 
@@ -179,17 +192,24 @@ public class MainScreen extends javax.swing.JFrame {
                             System.out.println(Arrays.toString(hel));
 
                             for (String str : list) {
+                                
                                 if (str.trim().contains(data[0])) {
                                     System.out.println("goes to change Boolean");
-                                    for(int x = 1; x < list.size(); x++){
-                                       String newip = list.get(x);
+                                    
+                                       String newip = list.get(x+1);
                                         address = newip;
-                                    }
+                                    
                                     writ = false;
 
                                 }
                             }
                         }
+                        if(tf_address.getText().equals(Ipnew)){
+                                    isConnected = false;
+                                    System.out.println("THE CONNECTION WILL BE MADE !!!!!!!!!!!!!!!!!!!");
+                                    System.out.println("_________________________________________" + "\n" + "\n" + "\n" + "...............................");
+                                     System.out.println("THE CONNECTION WILL BE MADE !!!!!!!!!!!!!!!!!!!");
+                                }
                         if (writ) {
 
                             FileWriter writer = new FileWriter("ips.txt", true);
@@ -197,7 +217,28 @@ public class MainScreen extends javax.swing.JFrame {
                             writer.close();
                         }
 
-            
+             //PrivateKey PrivaKey = Encryption.PrK(A);
+                        //byte[] MessageEncrypt = data[1].getBytes();
+                        //String MessageDecrypted = Encryption.DecryptionPart(MessageEncrypt, PrivaKey);
+                        String yolo = Encryption.Signature(data[1]);
+                        //System.out.println(yolo);
+
+                        if (i == 0) {
+                            display.append(currTime() + data[0] + ": " + data[1] + "\n");
+                            display.setCaretPosition(display.getDocument().getLength());
+
+                        } else if (yolo.equals(data[4])) {
+                            display.append(currTime() + data[0] + ": " + data[1] + "\n");
+                            display.setCaretPosition(display.getDocument().getLength());
+                            System.out.println(yolo + "\n" + data[4]);
+
+                        } else {
+                            display.append(currTime() + data[0] + ": " + data[1] + " !messsage has been modified! " + "\n");
+                            System.out.println(Arrays.toString(data));
+                            display.setCaretPosition(display.getDocument().getLength());
+                            System.out.println(yolo + "\n" + data[4]);
+                        }
+                        i++;
             if (isConnected == false)
             {
                 
@@ -221,7 +262,7 @@ public class MainScreen extends javax.swing.JFrame {
                 }
                 catch (Exception ex)
                 {
-                    display.append("Cannot Connect! The server is Offline! Become a coordinator! \n");
+                    x++;
                     
                     
                 }
@@ -233,28 +274,7 @@ public class MainScreen extends javax.swing.JFrame {
                 display.append(currTime() + "You are already connected. \n");
             }
 
-                        //PrivateKey PrivaKey = Encryption.PrK(A);
-                        //byte[] MessageEncrypt = data[1].getBytes();
-                        //String MessageDecrypted = Encryption.DecryptionPart(MessageEncrypt, PrivaKey);
-                        String yolo = Encryption.Signature(data[1]);
-                        //System.out.println(yolo);
-
-                        if (i == 0) {
-                            display.append(currTime() + data[0] + ": " + data[1] + "\n");
-                            display.setCaretPosition(display.getDocument().getLength());
-
-                        } else if (yolo.equals(data[4])) {
-                            display.append(currTime() + data[0] + ": " + data[1] + "\n");
-                            display.setCaretPosition(display.getDocument().getLength());
-                            System.out.println(yolo + "\n" + data[4]);
-
-                        } else {
-                            display.append(currTime() + data[0] + ": " + data[1] + " !messsage has been modified! " + "\n");
-                            System.out.println(Arrays.toString(data));
-                            display.setCaretPosition(display.getDocument().getLength());
-                            System.out.println(yolo + "\n" + data[4]);
-                        }
-                        i++;
+                       
                     } else if (data[2].equals(chat)) {
 
                         Scanner inFile1 = new Scanner(new File("ips.txt")).useDelimiter(":");
@@ -677,6 +697,11 @@ public class MainScreen extends javax.swing.JFrame {
                     writer.flush();
                     isConnected = true;
                     uniqueId.setText(uID);
+                    Connected = true;
+                    if (Connected) {
+                        Ipnew = address;
+                    }
+                    
 
                 } catch (Exception ex) {
                     display.append("Cannot Connect! The server is Offline! Become a coordinator! \n");
@@ -1093,7 +1118,7 @@ public class MainScreen extends javax.swing.JFrame {
                 "Are you sure you want to close this window?", "Close Window?",
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
-            sendDisconnect();
+            sendDisconnect1();
             Disconnect();
             System.exit(0);
         }
