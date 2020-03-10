@@ -180,6 +180,47 @@ public class MainScreen extends javax.swing.JFrame {
 
                     if (data[2].equals(chat))
                     {
+                        Scanner inFile1 = new Scanner(new File("ips.txt")).useDelimiter(":");
+                         String joinedString = String.join(":", data);
+
+                        ips = joinedString.split(":");
+                        String op = ips[3];
+
+    // Original answer used LinkedList, but probably preferable to use ArrayList in most cases
+    // List<String> temps = new LinkedList<String>();
+    List<String> temps = new ArrayList<String>();
+String token1 = "";
+Boolean writ = true;
+    // while loop
+    while (inFile1.hasNext()) {
+      // find next line
+      token1 = inFile1.next();
+      temps.add(token1);
+    }
+    inFile1.close();
+
+    String[] tempsArray = temps.toArray(new String[0]);
+
+    for (String s : tempsArray) {
+        String[] hel = tempsArray;
+      
+       List<String> list = Arrays.asList(hel);
+       System.out.println(Arrays.toString(hel));
+    
+    for(String str: list) {
+    if(str.trim().contains(data[0])){
+       System.out.println("goes Daniels"); 
+       writ = false;
+       
+    }}}
+        if(writ){
+
+
+                        FileWriter writer = new FileWriter("ips.txt", true);
+                        writer.write(ips[0] + ":" + ips[3] + ":");
+                        writer.close();
+    }
+    
 
                         //PrivateKey PrivaKey = Encryption.PrK(A);
                         //byte[] MessageEncrypt = data[1].getBytes();
@@ -188,14 +229,7 @@ public class MainScreen extends javax.swing.JFrame {
 
                         String yolo = Encryption.Signature(data[1]);
                         //System.out.println(yolo);
-                        String joinedString = String.join(":", data);
-
-                        ips = joinedString.split(":");
-                        String op = ips[3];
-
-                        FileWriter writer = new FileWriter("ips.txt", true);
-                        writer.write(ips[0] + ":" + ips[3] + ":");
-                        writer.close();
+                        
 
 
 
@@ -247,12 +281,17 @@ public class MainScreen extends javax.swing.JFrame {
 
                         Onliners.setText("Online Members" + "\n");
                         combobox.removeAllItems();
+                         Onliners.append(users.get(0) + "Coordinator");
+                          Onliners.append("\n");
+                          
                         for (String current_user : users)
                         {
-                          Onliners.append(current_user);
-                          Onliners.append("\n");
-                          combobox.addItem(current_user);
-
+                           combobox.addItem(current_user);   
+                        }
+                        for(int z=1; z < users.size(); z++) {
+                            Onliners.append(users.get(z));
+                            Onliners.append("\n");
+                           
                         }
 
 
@@ -271,11 +310,112 @@ public class MainScreen extends javax.swing.JFrame {
                         String replace2 = replace1.replace(" ", "");
                         users.remove(replace2);
                         combobox.removeAllItems();
+                          Onliners.append(users.get(0) + "Coordinator");
+                          Onliners.append("\n");
+                           Scanner inFile1 = new Scanner(new File("ips.txt")).useDelimiter(":");
+
+    // Original answer used LinkedList, but probably preferable to use ArrayList in most cases
+    // List<String> temps = new LinkedList<String>();
+    List<String> temps = new ArrayList<String>();
+String token1 = "";
+String nextip = "";
+    // while loop
+    while (inFile1.hasNext()) {
+      // find next line
+      token1 = inFile1.next();
+      temps.add(token1);
+    }
+    inFile1.close();
+
+    String[] tempsArray = temps.toArray(new String[0]);
+
+    for (String s : tempsArray) {
+        String[] hel = tempsArray;
+      
+       List<String> list = Arrays.asList(hel);
+       System.out.println(Arrays.toString(hel));
+    
+    for(String str: list) {
+    if(str.trim().contains(users.get(0))){
+       System.out.println("goes Daniels"); 
+       int ip ;
+     ip = list.indexOf(users.get(2));
+           nextip = hel[ip+1];
+           System.out.println(nextip);
+address = nextip;
+
+    }}
+    }
+    
+            
+            try {
+                BufferedReader br = new BufferedReader(new FileReader(filepath1));
+
+                String line;
+
+                while ((line = br.readLine()) != null) {
+
+                    if (line.equals(uID)) {
+                        if (isConnected == false)
+                        {
+
+
+                            System.out.println("address main screen line 504: "+address);
+
+                            try
+                            {
+                                String yolo2 = Encryption.Signature(input.getText());
+                                sock = new Socket(address, port);
+                                System.out.println("sock MainScreen 509: "+sock);
+                                InputStreamReader streamreader = new InputStreamReader(sock.getInputStream());
+                                reader = new BufferedReader(streamreader);
+                                writer = new PrintWriter(sock.getOutputStream());
+                                writer.println(username + ":has connected.:Connect" + ":" + NetInterface.IpUser()+ ":"+yolo2);
+                                writer.flush();
+                                isConnected = true;
+                                uniqueId.setText(uID);
+                                FileWriter writers = new FileWriter("ips.txt", false);
+                        writers.write("");
+                        writers.close();
+                            }
+                            catch (Exception ex)
+                            {
+                                display.append("Cannot Connect! The server is Offline! Become a coordinator! \n");
+
+
+                            }
+
+                            ListenThread();
+
+                        } else if (isConnected == true)
+                        {
+                            display.append(currTime() + "You are already connected. \n");
+                        }
+                        break;
+
+                    }
+                }
+                br.close();
+                if (line == null) {
+                    JOptionPane.showMessageDialog(new JFrame(), "Error! Entered Unique ID doesn't exist in the database.");
+                }
+
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
+
+            }catch (IOException ex) {
+                Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
+
+            }
+                          
                         for (String current_user : users)
                         {
-                          Onliners.append(current_user);
-                          Onliners.append("\n");
-                          combobox.removeItem(current_user);
+                           combobox.removeItem(current_user);   
+                        }
+                        for(int z=1; z < users.size(); z++) {
+                            Onliners.append(users.get(z));
+                            Onliners.append("\n");
+                            
                         }
                       }
                       else if (data[2].equals(done))
@@ -341,7 +481,12 @@ public class MainScreen extends javax.swing.JFrame {
 
         jButton1.setText("jButton1");
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         display.setEditable(false);
         display.setColumns(20);
@@ -1084,6 +1229,18 @@ String token1 = "";
             Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+         Component frame = null;
+        if (JOptionPane.showConfirmDialog(frame, 
+            "Are you sure you want to close this window?", "Close Window?", 
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){
+            sendDisconnect();
+            Disconnect();
+            System.exit(0);
+        }
+    }//GEN-LAST:event_formWindowClosing
                 //Function to set the unique id.
                 public void setUniqueId(String uId)
                 {
@@ -1157,6 +1314,7 @@ String token1 = "";
 
 
                 }
+                
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea Onliners;
