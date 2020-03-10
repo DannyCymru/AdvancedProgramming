@@ -2,6 +2,7 @@
 #define CONNECT_DIALOG_H
 
 #include <QDialog>
+#include <QRegExpValidator>
 
 namespace Ui {
 class connect_dialog;

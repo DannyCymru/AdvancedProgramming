@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>891</width>
+    <width>1041</width>
     <height>581</height>
    </rect>
   </property>
@@ -17,9 +17,9 @@
    <widget class="QPlainTextEdit" name="message_edit">
     <property name="geometry">
      <rect>
-      <x>130</x>
+      <x>170</x>
       <y>0</y>
-      <width>651</width>
+      <width>731</width>
       <height>511</height>
      </rect>
     </property>
@@ -30,9 +30,9 @@
    <widget class="QLineEdit" name="main_user_input">
     <property name="geometry">
      <rect>
-      <x>190</x>
+      <x>220</x>
       <y>520</y>
-      <width>591</width>
+      <width>681</width>
       <height>21</height>
      </rect>
     </property>
@@ -40,7 +40,7 @@
    <widget class="QLabel" name="user_id">
     <property name="geometry">
      <rect>
-      <x>130</x>
+      <x>170</x>
       <y>520</y>
       <width>51</width>
       <height>20</height>
@@ -53,7 +53,7 @@
    <widget class="QPushButton" name="send_button">
     <property name="geometry">
      <rect>
-      <x>790</x>
+      <x>940</x>
       <y>520</y>
       <width>91</width>
       <height>21</height>
@@ -66,9 +66,9 @@
    <widget class="QPlainTextEdit" name="connected_users_edit">
     <property name="geometry">
      <rect>
-      <x>790</x>
+      <x>910</x>
       <y>0</y>
-      <width>91</width>
+      <width>121</width>
       <height>511</height>
      </rect>
     </property>
@@ -81,7 +81,7 @@
      <rect>
       <x>10</x>
       <y>0</y>
-      <width>111</width>
+      <width>151</width>
       <height>541</height>
      </rect>
     </property>
@@ -95,7 +95,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>891</width>
+     <width>1041</width>
      <height>23</height>
     </rect>
    </property>
@@ -135,8 +135,8 @@
    <slot>show()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>445</x>
-     <y>290</y>
+     <x>-1</x>
+     <y>-1</y>
     </hint>
     <hint type="destinationlabel">
      <x>445</x>
