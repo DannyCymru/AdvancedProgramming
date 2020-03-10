@@ -14,6 +14,8 @@ public:
     void send_data(QString new_message);
     QString get_data();
     void read_data();
+    void local_socket(int port);
+    void ip_socket(int port);
 
 signals:
 
@@ -22,8 +24,7 @@ private:
     QUdpSocket *udp_get;
     net_interface *net_int;
 
-    void output_socket();
-    void input_socket();
+
     void group_broadcast();
     void connect_request();
 };
