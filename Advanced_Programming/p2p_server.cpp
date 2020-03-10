@@ -7,29 +7,29 @@ p2p_server::p2p_server(QObject *parent) : QObject(parent)
     /* Function call to check the required network config.
     net_int = new net_interface;
     net_int->net_required();*/
+}
 
-    //UDP Socket initialisations
+//Binds and connects both sockets to the correct address and user
+//inputed port to send and recieving data
+void p2p_server::ip_socket(int port){
     udp_send = new QUdpSocket(this);
-    udp_get = new QUdpSocket(this);
+    udp_send->connectToHost(QHostAddress::Broadcast, port);
+}
 
-    //Binds and connects both sockets to the correct address for sending and recieving data
-    udp_send->connectToHost(QHostAddress::Broadcast, 57000);
-    udp_get->bind(QHostAddress::AnyIPv4, 57000);
+void p2p_server::local_socket(int port){
+
+    udp_get = new QUdpSocket(this);
+    udp_get->bind(QHostAddress::AnyIPv4, port);
 
     //Connects the receiver to the correct function and ensures socket is in read mode.
     connect(udp_get, &QUdpSocket::readyRead, this, &p2p_server::read_data);
-
-}
-
-void p2p_server::output_socket(){
-
-}
-
-void p2p_server::input_socket(){
-
 }
 
 void p2p_server::group_broadcast(){
+
+}
+
+void p2p_server::connect_request(){
 
 }
 
