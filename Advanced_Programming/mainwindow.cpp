@@ -86,12 +86,21 @@ void MainWindow::set_variables(QString initialise_vars){
 //Menu bar -> file -> connect action
 void MainWindow::on_actionConnect_triggered(){
   connect = new connect_dialog;
+  try {
     //If dialog exits in an accepted state then it obtains the information inputted.
     if ( connect->exec()== QDialog::Accepted) {
         QVector<QString>v = connect->get_data();
+        if(v.size() == 4){
         ui->user_id->setText(v[0]);
         ui->host_list_edit->appendPlainText(v[2]+":"+v[3]);
-
+        }
+        else{
+            ui->message_edit->appendPlainText("Did not fill in all the inputs");
+        }
     }
+  }
+  catch(...){
+
+  }
 
 }
