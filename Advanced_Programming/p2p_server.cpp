@@ -21,6 +21,18 @@ p2p_server::p2p_server(QObject *parent) : QObject(parent)
 
 }
 
+void p2p_server::output_socket(){
+
+}
+
+void p2p_server::input_socket(){
+
+}
+
+void p2p_server::group_broadcast(){
+
+}
+
 //Reads data from incoming datagrams.
 void p2p_server::read_data(){
     QHostAddress sender;

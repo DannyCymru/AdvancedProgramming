@@ -22,6 +22,9 @@ private:
     QUdpSocket *udp_get;
     net_interface *net_int;
 
+    void output_socket();
+    void input_socket();
+    void group_broadcast();
 };
 
 #endif // P2P_SERVER_H
