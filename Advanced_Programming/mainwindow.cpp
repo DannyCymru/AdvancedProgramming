@@ -83,8 +83,10 @@ void MainWindow::set_variables(QString initialise_vars){
         }
 }
 
+//Menu bar -> file -> connect action
 void MainWindow::on_actionConnect_triggered(){
   connect = new connect_dialog;
+    //If dialog exits in an accepted state then runs it gets the data function
     if ( connect->exec()== QDialog::Accepted) {
         QVector<QString>v = connect->get_data();
         for (QString s : v){
