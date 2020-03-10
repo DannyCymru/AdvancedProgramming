@@ -2,7 +2,7 @@
 * To change this license header, choose License Headers in Project Properties.
 * To change this template file, choose Tools | Templates
 * and open the template in the editor.
-*/
+ */
 package advancedprogramming;
 
 import advancedprogramming.Serv;
@@ -47,13 +47,11 @@ import java.util.Scanner;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
 
-
 /**
-*
-* @author dm5376y
-*/
+ *
+ * @author dm5376y
+ */
 public class MainScreen extends javax.swing.JFrame {
-
 
     String filepath1 = "IDs.txt";
     File file = new File(filepath1);
@@ -69,206 +67,261 @@ public class MainScreen extends javax.swing.JFrame {
     Socket sock;
     BufferedReader reader;
     PrintWriter writer;
-    int a =0;
-
-
+    int a = 0;
 
     //--------------------------//
-
-    public void ListenThread()
-    {
+    public void ListenThread() {
         Thread IncomingReader = new Thread(new IncomingReader());
         IncomingReader.start();
     }
 
     //--------------------------//
-
-    public void userAdd(String data)
-    {
+    public void userAdd(String data) {
         users.add(data);
     }
 
     //--------------------------//
-
-    public void userRemove(String data)
-    {
+    public void userRemove(String data) {
         display.append(data + " is now offline.\n");
     }
 
     //--------------------------//
-
-    public void writeUsers()
-    {
+    public void writeUsers() {
         String[] tempList = new String[(users.size())];
         users.toArray(tempList);
-        for (String token:tempList)
-        {
+        for (String token : tempList) {
             //users.append(token + "\n");
         }
     }
 
     //--------------------------//
-
-    public void sendDisconnect()
-    {
+    public void sendDisconnect() {
         String bye;
-        try
-        {
+        try {
             String yolo2 = Encryption.Signature(input.getText());
-            bye = username + ": :Disconnect"+ ":" + NetInterface.IpUser()+ ":"+yolo2 ;
+            bye = username + ": :Disconnect" + ":" + NetInterface.IpUser() + ":" + yolo2;
             writer.println(bye);
             writer.flush();
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             display.append(currTime() + "Could not send Disconnect message.\n");
         }
     }
 
     //--------------------------//
-
-    public void Disconnect()
-    {
-        try
-        {
+    public void Disconnect() {
+        try {
 
             display.append(currTime() + "Disconnected.\n");
             sock.close();
-        } catch(Exception ex) {
+        } catch (Exception ex) {
             display.append(currTime() + "Failed to disconnect. \n");
         }
         isConnected = false;
 
-
     }
 
-
     public MainScreen() {
-
 
         initComponents();
 
     }
 
-
-    public class IncomingReader implements Runnable
-    {
-
+    public class IncomingReader implements Runnable {
 
         @Override
-        public void run()
-        {
-
+        public void run() {
             String[] data;
 
             String people[];
 
             String[] ips;
-            String stream, done = "Done", connect = "Connect", disconnect = "Disconnect", chat = "Chat";
+            String stream, done = "Done", connect = "Connect", disconnect = "Disconnect", chat = "Chat", hdisconnect = "has disconnected.";
 
-            try
-            {
+            try {
+                address =  "";
                 int i = 0;
 
-                while ((stream = reader.readLine()) != null)
-                {
-                    System.out.println("i: "+i);
-
+                while ((stream = reader.readLine()) != null) {
+                    System.out.println("i: " + i);
 
                     data = stream.split(":");
                     people = stream.split(":");
 
-
-                    if (data[2].equals(chat))
-                    {
+                    if (data[2].equals(chat) && data[1].equals(hdisconnect)) {
+                        sock.close();
+                        isConnected = false;
+                        
                         Scanner inFile1 = new Scanner(new File("ips.txt")).useDelimiter(":");
-                         String joinedString = String.join(":", data);
+                        String joinedString = String.join(":", data);
 
                         ips = joinedString.split(":");
                         String op = ips[3];
 
-    // Original answer used LinkedList, but probably preferable to use ArrayList in most cases
-    // List<String> temps = new LinkedList<String>();
-    List<String> temps = new ArrayList<String>();
-String token1 = "";
-Boolean writ = true;
-    // while loop
-    while (inFile1.hasNext()) {
-      // find next line
-      token1 = inFile1.next();
-      temps.add(token1);
-    }
-    inFile1.close();
+                        // Original answer used LinkedList, but probably preferable to use ArrayList in most cases
+                        // List<String> temps = new LinkedList<String>();
+                        List<String> temps = new ArrayList<String>();
+                        String token1 = "";
+                        Boolean writ = true;
+                        // while loop
+                        while (inFile1.hasNext()) {
+                            // find next line
+                            token1 = inFile1.next();
+                            temps.add(token1);
+                        }
+                        inFile1.close();
 
-    String[] tempsArray = temps.toArray(new String[0]);
+                        String[] tempsArray = temps.toArray(new String[0]);
 
-    for (String s : tempsArray) {
-        String[] hel = tempsArray;
-      
-       List<String> list = Arrays.asList(hel);
-       System.out.println(Arrays.toString(hel));
-    
-    for(String str: list) {
-    if(str.trim().contains(data[0])){
-       System.out.println("goes Daniels"); 
-       writ = false;
-       
-    }}}
-        if(writ){
+                        for (String s : tempsArray) {
+                            String[] hel = tempsArray;
 
+                            List<String> list = Arrays.asList(hel);
+                            System.out.println(Arrays.toString(hel));
 
-                        FileWriter writer = new FileWriter("ips.txt", true);
-                        writer.write(ips[0] + ":" + ips[3] + ":");
-                        writer.close();
-    }
-    
+                            for (String str : list) {
+                                if (str.trim().contains(data[0])) {
+                                    System.out.println("goes to change Boolean");
+                                    for(int x = 1; x < list.size(); x++){
+                                       String newip = list.get(x);
+                                        address = newip;
+                                    }
+                                    writ = false;
+
+                                }
+                            }
+                        }
+                        if (writ) {
+
+                            FileWriter writer = new FileWriter("ips.txt", true);
+                            writer.write(ips[0] + ":" + ips[3] + ":");
+                            writer.close();
+                        }
+
+            
+            if (isConnected == false)
+            {
+                
+                
+                System.out.println("address main screen line 504: "+address);
+                
+                try
+                {
+                    String yolo2 = Encryption.Signature(input.getText());
+                    sock = new Socket(address, port);
+                    System.out.println("sock MainScreen 509: "+sock);
+                    InputStreamReader streamreader = new InputStreamReader(sock.getInputStream());
+                    reader = new BufferedReader(streamreader);
+                    writer = new PrintWriter(sock.getOutputStream());
+                    writer.println(username + ":has connected.:Connect" + ":" + NetInterface.IpUser()+ ":"+yolo2);
+                    writer.flush();
+                    isConnected = true;
+                    uniqueId.setText(uID);
+                    System.out.println("REEEEEEEEEEEEEEEECOOOOOOOONEEEECTEEEED");
+                    
+                }
+                catch (Exception ex)
+                {
+                    display.append("Cannot Connect! The server is Offline! Become a coordinator! \n");
+                    
+                    
+                }
+                
+                ListenThread();
+                
+            } else if (isConnected == true)
+            {
+                display.append(currTime() + "You are already connected. \n");
+            }
 
                         //PrivateKey PrivaKey = Encryption.PrK(A);
                         //byte[] MessageEncrypt = data[1].getBytes();
                         //String MessageDecrypted = Encryption.DecryptionPart(MessageEncrypt, PrivaKey);
-
-
                         String yolo = Encryption.Signature(data[1]);
                         //System.out.println(yolo);
-                        
 
-
-
-
-
-                        if(i == 0)
-                        {
-                            display.append(currTime() + data[0] + ": " + data[1] +"\n");
+                        if (i == 0) {
+                            display.append(currTime() + data[0] + ": " + data[1] + "\n");
                             display.setCaretPosition(display.getDocument().getLength());
 
-                        }
-                        else if(yolo.equals(data[4]))
-                        {
-                            display.append(currTime() + data[0] + ": " + data[1] +"\n");
+                        } else if (yolo.equals(data[4])) {
+                            display.append(currTime() + data[0] + ": " + data[1] + "\n");
                             display.setCaretPosition(display.getDocument().getLength());
-                            System.out.println(yolo+"\n"+data[4]);
-                            
-                        }
-                        else{
-                            display.append(currTime() + data[0] + ": " + data[1] +" !messsage has been modified! "+"\n");
+                            System.out.println(yolo + "\n" + data[4]);
+
+                        } else {
+                            display.append(currTime() + data[0] + ": " + data[1] + " !messsage has been modified! " + "\n");
+                            System.out.println(Arrays.toString(data));
                             display.setCaretPosition(display.getDocument().getLength());
-                            System.out.println(yolo+"\n"+data[4]);
+                            System.out.println(yolo + "\n" + data[4]);
                         }
-
-
-
-
-
                         i++;
-                    }
+                    } else if (data[2].equals(chat)) {
 
+                        Scanner inFile1 = new Scanner(new File("ips.txt")).useDelimiter(":");
+                        String joinedString = String.join(":", data);
 
+                        ips = joinedString.split(":");
+                        String op = ips[3];
 
+                        // Original answer used LinkedList, but probably preferable to use ArrayList in most cases
+                        // List<String> temps = new LinkedList<String>();
+                        List<String> temps = new ArrayList<String>();
+                        String token1 = "";
+                        Boolean writ = true;
+                        // while loop
+                        while (inFile1.hasNext()) {
+                            // find next line
+                            token1 = inFile1.next();
+                            temps.add(token1);
+                        }
+                        inFile1.close();
 
+                        String[] tempsArray = temps.toArray(new String[0]);
 
+                        for (String s : tempsArray) {
+                            String[] hel = tempsArray;
 
-                    else if (data[2].equals(connect))
-                    {
+                            List<String> list = Arrays.asList(hel);
+                            System.out.println(Arrays.toString(hel));
 
+                            for (String str : list) {
+                                if (str.trim().contains(data[0])) {
+                                    System.out.println("goes to change Boolean");
+                                    writ = false;
+
+                                }
+                            }
+                        }
+                        if (writ) {
+
+                            FileWriter writer = new FileWriter("ips.txt", true);
+                            writer.write(ips[0] + ":" + ips[3] + ":");
+                            writer.close();
+                        }
+
+                        //PrivateKey PrivaKey = Encryption.PrK(A);
+                        //byte[] MessageEncrypt = data[1].getBytes();
+                        //String MessageDecrypted = Encryption.DecryptionPart(MessageEncrypt, PrivaKey);
+                        String yolo = Encryption.Signature(data[1]);
+                        //System.out.println(yolo);
+
+                        if (i == 0) {
+                            display.append(currTime() + data[0] + ": " + data[1] + "\n");
+                            display.setCaretPosition(display.getDocument().getLength());
+
+                        } else if (yolo.equals(data[4])) {
+                            display.append(currTime() + data[0] + ": " + data[1] + "\n");
+                            display.setCaretPosition(display.getDocument().getLength());
+                            System.out.println(yolo + "\n" + data[4]);
+
+                        } else {
+                            display.append(currTime() + data[0] + ": " + data[1] + " !messsage has been modified! " + "\n");
+                            System.out.println(Arrays.toString(data));
+                            display.setCaretPosition(display.getDocument().getLength());
+                            System.out.println(yolo + "\n" + data[4]);
+                        }
+                        i++;
+                    } else if (data[2].equals(connect)) {
 
                         display.removeAll();
                         userAdd(data[0]);
@@ -277,31 +330,21 @@ Boolean writ = true;
                         String replace1 = replace.replace("Connect", "");
                         String replace2 = replace1.replace(" ", "");
 
-
-
                         Onliners.setText("Online Members" + "\n");
                         combobox.removeAllItems();
-                         Onliners.append(users.get(0) + "Coordinator");
-                          Onliners.append("\n");
-                          
-                        for (String current_user : users)
-                        {
-                           combobox.addItem(current_user);   
+                        Onliners.append(users.get(0) + "Coordinator");
+                        Onliners.append("\n");
+
+                        for (String current_user : users) {
+                            combobox.addItem(current_user);
                         }
-                        for(int z=1; z < users.size(); z++) {
+                        for (int z = 1; z < users.size(); z++) {
                             Onliners.append(users.get(z));
                             Onliners.append("\n");
-                           
+
                         }
 
-
-
-
-
-
-                      }
-                      else if (data[2].equals(disconnect))
-                      {
+                    } else if (data[2].equals(disconnect)) {
 
                         userRemove(data[0]);
                         String conne = Arrays.toString(people);
@@ -310,139 +353,37 @@ Boolean writ = true;
                         String replace2 = replace1.replace(" ", "");
                         users.remove(replace2);
                         combobox.removeAllItems();
-                          Onliners.append(users.get(0) + "Coordinator");
-                          Onliners.append("\n");
-                           Scanner inFile1 = new Scanner(new File("ips.txt")).useDelimiter(":");
+                        Onliners.append(users.get(0) + "Coordinator");
+                        Onliners.append("\n");
 
-    // Original answer used LinkedList, but probably preferable to use ArrayList in most cases
-    // List<String> temps = new LinkedList<String>();
-    List<String> temps = new ArrayList<String>();
-String token1 = "";
-String nextip = "";
-    // while loop
-    while (inFile1.hasNext()) {
-      // find next line
-      token1 = inFile1.next();
-      temps.add(token1);
-    }
-    inFile1.close();
-
-    String[] tempsArray = temps.toArray(new String[0]);
-
-    for (String s : tempsArray) {
-        String[] hel = tempsArray;
-      
-       List<String> list = Arrays.asList(hel);
-       System.out.println(Arrays.toString(hel));
-    
-    for(String str: list) {
-    if(str.trim().contains(users.get(0))){
-       System.out.println("goes Daniels"); 
-       int ip ;
-     ip = list.indexOf(users.get(2));
-           nextip = hel[ip+1];
-           System.out.println(nextip);
-address = nextip;
-
-    }}
-    }
-    
-            
-            try {
-                BufferedReader br = new BufferedReader(new FileReader(filepath1));
-
-                String line;
-
-                while ((line = br.readLine()) != null) {
-
-                    if (line.equals(uID)) {
-                        if (isConnected == false)
-                        {
-
-
-                            System.out.println("address main screen line 504: "+address);
-
-                            try
-                            {
-                                String yolo2 = Encryption.Signature(input.getText());
-                                sock = new Socket(address, port);
-                                System.out.println("sock MainScreen 509: "+sock);
-                                InputStreamReader streamreader = new InputStreamReader(sock.getInputStream());
-                                reader = new BufferedReader(streamreader);
-                                writer = new PrintWriter(sock.getOutputStream());
-                                writer.println(username + ":has connected.:Connect" + ":" + NetInterface.IpUser()+ ":"+yolo2);
-                                writer.flush();
-                                isConnected = true;
-                                uniqueId.setText(uID);
-                                FileWriter writers = new FileWriter("ips.txt", false);
-                        writers.write("");
-                        writers.close();
-                            }
-                            catch (Exception ex)
-                            {
-                                display.append("Cannot Connect! The server is Offline! Become a coordinator! \n");
-
-
-                            }
-
-                            ListenThread();
-
-                        } else if (isConnected == true)
-                        {
-                            display.append(currTime() + "You are already connected. \n");
+                        for (String current_user : users) {
+                            combobox.removeItem(current_user);
                         }
-                        break;
-
-                    }
-                }
-                br.close();
-                if (line == null) {
-                    JOptionPane.showMessageDialog(new JFrame(), "Error! Entered Unique ID doesn't exist in the database.");
-                }
-
-            } catch (FileNotFoundException ex) {
-                Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
-
-            }catch (IOException ex) {
-                Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
-
-            }
-                          
-                        for (String current_user : users)
-                        {
-                           combobox.removeItem(current_user);   
-                        }
-                        for(int z=1; z < users.size(); z++) {
+                        for (int z = 1; z < users.size(); z++) {
                             Onliners.append(users.get(z));
                             Onliners.append("\n");
-                            
+
                         }
-                      }
-                      else if (data[2].equals(done))
-                      {
+                    } else if (data[2].equals(done)) {
 
                         //users.setText("");
                         writeUsers();
                         users.clear();
 
-                      }
                     }
-                  }catch(Exception ex) { }
+
                 }
-              }
+            } catch (Exception ex) {
+            }
+        }
+    }
 
-
-
-
-
-
-
-        /**
-        * This method is called from within the constructor to initialize the form.
-        * WARNING: Do NOT modify this code. The content of this method is always
-        * regenerated by the Form Editor.
-        */
-        @SuppressWarnings("unchecked")
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -672,8 +613,6 @@ address = nextip;
 
         private void sendTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendTextActionPerformed
 
-
-
             String nothing = "";
             if ((input.getText()).equals(nothing)) {
                 input.setText("");
@@ -689,7 +628,7 @@ address = nextip;
                     //byte[] MessageEncrypted = Encryption.EncryptionPart(messageToEncrypt, PubliKey);
                     String yolo2 = Encryption.Signature(input.getText());
 
-                    writer.println(username + ":" + input.getText() /*Arrays.toString(MessageEncrypted)*/ + ":" + "Chat" + ":" + NetInterface.IpUser()+":"+yolo2);
+                    writer.println(username + ":" + input.getText() /*Arrays.toString(MessageEncrypted)*/ + ":" + "Chat" + ":" + NetInterface.IpUser() + ":" + yolo2);
                     writer.flush(); // flushes the buffer
 
                 } catch (Exception ex) {
@@ -701,6 +640,8 @@ address = nextip;
 
             input.setText("");
             input.requestFocus();
+
+
         }//GEN-LAST:event_sendTextActionPerformed
 
         private void tf_addressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_addressActionPerformed
@@ -720,67 +661,32 @@ address = nextip;
 
         private void b_connect1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_connect1ActionPerformed
 
+            address = tf_address.getText();
+            if (isConnected == false) {
 
+                System.out.println("address main screen line 504: " + address);
 
-            address =  tf_address.getText();
-            try {
-                BufferedReader br = new BufferedReader(new FileReader(filepath1));
+                try {
+                    String yolo2 = Encryption.Signature(input.getText());
+                    sock = new Socket(address, port);
+                    System.out.println("sock MainScreen 509: " + sock);
+                    InputStreamReader streamreader = new InputStreamReader(sock.getInputStream());
+                    reader = new BufferedReader(streamreader);
+                    writer = new PrintWriter(sock.getOutputStream());
+                    writer.println(username + ":has connected.:Connect" + ":" + NetInterface.IpUser() + ":" + yolo2);
+                    writer.flush();
+                    isConnected = true;
+                    uniqueId.setText(uID);
 
-                String line;
+                } catch (Exception ex) {
+                    display.append("Cannot Connect! The server is Offline! Become a coordinator! \n");
 
-                while ((line = br.readLine()) != null) {
-
-                    if (line.equals(uID)) {
-                        if (isConnected == false)
-                        {
-
-
-                            System.out.println("address main screen line 504: "+address);
-
-                            try
-                            {
-                                String yolo2 = Encryption.Signature(input.getText());
-                                sock = new Socket(address, port);
-                                System.out.println("sock MainScreen 509: "+sock);
-                                InputStreamReader streamreader = new InputStreamReader(sock.getInputStream());
-                                reader = new BufferedReader(streamreader);
-                                writer = new PrintWriter(sock.getOutputStream());
-                                writer.println(username + ":has connected.:Connect" + ":" + NetInterface.IpUser()+ ":"+yolo2);
-                                writer.flush();
-                                isConnected = true;
-                                uniqueId.setText(uID);
-                                FileWriter writers = new FileWriter("ips.txt", false);
-                        writers.write("");
-                        writers.close();
-                            }
-                            catch (Exception ex)
-                            {
-                                display.append("Cannot Connect! The server is Offline! Become a coordinator! \n");
-
-
-                            }
-
-                            ListenThread();
-
-                        } else if (isConnected == true)
-                        {
-                            display.append(currTime() + "You are already connected. \n");
-                        }
-                        break;
-
-                    }
-                }
-                br.close();
-                if (line == null) {
-                    JOptionPane.showMessageDialog(new JFrame(), "Error! Entered Unique ID doesn't exist in the database.");
                 }
 
-            } catch (FileNotFoundException ex) {
-                Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
+                ListenThread();
 
-            }catch (IOException ex) {
-                Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
-
+            } else if (isConnected == true) {
+                display.append(currTime() + "You are already connected. \n");
             }
 
 
@@ -795,381 +701,336 @@ address = nextip;
         }//GEN-LAST:event_comboboxActionPerformed
 
         private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
- 
-
 
             String selected = combobox.getSelectedItem().toString();
 
-            try{
+            try {
 
                 BufferedReader br = new BufferedReader(new FileReader("ips.txt"));
-String dan = "";
-String dp = "";
-String jak ="";
-String jp = "";
-String danny= "";
-String dap = "";
-String bar = "";
-String bp = "";
+                String dan = "";
+                String dp = "";
+                String jak = "";
+                String jp = "";
+                String danny = "";
+                String dap = "";
+                String bar = "";
+                String bp = "";
 
                 Scanner inFile1 = new Scanner(new File("ips.txt")).useDelimiter(":");
 
-    // Original answer used LinkedList, but probably preferable to use ArrayList in most cases
-    // List<String> temps = new LinkedList<String>();
-    List<String> temps = new ArrayList<String>();
-String token1 = "";
-    // while loop
-    while (inFile1.hasNext()) {
-      // find next line
-      token1 = inFile1.next();
-      temps.add(token1);
-    }
-    inFile1.close();
+                // Original answer used LinkedList, but probably preferable to use ArrayList in most cases
+                // List<String> temps = new LinkedList<String>();
+                List<String> temps = new ArrayList<String>();
+                String token1 = "";
+                // while loop
+                while (inFile1.hasNext()) {
+                    // find next line
+                    token1 = inFile1.next();
+                    temps.add(token1);
+                }
+                inFile1.close();
 
-    String[] tempsArray = temps.toArray(new String[0]);
+                String[] tempsArray = temps.toArray(new String[0]);
 
-    for (String s : tempsArray) {
-        String[] hel = tempsArray;
-      
-       List<String> list = Arrays.asList(hel);
-       System.out.println(Arrays.toString(hel));
-       
-   for(String str: list) {
-    if(str.trim().contains("dm5376y")){
-       System.out.println("goes Daniels"); 
-       int ip ;
-     ip = list.indexOf("dm5376y");
-           dan = hel[ip];
-             dp = hel[ip+1];
+                for (String s : tempsArray) {
+                    String[] hel = tempsArray;
 
+                    List<String> list = Arrays.asList(hel);
+                    System.out.println(Arrays.toString(hel));
 
-    }
-   }
-        
-  for(String str: list) {
-    if(str.trim().contains("jn9942d")){
-       System.out.println("goes Jake"); 
-       int ip ;
-     ip = list.indexOf("jn9942d");
-           jak = hel[ip];
-             jp = hel[ip+1];
-    }
-       
-}
-       for(String str: list) {
-    if(str.trim().contains("dr3344j")){
-            System.out.println("goes Danny"); 
-             int ip ;
-     ip = list.indexOf("dr3344j");
-            danny = hel[ip];
-             dap = hel[ip+1];
-             
-        }
-       }
-    for(String str: list) {
-    if(str.trim().contains("bm4904f")){
-            System.out.println("goes Barney"); 
-              int ip ;
-     ip = list.indexOf("bm4904f");
-            bar = hel[ip];
-             bp = hel[ip+1];
-    }
-    
-        
-    
-    
-    }
-    }
-System.out.println(dan + "<------------------------------>" + dp);
-System.out.println(jak + "<------------------------------>" + jp);
-System.out.println(danny + "<------------------------------>" + dap);
-System.out.println(bar + "<------------------------------>" + bp);
-
-
-                      if(selected.equals(username)){
-    System.out.println("ERRROOOR!!!!!!!");
-  
-}
-                      else if(selected.equals("dm5376y")&& dan.equals(selected)){
-                        sendDisconnect();
-                        Disconnect();
-                        Onliners.setText("Online Members:");
-                        combobox.removeAllItems();
-                        address = dp;
-
-                        try {
-                            br = new BufferedReader(new FileReader(filepath1));
-
-                            String line;
-
-                            while ((line = br.readLine()) != null) {
-
-                                if (line.equals(uID)) {
-                                    if (isConnected == false)
-                                    {
-
-
-                                        System.out.println("address main screen line 429: "+address);
-
-                                        try
-                                        {
-                                            String yolo2 = Encryption.Signature(input.getText());
-                                            sock = new Socket(address, port);
-                                            System.out.println("sock MainScreen 426: "+sock);
-                                            InputStreamReader streamreader = new InputStreamReader(sock.getInputStream());
-                                            reader = new BufferedReader(streamreader);
-                                            writer = new PrintWriter(sock.getOutputStream());
-                                            writer.println(username + ":has connected.:Connect"+ ":" + NetInterface.IpUser()+ ":"+yolo2);
-                                            writer.flush();
-                                            isConnected = true;
-                                            uniqueId.setText(uID);
-                                        }
-                                        catch (Exception ex)
-                                        {
-                                            display.append("Cannot Connect! The server is Offline! Become a coordinator! \n");
-
-
-                                        }
-
-                                        ListenThread();
-
-                                    } else if (isConnected == true)
-                                    {
-                                        display.append(currTime() + "You are already connected. \n");
-                                    }
-                                    break;
-
-                                }
-                            }
-                            br.close();
-                            if (line == null) {
-                                JOptionPane.showMessageDialog(new JFrame(), "Error! Entered Unique ID doesn't exist in the database.");
-                            }
-
-                        } catch (FileNotFoundException ex) {
-                            Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
-
-                        }catch (IOException ex) {
-                            Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
+                    for (String str : list) {
+                        if (str.trim().contains("dm5376y")) {
+                            System.out.println("goes Daniels");
+                            int ip;
+                            ip = list.indexOf("dm5376y");
+                            dan = hel[ip];
+                            dp = hel[ip + 1];
 
                         }
                     }
-                   else if(selected.equals("dr3344j")&& danny.equals(selected)){
-                        sendDisconnect();
-                        Disconnect();
-                        Onliners.setText("Online Members:");
-                        combobox.removeAllItems();
-                       
-                        address = dp;
-                        try {
-                            br = new BufferedReader(new FileReader(filepath1));
 
-                            String line;
+                    for (String str : list) {
+                        if (str.trim().contains("jn9942d")) {
+                            System.out.println("goes Jake");
+                            int ip;
+                            ip = list.indexOf("jn9942d");
+                            jak = hel[ip];
+                            jp = hel[ip + 1];
+                        }
 
-                            while ((line = br.readLine()) != null) {
-
-                                if (line.equals(uID)) {
-                                    if (isConnected == false)
-                                    {
-
-
-                                        System.out.println("address main screen line 429: "+address);
-
-                                        try
-                                        {
-                                            String yolo2 = Encryption.Signature(input.getText());
-                                            sock = new Socket(address, port);
-                                            System.out.println("sock MainScreen 426: "+sock);
-                                            InputStreamReader streamreader = new InputStreamReader(sock.getInputStream());
-                                            reader = new BufferedReader(streamreader);
-                                            writer = new PrintWriter(sock.getOutputStream());
-                                            writer.println(username + ":has connected.:Connect"+ ":" + NetInterface.IpUser()+ ":"+yolo2);
-                                            writer.flush();
-                                            isConnected = true;
-                                            uniqueId.setText(uID);
-                                        }
-                                        catch (Exception ex)
-                                        {
-                                            display.append("Cannot Connect! The server is Offline! Become a coordinator! \n");
-
-
-                                        }
-
-                                        ListenThread();
-
-                                    } else if (isConnected == true)
-                                    {
-                                        display.append(currTime() + "You are already connected. \n");
-                                    }
-                                    break;
-
-                                }
-                            }
-                            br.close();
-                            if (line == null) {
-                                JOptionPane.showMessageDialog(new JFrame(), "Error! Entered Unique ID doesn't exist in the database.");
-                            }
-
-                        } catch (FileNotFoundException ex) {
-                            Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
-
-                        }catch (IOException ex) {
-                            Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    for (String str : list) {
+                        if (str.trim().contains("dr3344j")) {
+                            System.out.println("goes Danny");
+                            int ip;
+                            ip = list.indexOf("dr3344j");
+                            danny = hel[ip];
+                            dap = hel[ip + 1];
 
                         }
                     }
-                   else if(selected.equals("jn9942d")&& jak.equals(selected)){
-                        sendDisconnect();
-                        Disconnect();
-                        Onliners.setText("Online Members:");
-                        combobox.removeAllItems();
-                      
-                        address = jp;
-                        try {
-                            br = new BufferedReader(new FileReader(filepath1));
-
-                            String line;
-
-                            while ((line = br.readLine()) != null) {
-
-                                if (line.equals(uID)) {
-                                    if (isConnected == false)
-                                    {
-
-
-                                        System.out.println("address main screen line 429: "+address);
-
-                                        try
-                                        {
-                                            String yolo2 = Encryption.Signature(input.getText());
-                                            sock = new Socket(address, port);
-                                            System.out.println("sock MainScreen 426: "+sock);
-                                            InputStreamReader streamreader = new InputStreamReader(sock.getInputStream());
-                                            reader = new BufferedReader(streamreader);
-                                            writer = new PrintWriter(sock.getOutputStream());
-                                            writer.println(username + ":has connected.:Connect"+ ":" + NetInterface.IpUser()+ ":"+yolo2);
-                                            writer.flush();
-                                            isConnected = true;
-                                            uniqueId.setText(uID);
-                                        }
-                                        catch (Exception ex)
-                                        {
-                                            display.append("Cannot Connect! The server is Offline! Become a coordinator! \n");
-
-
-                                        }
-
-                                        ListenThread();
-
-                                    } else if (isConnected == true)
-                                    {
-                                        display.append(currTime() + "You are already connected. \n");
-                                    }
-                                    break;
-
-                                }
-                            }
-                            br.close();
-                            if (line == null) {
-                                JOptionPane.showMessageDialog(new JFrame(), "Error! Entered Unique ID doesn't exist in the database.");
-                            }
-
-                        } catch (FileNotFoundException ex) {
-                            Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
-
-                        }catch (IOException ex) {
-                            Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
-
+                    for (String str : list) {
+                        if (str.trim().contains("bm4904f")) {
+                            System.out.println("goes Barney");
+                            int ip;
+                            ip = list.indexOf("bm4904f");
+                            bar = hel[ip];
+                            bp = hel[ip + 1];
                         }
+
                     }
-                  else  if(selected.equals("bm4904f")&& bar.equals(selected)){
-                        sendDisconnect();
-                        Disconnect();
-                        Onliners.setText("Online Members:");
-                        combobox.removeAllItems();
-                       address = bp;
-                        try {
-                            br = new BufferedReader(new FileReader(filepath1));
+                }
+                System.out.println(dan + "<------------------------------>" + dp);
+                System.out.println(jak + "<------------------------------>" + jp);
+                System.out.println(danny + "<------------------------------>" + dap);
+                System.out.println(bar + "<------------------------------>" + bp);
 
-                            String line;
+                if (selected.equals(username)) {
+                    System.out.println("ERRROOOR!!!!!!!");
 
-                            while ((line = br.readLine()) != null) {
+                } else if (selected.equals("dm5376y") && dan.equals(selected)) {
+                    sendDisconnect();
+                    Disconnect();
+                    Onliners.setText("Online Members:");
+                    combobox.removeAllItems();
+                    address = dp;
 
-                                if (line.equals(uID)) {
-                                    if (isConnected == false)
-                                    {
+                    try {
+                        br = new BufferedReader(new FileReader(filepath1));
 
+                        String line;
 
-                                        System.out.println("address main screen line 429: "+address);
+                        while ((line = br.readLine()) != null) {
 
-                                        try
-                                        {
-                                            String yolo2 = Encryption.Signature(input.getText());
-                                            sock = new Socket(address, port);
-                                            System.out.println("sock MainScreen 426: "+sock);
-                                            InputStreamReader streamreader = new InputStreamReader(sock.getInputStream());
-                                            reader = new BufferedReader(streamreader);
-                                            writer = new PrintWriter(sock.getOutputStream());
-                                            writer.println(username + ":has connected.:Connect"+ ":" + NetInterface.IpUser()+ ":"+yolo2);
-                                            writer.flush();
-                                            isConnected = true;
-                                            uniqueId.setText(uID);
-                                        }
-                                        catch (Exception ex)
-                                        {
-                                            display.append("Cannot Connect! The server is Offline! Become a coordinator! \n");
+                            if (line.equals(uID)) {
+                                if (isConnected == false) {
 
+                                    System.out.println("address main screen line 429: " + address);
 
-                                        }
+                                    try {
+                                        String yolo2 = Encryption.Signature(input.getText());
+                                        sock = new Socket(address, port);
+                                        System.out.println("sock MainScreen 426: " + sock);
+                                        InputStreamReader streamreader = new InputStreamReader(sock.getInputStream());
+                                        reader = new BufferedReader(streamreader);
+                                        writer = new PrintWriter(sock.getOutputStream());
+                                        writer.println(username + ":has connected.:Connect" + ":" + NetInterface.IpUser() + ":" + yolo2);
+                                        writer.flush();
+                                        isConnected = true;
+                                        uniqueId.setText(uID);
+                                    } catch (Exception ex) {
+                                        display.append("Cannot Connect! The server is Offline! Become a coordinator! \n");
 
-                                        ListenThread();
-
-                                    } else if (isConnected == true)
-                                    {
-                                        display.append(currTime() + "You are already connected. \n");
                                     }
-                                    break;
 
+                                    ListenThread();
+
+                                } else if (isConnected == true) {
+                                    display.append(currTime() + "You are already connected. \n");
                                 }
+                                break;
+
                             }
-                            br.close();
-                            if (line == null) {
-                                JOptionPane.showMessageDialog(new JFrame(), "Error! Entered Unique ID doesn't exist in the database.");
-                            }
-
-                        } catch (FileNotFoundException ex) {
-                            Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
-
-                        }catch (IOException ex) {
-                            Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
-
                         }
-                    }
+                        br.close();
+                        if (line == null) {
+                            JOptionPane.showMessageDialog(new JFrame(), "Error! Entered Unique ID doesn't exist in the database.");
+                        }
+
                     } catch (FileNotFoundException ex) {
                         Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
 
-                    }catch (IOException ex) {
+                    } catch (IOException ex) {
                         Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
 
                     }
+                } else if (selected.equals("dr3344j") && danny.equals(selected)) {
+                    sendDisconnect();
+                    Disconnect();
+                    Onliners.setText("Online Members:");
+                    combobox.removeAllItems();
+
+                    address = dp;
+                    try {
+                        br = new BufferedReader(new FileReader(filepath1));
+
+                        String line;
+
+                        while ((line = br.readLine()) != null) {
+
+                            if (line.equals(uID)) {
+                                if (isConnected == false) {
+
+                                    System.out.println("address main screen line 429: " + address);
+
+                                    try {
+                                        String yolo2 = Encryption.Signature(input.getText());
+                                        sock = new Socket(address, port);
+                                        System.out.println("sock MainScreen 426: " + sock);
+                                        InputStreamReader streamreader = new InputStreamReader(sock.getInputStream());
+                                        reader = new BufferedReader(streamreader);
+                                        writer = new PrintWriter(sock.getOutputStream());
+                                        writer.println(username + ":has connected.:Connect" + ":" + NetInterface.IpUser() + ":" + yolo2);
+                                        writer.flush();
+                                        isConnected = true;
+                                        uniqueId.setText(uID);
+                                    } catch (Exception ex) {
+                                        display.append("Cannot Connect! The server is Offline! Become a coordinator! \n");
+
+                                    }
+
+                                    ListenThread();
+
+                                } else if (isConnected == true) {
+                                    display.append(currTime() + "You are already connected. \n");
+                                }
+                                break;
+
+                            }
+                        }
+                        br.close();
+                        if (line == null) {
+                            JOptionPane.showMessageDialog(new JFrame(), "Error! Entered Unique ID doesn't exist in the database.");
+                        }
+
+                    } catch (FileNotFoundException ex) {
+                        Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
+
+                    } catch (IOException ex) {
+                        Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
+
+                    }
+                } else if (selected.equals("jn9942d") && jak.equals(selected)) {
+                    sendDisconnect();
+                    Disconnect();
+                    Onliners.setText("Online Members:");
+                    combobox.removeAllItems();
+
+                    address = jp;
+                    try {
+                        br = new BufferedReader(new FileReader(filepath1));
+
+                        String line;
+
+                        while ((line = br.readLine()) != null) {
+
+                            if (line.equals(uID)) {
+                                if (isConnected == false) {
+
+                                    System.out.println("address main screen line 429: " + address);
+
+                                    try {
+                                        String yolo2 = Encryption.Signature(input.getText());
+                                        sock = new Socket(address, port);
+                                        System.out.println("sock MainScreen 426: " + sock);
+                                        InputStreamReader streamreader = new InputStreamReader(sock.getInputStream());
+                                        reader = new BufferedReader(streamreader);
+                                        writer = new PrintWriter(sock.getOutputStream());
+                                        writer.println(username + ":has connected.:Connect" + ":" + NetInterface.IpUser() + ":" + yolo2);
+                                        writer.flush();
+                                        isConnected = true;
+                                        uniqueId.setText(uID);
+                                    } catch (Exception ex) {
+                                        display.append("Cannot Connect! The server is Offline! Become a coordinator! \n");
+
+                                    }
+
+                                    ListenThread();
+
+                                } else if (isConnected == true) {
+                                    display.append(currTime() + "You are already connected. \n");
+                                }
+                                break;
+
+                            }
+                        }
+                        br.close();
+                        if (line == null) {
+                            JOptionPane.showMessageDialog(new JFrame(), "Error! Entered Unique ID doesn't exist in the database.");
+                        }
+
+                    } catch (FileNotFoundException ex) {
+                        Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
+
+                    } catch (IOException ex) {
+                        Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
+
+                    }
+                } else if (selected.equals("bm4904f") && bar.equals(selected)) {
+                    sendDisconnect();
+                    Disconnect();
+                    Onliners.setText("Online Members:");
+                    combobox.removeAllItems();
+                    address = bp;
+                    try {
+                        br = new BufferedReader(new FileReader(filepath1));
+
+                        String line;
+
+                        while ((line = br.readLine()) != null) {
+
+                            if (line.equals(uID)) {
+                                if (isConnected == false) {
+
+                                    System.out.println("address main screen line 429: " + address);
+
+                                    try {
+                                        String yolo2 = Encryption.Signature(input.getText());
+                                        sock = new Socket(address, port);
+                                        System.out.println("sock MainScreen 426: " + sock);
+                                        InputStreamReader streamreader = new InputStreamReader(sock.getInputStream());
+                                        reader = new BufferedReader(streamreader);
+                                        writer = new PrintWriter(sock.getOutputStream());
+                                        writer.println(username + ":has connected.:Connect" + ":" + NetInterface.IpUser() + ":" + yolo2);
+                                        writer.flush();
+                                        isConnected = true;
+                                        uniqueId.setText(uID);
+                                    } catch (Exception ex) {
+                                        display.append("Cannot Connect! The server is Offline! Become a coordinator! \n");
+
+                                    }
+
+                                    ListenThread();
+
+                                } else if (isConnected == true) {
+                                    display.append(currTime() + "You are already connected. \n");
+                                }
+                                break;
+
+                            }
+                        }
+                        br.close();
+                        if (line == null) {
+                            JOptionPane.showMessageDialog(new JFrame(), "Error! Entered Unique ID doesn't exist in the database.");
+                        }
+
+                    } catch (FileNotFoundException ex) {
+                        Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
+
+                    } catch (IOException ex) {
+                        Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
+
+                    }
+                }
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
+
+            } catch (IOException ex) {
+                Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
+
+            }
 
                 }//GEN-LAST:event_jButton3ActionPerformed
 
                 private void inputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inputKeyPressed
-                    if(evt.getKeyCode()==KeyEvent.VK_ENTER)
-                    {
+                    if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
 
                         String nothing = "";
-                        if ((input.getText()).equals(nothing))
-                        {
+                        if ((input.getText()).equals(nothing)) {
                             input.setText("");
                             input.requestFocus();
-                        }
-                        else
-                        {
-                            try
-                            {
-
+                        } else {
+                            try {
 
                                 //KeyPair A = Encryption.GenerateKey1();
                                 String messageToEncrypt = input.getText();
@@ -1179,12 +1040,10 @@ System.out.println(bar + "<------------------------------>" + bp);
                                 //byte[] MessageEncrypted = Encryption.EncryptionPart(messageToEncrypt, PubliKey);
                                 String yolo2 = Encryption.Signature(input.getText());
 
-                                writer.println(username + ":" + input.getText() /*Arrays.toString(MessageEncrypted)*/ + ":" + "Chat" + ":" + NetInterface.IpUser()+":"+yolo2);
+                                writer.println(username + ":" + input.getText() /*Arrays.toString(MessageEncrypted)*/ + ":" + "Chat" + ":" + NetInterface.IpUser() + ":" + yolo2);
                                 writer.flush(); // flushes the buffer
 
-                            }
-                            catch (Exception ex)
-                            {
+                            } catch (Exception ex) {
                                 display.append("Message was not sent. \n");
                             }
                             input.setText("");
@@ -1197,124 +1056,108 @@ System.out.println(bar + "<------------------------------>" + bp);
                 }//GEN-LAST:event_inputKeyPressed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-   try{  // create Scanner inFile1
-    Scanner inFile1 = new Scanner(new File("ips.txt")).useDelimiter(":");
- ArrayList<String> list = new ArrayList<>();
-    // Original answer used LinkedList, but probably preferable to use ArrayList in most cases
-    // List<String> temps = new LinkedList<String>();
-    List<String> temps = new ArrayList<String>();
-String token1 = "";
-    // while loop
-    while (inFile1.hasNext()) {
-      // find next line
-      token1 = inFile1.next();
-      temps.add(token1);
-    }
-    inFile1.close();
+        try {  // create Scanner inFile1
+            Scanner inFile1 = new Scanner(new File("ips.txt")).useDelimiter(":");
+            ArrayList<String> list = new ArrayList<>();
+            // Original answer used LinkedList, but probably preferable to use ArrayList in most cases
+            // List<String> temps = new LinkedList<String>();
+            List<String> temps = new ArrayList<String>();
+            String token1 = "";
+            // while loop
+            while (inFile1.hasNext()) {
+                // find next line
+                token1 = inFile1.next();
+                temps.add(token1);
+            }
+            inFile1.close();
 
-    String[] tempsArray = temps.toArray(new String[0]);
+            String[] tempsArray = temps.toArray(new String[0]);
 
-    for (String s : tempsArray) {
-        String[] hel = tempsArray;
-   
-      
-       list.add(s);
-          System.out.println(list);
+            for (String s : tempsArray) {
+                String[] hel = tempsArray;
 
+                list.add(s);
+                System.out.println(list);
 
-
-    }  
-    System.out.println(list);
-   }    catch (FileNotFoundException ex) {
+            }
+            System.out.println(list);
+        } catch (FileNotFoundException ex) {
             Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-         Component frame = null;
-        if (JOptionPane.showConfirmDialog(frame, 
-            "Are you sure you want to close this window?", "Close Window?", 
-            JOptionPane.YES_NO_OPTION,
-            JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){
+        Component frame = null;
+
+        if (JOptionPane.showConfirmDialog(frame,
+                "Are you sure you want to close this window?", "Close Window?",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
             sendDisconnect();
             Disconnect();
             System.exit(0);
         }
     }//GEN-LAST:event_formWindowClosing
-                //Function to set the unique id.
-                public void setUniqueId(String uId)
-                {
-                    uniqueId.setText(uId);
+    //Function to set the unique id.
 
-                    ID = uniqueId.getText();
-                    uID = uniqueId.getText();
-                    username = uniqueId.getText();
+    public void setUniqueId(String uId) {
+        uniqueId.setText(uId);
 
-                }
+        ID = uniqueId.getText();
+        uID = uniqueId.getText();
+        username = uniqueId.getText();
 
-                //Activates and allows for the use of sending text.
+    }
 
+    //Activates and allows for the use of sending text.
+    //Function to create a new thread and connect to the server.
+    //Function to get the current time.
+    public String currTime() {
+        SimpleDateFormat formatter = new SimpleDateFormat("[HH.mm.ss] ");
+        Date date = new Date(System.currentTimeMillis());
+        return formatter.format(date);
+    }
 
-                //Function to create a new thread and connect to the server.
-
-
-                //Function to get the current time.
-                public String currTime()
-                {
-                    SimpleDateFormat formatter= new SimpleDateFormat("[HH.mm.ss] ");
-                    Date date = new Date(System.currentTimeMillis());
-                    return formatter.format(date);
-                }
-
-
-                /**
-                * @param args the command line arguments
-                */
-                public static void main(String args[])
-                {
-                    /* Set the Nimbus look and feel */
-                    //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-                    /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
                     * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-                    */
-                    try {
-                        for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                            if ("Nimbus".equals(info.getName())) {
-                                javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                                break;
-                            }
-                        }
-                    } catch (ClassNotFoundException ex) {
-                        java.util.logging.Logger.getLogger(MainScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-                    } catch (InstantiationException ex) {
-                        java.util.logging.Logger.getLogger(MainScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-                    } catch (IllegalAccessException ex) {
-                        java.util.logging.Logger.getLogger(MainScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-                    } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-                        java.util.logging.Logger.getLogger(MainScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-                    }
-                    //</editor-fold>
-
-
-
-                    /* Create and display the form */
-                    java.awt.EventQueue.invokeLater(new Runnable()
-                    {
-                        public void run()
-                        {
-                            new MainScreen().setVisible(true);
-                            MainScreen temp = new MainScreen();
-                            temp.setResizable(false);
-                            temp.setLocationRelativeTo(null);
-                        }
-
-                    });
-
-
-
-
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
                 }
-                
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(MainScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(MainScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(MainScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(MainScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new MainScreen().setVisible(true);
+                MainScreen temp = new MainScreen();
+                temp.setResizable(false);
+                temp.setLocationRelativeTo(null);
+            }
+
+        });
+
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea Onliners;
@@ -1340,4 +1183,4 @@ String token1 = "";
     public javax.swing.JLabel uniqueId;
     // End of variables declaration//GEN-END:variables
 
-            }
+}
