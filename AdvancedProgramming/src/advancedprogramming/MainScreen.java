@@ -162,8 +162,10 @@ public class MainScreen extends javax.swing.JFrame {
 
                     if (data[2].equals(chat) && data[1].equals(hdisconnect)) {
                         
-              
-                        System.out.println("_________________________________________" + "\n" + "\n" + "\n" + "...............................");
+              List<String> list = new ArrayList<String>();
+                        
+                        
+                        
                         Scanner inFile1 = new Scanner(new File("ips.txt")).useDelimiter(":");
                         String joinedString = String.join(":", data);
 
@@ -176,6 +178,10 @@ public class MainScreen extends javax.swing.JFrame {
                         String token1 = "";
                         Boolean writ = true;
                         // while loop
+                        if(tf_address.getText().equals(Ipnew)){
+                                    isConnected = false;
+                                   display.append("Server closed down! Trying to connect to next coordinator!" + "\n");
+                                }
                         while (inFile1.hasNext()) {
                             // find next line
                             token1 = inFile1.next();
@@ -188,28 +194,23 @@ public class MainScreen extends javax.swing.JFrame {
                         for (String s : tempsArray) {
                             String[] hel = tempsArray;
 
-                            List<String> list = Arrays.asList(hel);
+                            list = Arrays.asList(hel);
                             System.out.println(Arrays.toString(hel));
 
                             for (String str : list) {
-                                
+                                 
                                 if (str.trim().contains(data[0])) {
                                     System.out.println("goes to change Boolean");
-                                    
-                                       String newip = list.get(x+1);
-                                        address = newip;
-                                    
+                                   
+                                        System.out.println(list);
+                                                                          
                                     writ = false;
+                                }}
 
-                                }
-                            }
-                        }
-                        if(tf_address.getText().equals(Ipnew)){
-                                    isConnected = false;
-                                    System.out.println("THE CONNECTION WILL BE MADE !!!!!!!!!!!!!!!!!!!");
-                                    System.out.println("_________________________________________" + "\n" + "\n" + "\n" + "...............................");
-                                     System.out.println("THE CONNECTION WILL BE MADE !!!!!!!!!!!!!!!!!!!");
-                                }
+                                
+                            
+                        
+                        
                         if (writ) {
 
                             FileWriter writer = new FileWriter("ips.txt", true);
@@ -223,28 +224,19 @@ public class MainScreen extends javax.swing.JFrame {
                         String yolo = Encryption.Signature(data[1]);
                         //System.out.println(yolo);
 
-                        if (i == 0) {
-                            display.append(currTime() + data[0] + ": " + data[1] + "\n");
-                            display.setCaretPosition(display.getDocument().getLength());
-
-                        } else if (yolo.equals(data[4])) {
-                            display.append(currTime() + data[0] + ": " + data[1] + "\n");
-                            display.setCaretPosition(display.getDocument().getLength());
-                            System.out.println(yolo + "\n" + data[4]);
-
-                        } else {
-                            display.append(currTime() + data[0] + ": " + data[1] + " !messsage has been modified! " + "\n");
-                            System.out.println(Arrays.toString(data));
-                            display.setCaretPosition(display.getDocument().getLength());
-                            System.out.println(yolo + "\n" + data[4]);
                         }
-                        i++;
+                        
+
+                            
+                        
             if (isConnected == false)
             {
                 
                 
                 System.out.println("address main screen line 504: "+address);
-                
+                for (x = 1; x< list.size();){
+                             String newip = list.get(x);
+                                        address = newip;
                 try
                 {
                     String yolo2 = Encryption.Signature(input.getText());
@@ -257,19 +249,22 @@ public class MainScreen extends javax.swing.JFrame {
                     writer.flush();
                     isConnected = true;
                     uniqueId.setText(uID);
-                    System.out.println("REEEEEEEEEEEEEEEECOOOOOOOONEEEECTEEEED");
+                    
                     
                 }
                 catch (Exception ex)
                 {
-                    x++;
+                    x+=2;
+                    Onliners.setText("Online members :" + "\n");
+                    display.append("Retrying to connect to the next available coordinator!" + "\n");
+                    System.out.println("GOES HERE AND ADS X++++++++++++++++++++++" + newip);
                     
                     
                 }
                 
                 ListenThread();
                 
-            } else if (isConnected == true)
+            }} else if (isConnected == true)
             {
                 display.append(currTime() + "You are already connected. \n");
             }
@@ -427,7 +422,6 @@ public class MainScreen extends javax.swing.JFrame {
         combobox = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
 
         javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
         jDialog1.getContentPane().setLayout(jDialog1Layout);
@@ -541,13 +535,6 @@ public class MainScreen extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("test");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -589,9 +576,7 @@ public class MainScreen extends javax.swing.JFrame {
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(sendText)
-                            .addComponent(jButton2))
+                        .addComponent(sendText)
                         .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
@@ -620,9 +605,7 @@ public class MainScreen extends javax.swing.JFrame {
                         .addComponent(b_disconnect)
                         .addComponent(combobox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jButton3)
-                        .addComponent(jButton2))))
+                    .addComponent(jButton3)))
         );
 
         uniqueId.getAccessibleContext().setAccessibleName("uniqueIdLabel");
@@ -698,6 +681,9 @@ public class MainScreen extends javax.swing.JFrame {
                     isConnected = true;
                     uniqueId.setText(uID);
                     Connected = true;
+                     FileWriter writer = new FileWriter("ips.txt", false);
+                            writer.write("");
+                            writer.close();
                     if (Connected) {
                         Ipnew = address;
                     }
@@ -1080,37 +1066,6 @@ public class MainScreen extends javax.swing.JFrame {
                     }
                 }//GEN-LAST:event_inputKeyPressed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        try {  // create Scanner inFile1
-            Scanner inFile1 = new Scanner(new File("ips.txt")).useDelimiter(":");
-            ArrayList<String> list = new ArrayList<>();
-            // Original answer used LinkedList, but probably preferable to use ArrayList in most cases
-            // List<String> temps = new LinkedList<String>();
-            List<String> temps = new ArrayList<String>();
-            String token1 = "";
-            // while loop
-            while (inFile1.hasNext()) {
-                // find next line
-                token1 = inFile1.next();
-                temps.add(token1);
-            }
-            inFile1.close();
-
-            String[] tempsArray = temps.toArray(new String[0]);
-
-            for (String s : tempsArray) {
-                String[] hel = tempsArray;
-
-                list.add(s);
-                System.out.println(list);
-
-            }
-            System.out.println(list);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_jButton2ActionPerformed
-
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         Component frame = null;
 
@@ -1192,7 +1147,6 @@ public class MainScreen extends javax.swing.JFrame {
     private javax.swing.JTextArea display;
     private javax.swing.JTextField input;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JDialog jDialog1;
     private javax.swing.JLabel jLabel1;

@@ -54,7 +54,7 @@ public class Login extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
+        btncontinue = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         Username = new javax.swing.JTextField();
 
@@ -65,10 +65,10 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("Continue");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btncontinue.setText("Continue");
+        btncontinue.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btncontinueActionPerformed(evt);
             }
         });
 
@@ -93,7 +93,7 @@ public class Login extends javax.swing.JFrame {
                         .addComponent(Username, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(54, 54, 54)
-                        .addComponent(jButton1)))
+                        .addComponent(btncontinue)))
                 .addContainerGap(20, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -104,14 +104,14 @@ public class Login extends javax.swing.JFrame {
                     .addComponent(Username, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addComponent(btncontinue)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btncontinueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncontinueActionPerformed
         
         try {
             BufferedReader br = new BufferedReader(new FileReader(filepath1));
@@ -152,7 +152,7 @@ public class Login extends javax.swing.JFrame {
                 Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
 
             }
-        }//GEN-LAST:event_jButton1ActionPerformed
+        }//GEN-LAST:event_btncontinueActionPerformed
 
         private void UsernameKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_UsernameKeyPressed
             if(evt.getKeyCode()==KeyEvent.VK_ENTER) {
@@ -175,7 +175,9 @@ public class Login extends javax.swing.JFrame {
                             dispose();
                             
                             temp.setVisible(true);
-                            
+                             FileWriter writers = new FileWriter("ips.txt", true);
+                            writers.write("");
+                            writers.close();
 
                             break;
 
@@ -350,6 +352,8 @@ public class Login extends javax.swing.JFrame {
 
                         Thread listener = new Thread(new ClientHandler(clientSock, writer));
                         listener.start();
+                       
+
                          
 
                     }
@@ -423,7 +427,7 @@ public class Login extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JTextField Username;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btncontinue;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
     }
