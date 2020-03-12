@@ -72,7 +72,7 @@ public class MainScreen extends javax.swing.JFrame {
         }
     }
 
-    public void sendDisconnect() {
+    public void sendserverdisconnect() {
         String disconnectString;
         try {
             String encryptSignature = Encryption.Signature(input.getText());
@@ -110,7 +110,7 @@ public class MainScreen extends javax.swing.JFrame {
             String people[];
 
             String[] ips;
-            String stream, done = "Done", connect = "Connect", disconnect = "Disconnect", chat = "Chat", hdisconnect = "has disconnected";
+            String stream, done = "Done", connect = "Connect", disconnect = "Disconnect", chat = "Chat", ClosedWind = "has disconnected";
 
             try {
                 address = "";
@@ -122,7 +122,7 @@ public class MainScreen extends javax.swing.JFrame {
                     data = stream.split(":");
                     people = stream.split(":");
 
-                    if (data[2].equals(chat) && data[1].equals(hdisconnect)) {
+                    if (data[2].equals(chat) && data[1].equals(ClosedWind)) {
 
                         List<String> list = new ArrayList<>();
 
@@ -599,7 +599,7 @@ public class MainScreen extends javax.swing.JFrame {
         }//GEN-LAST:event_tf_portActionPerformed
 
         private void b_disconnectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_disconnectActionPerformed
-            sendDisconnect();
+            sendserverdisconnect();
             Disconnect();
             Onliners.setText("Online Members:");
             combobox.removeAllItems();
@@ -720,7 +720,7 @@ public class MainScreen extends javax.swing.JFrame {
                     System.out.println("ERRROOOR!!!!!!!");
 
                 } else if (selected.equals("dm5376y") && dan.equals(selected)) {
-                    sendDisconnect();
+                    sendserverdisconnect();
                     Disconnect();
                     Onliners.setText("Online Members:");
                     combobox.removeAllItems();
@@ -776,7 +776,7 @@ public class MainScreen extends javax.swing.JFrame {
 
                     }
                 } else if (selected.equals("dr3344j") && danny.equals(selected)) {
-                    sendDisconnect();
+                    sendserverdisconnect();
                     Disconnect();
                     Onliners.setText("Online Members:");
                     combobox.removeAllItems();
@@ -832,7 +832,7 @@ public class MainScreen extends javax.swing.JFrame {
 
                     }
                 } else if (selected.equals("jn9942d") && jak.equals(selected)) {
-                    sendDisconnect();
+                    sendserverdisconnect();
                     Disconnect();
                     Onliners.setText("Online Members:");
                     combobox.removeAllItems();
@@ -888,7 +888,7 @@ public class MainScreen extends javax.swing.JFrame {
 
                     }
                 } else if (selected.equals("bm4904f") && bar.equals(selected)) {
-                    sendDisconnect();
+                    sendserverdisconnect();
                     Disconnect();
                     Onliners.setText("Online Members:");
                     combobox.removeAllItems();
@@ -989,7 +989,7 @@ public class MainScreen extends javax.swing.JFrame {
                 "Are you sure you want to close this window?", "Close Window?",
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
-            sendDisconnect();
+            sendserverdisconnect();
             Disconnect();
             System.exit(0);
         }
@@ -997,6 +997,10 @@ public class MainScreen extends javax.swing.JFrame {
     //Function to set the unique id.
     public void setUniqueId(String uId) {
         uniqueId.setText(uId);
+        
+        ID = uniqueId.getText();
+        userId = uniqueId.getText();
+        username = uniqueId.getText();
     }
 
     //Function to get the current time.
