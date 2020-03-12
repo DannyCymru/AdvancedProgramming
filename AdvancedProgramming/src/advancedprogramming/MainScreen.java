@@ -83,6 +83,17 @@ public class MainScreen extends javax.swing.JFrame {
             display.append(currTime() + "Could not send Disconnect message.\n");
         }
     }
+    public void SendclosedServer() {
+        String disconnectString;
+        try {
+            String encryptSignature = Encryption.Signature(input.getText());
+            disconnectString = username + ": :Disconnectt" + ":" + NetInterface.IpUser() + ":" + encryptSignature;
+            writer.println(disconnectString);
+            writer.flush();
+        } catch (Exception e) {
+            display.append(currTime() + "Could not send Disconnect message.\n");
+        }
+    }
 
     public void Disconnect() {
         try {
@@ -141,6 +152,7 @@ public class MainScreen extends javax.swing.JFrame {
                         if (JtxtAdress.getText().equals(Ipnew)) {
                             isConnected = false;
                             display.append("Server closed down! Trying to connect to next coordinator!" + "\n");
+                            Onliners.setText("");
                         }
                         while (inFile1.hasNext()) {
                             // find next line
@@ -1014,7 +1026,7 @@ public class MainScreen extends javax.swing.JFrame {
                 "Are you sure you want to close this window?", "Close Window?",
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
-            sendserverdisconnect();
+            SendclosedServer();
             Disconnect();
             System.exit(0);
         }
