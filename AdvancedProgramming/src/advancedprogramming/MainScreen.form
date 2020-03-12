@@ -222,7 +222,6 @@
     </Component>
     <Component class="javax.swing.JTextField" name="input">
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="inputActionPerformed"/>
         <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="inputKeyPressed"/>
       </Events>
     </Component>
@@ -232,9 +231,6 @@
           <Connection code="NetInterface.IpUser()" type="code"/>
         </Property>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="JtxtAdressActionPerformed"/>
-      </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="}catch (Exception ex)  &#xa;        {&#xa;        &#xa;        }"/>
         <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="try&#xa;        {"/>
@@ -254,9 +250,6 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="7721"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="JtxtPortActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnconnect">
       <Properties>
@@ -280,9 +273,6 @@
           <StringArray count="0"/>
         </Property>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbOnlinersActionPerformed"/>
-      </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
       </AuxValues>

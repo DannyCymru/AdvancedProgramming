@@ -110,7 +110,7 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btncontinueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncontinueActionPerformed
-
+//after person enters his unique id he can open the client
         try {
             BufferedReader br = new BufferedReader(new FileReader(filepath1));
 
@@ -149,6 +149,7 @@ public class Login extends javax.swing.JFrame {
         }//GEN-LAST:event_btncontinueActionPerformed
 
         private void UsernameKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_UsernameKeyPressed
+            // made so the User can press enter and don't need to press continue button
             if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
                 try {
                     BufferedReader br = new BufferedReader(new FileReader(filepath1));
@@ -194,7 +195,6 @@ public class Login extends javax.swing.JFrame {
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
 
-
     }//GEN-LAST:event_formWindowClosing
 
     /**
@@ -238,7 +238,7 @@ public class Login extends javax.swing.JFrame {
     ArrayList<String> users; // user1 is for the server users that it receives (Trying to combine them with client users breaks everything)
     // This is server part Handling client
 
-    public class ClientHandler implements Runnable {
+    public class ClientHandler implements Runnable { // gets all the signals from clients and handles them.
 
         BufferedReader reader;
         Socket sock;
@@ -259,7 +259,7 @@ public class Login extends javax.swing.JFrame {
         }
 
         @Override
-        public void run() {
+        public void run() { //while the server is running it gets messages from the client and handles them accordingly.
             String message, connect = "Connect", disconnect = "Disconnect", chat = "Chat";
             String[] data;
             
@@ -268,28 +268,23 @@ public class Login extends javax.swing.JFrame {
                 while ((message = reader.readLine()) != null) {
 
                     data = message.split(":");
-                    if (data[2].equals(connect)) {
-                        System.out.println("goes through connect");
-
+                    if (data[2].equals(connect)) { //gets connect signal
                         tellEveryone((data[0] + ":" + data[1] + ":" + chat + ":" + data[3] + ":" + data[4]));
                         userAdd(data[0]);
 
-                    } else if (data[2].equals(disconnect)) {
-                        System.out.println("Reached dissconnect");
-                        if(data[0].equals(users.get(0))){
+                    } else if (data[2].equals(disconnect)) { //gets disconnect signal
+                        if(data[0].equals(users.get(0))){ //gets disconnect signal from Coordinator
                         tellEveryone((data[0] + ":has disconnected" + ":" + chat + ":" + data[2] + ":" + data[3]));
                          userRemove(data[0]);  
                         }
-                        else{
+                        else{ //gets disconnect signal from no coordinator user
                         tellEveryone((data[0] + ":has disconnected." + ":" + chat + ":" + data[2] + ":" + data[3]));
                         userRemove(data[0]);   
                     }
                                         
-                    } else if (data[2].equals(chat)) {
-                        System.out.println("goes through chat in login ");
+                    } else if (data[2].equals(chat)) { // receives a message from client as a chat message.
                         tellEveryone(message);
                     } else {
-                        System.out.println("else in client handler run() in login.java");
                     }
                 }
             } catch (Exception ex) {
@@ -301,7 +296,7 @@ public class Login extends javax.swing.JFrame {
     }
 
     //Starts the server
-    public class ServerStart implements Runnable {
+    public class ServerStart implements Runnable { //starts the server on start
 
         @Override
         public void run() {
@@ -309,19 +304,15 @@ public class Login extends javax.swing.JFrame {
             users = new ArrayList();
 
             try {
-                InetAddress IpAddrs = InetAddress.getByName(NetInterface.IpUser());
-
+                InetAddress IpAddrs = InetAddress.getByName(NetInterface.IpUser()); //gets user ip
                 ServerSocket serverSock = new ServerSocket(7721, 50, IpAddrs);
 
-                System.out.println("serverSock.getInetAddress(): " + serverSock.getInetAddress());
-
                 while (true) {
-                    Socket clientSock = serverSock.accept();
+                    Socket clientSock = serverSock.accept(); //accepts connections
                     PrintWriter writer = new PrintWriter(clientSock.getOutputStream());
                     clientOutputStreams.add(writer);
-
                     Thread listener = new Thread(new ClientHandler(clientSock, writer));
-                    listener.start();
+                    listener.start(); // starts the listener
 
                 }
             } catch (Exception ex) {
@@ -330,11 +321,9 @@ public class Login extends javax.swing.JFrame {
         }
     }
 
-    public void userAdd(String data) {
+    public void userAdd(String data) { //adds user 
         String message, add = ": :Connect", done = "Server: :Done", name = data;
-
         users.add(name);
-
         String[] tempList = new String[(users.size())];
         users.toArray(tempList);
 
@@ -345,7 +334,7 @@ public class Login extends javax.swing.JFrame {
         tellEveryone(done);
     }
 
-    public void userRemove(String data) {
+    public void userRemove(String data) { //removes user
         String message, add = ": :Connect", done = "Server: :Done", name = data;
         users.remove(name);
         String[] tempList = new String[(users.size())];
@@ -358,9 +347,8 @@ public class Login extends javax.swing.JFrame {
         tellEveryone(done);
     }
 
-    public void tellEveryone(String message) {
+    public void tellEveryone(String message) { //tells message to all connected clients.
         Iterator it = clientOutputStreams.iterator();
-
         while (it.hasNext()) {
             try {
                 PrintWriter writer = (PrintWriter) it.next();
@@ -373,7 +361,7 @@ public class Login extends javax.swing.JFrame {
         }
     }
 
-    public String currTime() {
+    public String currTime() { // gets current time for timestamps
         SimpleDateFormat formatter = new SimpleDateFormat("[HH.mm.ss] ");
         Date date = new Date(System.currentTimeMillis());
         return formatter.format(date);

@@ -57,22 +57,19 @@ public class MainScreen extends javax.swing.JFrame {
     }
 
     public void userAdd(String data) {
-        users.add(data);
+        users.add(data); //adds user to the users ArrayList used for Online members
     }
 
     public void userRemove(String data) {
-        display.append(data + " is now offline.\n");
+        display.append(data + " is now offline.\n"); //tells people someone is now offline
     }
 
     public void writeUsers() {
-        String[] tempList = new String[(users.size())];
+        String[] tempList = new String[(users.size())]; //writes users into the array
         users.toArray(tempList);
-        for (String token : tempList) {
-            //users.append(token + "\n");
-        }
     }
 
-    public void sendserverdisconnect() {
+    public void sendserverdisconnect() { // sends server disconnect signal
         String disconnectString;
         try {
             String encryptSignature = Encryption.Signature(input.getText());
@@ -85,7 +82,7 @@ public class MainScreen extends javax.swing.JFrame {
     }
 
 
-    public void Disconnect() {
+    public void Disconnect() { //sends client disconnect signal
         try {
             display.append(currTime() + "Disconnected.\n");
             sock.close();
@@ -102,104 +99,103 @@ public class MainScreen extends javax.swing.JFrame {
 
     }
 
-    public class IncomingReader implements Runnable {
+    public class IncomingReader implements Runnable { // used for all info that is coming from Server
 
         @Override
         public void run() {
             String[] data;
-
             String people[];
-
             String[] ips;
             String stream, done = "Done", connect = "Connect", disconnect = "Disconnect", chat = "Chat", ClosedWind = "has disconnected";
-
             try {
                 address = "";
                 int i = 0;
                 int x = 0;
-                while ((stream = reader.readLine()) != null) {
-                    System.out.println("i: " + i);
-
+                while ((stream = reader.readLine()) != null) {                                       
                     data = stream.split(":");
                     people = stream.split(":");
 
-                    if (data[2].equals(chat) && data[1].equals(ClosedWind)) {
-                        isConnected = false;
-                       
-                       
+                    if (data[2].equals(chat) && data[1].equals(ClosedWind)) { // this if is used if the Coordinator disconnects
+                        isConnected = false;                                    
                         String encryptSignature = Encryption.Signature(data[1]);
-                    if (i == 0) {
+                    if (i == 0) { // used with digital sign messages and to display messages in all clients
                             display.append(currTime() + data[0] + ": " + data[1] + "\n");
                             display.setCaretPosition(display.getDocument().getLength());
 
                         } else if (encryptSignature.equals(data[4])) {
                             display.append(currTime() + data[0] + ": " + data[1] + "\n");
                             display.setCaretPosition(display.getDocument().getLength());
-                            System.out.println(encryptSignature + "\n" + data[4]);
 
                         } else {
-                            display.append(currTime() + data[0] + ": " + data[1] + " !messsage has been modified! " + "\n");
-                            System.out.println(Arrays.toString(data));
+                            display.append(currTime() + data[0] + ": " + data[1] + " !messsage has been modified! " + "\n");                         
                             display.setCaretPosition(display.getDocument().getLength());
-                            System.out.println(encryptSignature + "\n" + data[4]);
+                         
                         }
-                        i++;
-          
-
-         
+                        i++;       
 String newcon = "";
 int ip;
-System.out.println("IM HEERE" + "_____________");
-                BufferedReader br = new BufferedReader(new FileReader("ips.txt"));
+users.clear();
+display.append("Server closed! Reconnecting to the next available coordinator! \n");
+Onliners.setText("Onliner members:" + "\n");
+serverInfo.setText("");
+List<String> list = null ;
 
+                BufferedReader br = new BufferedReader(new FileReader("ips.txt"));
                 Scanner inFile1 = new Scanner(new File("ips.txt")).useDelimiter(":");
 
                 // Original answer used LinkedList, but probably preferable to use ArrayList in most cases
                 // List<String> temps = new LinkedList<String>();
                 List<String> temps = new ArrayList<String>();
                 String token1 = "";
-
-                while (inFile1.hasNext()) {
+                while (inFile1.hasNext()) { //reads text file and adds to the list string all components
                     // find next line
                     token1 = inFile1.next();
                     temps.add(token1);
                 }
                 inFile1.close();
-
                 String[] tempsArray = temps.toArray(new String[0]);
-                        String[] hel = null;
-                        
-                for (String s : tempsArray) {
+                        String[] hel = null;                        
+                for (String s : tempsArray) { 
                     hel = tempsArray;
-
-                    List<String> list = Arrays.asList(hel);
-                    System.out.println(Arrays.toString(hel));
-                
-                    
-                        
-                        
-                         System.out.println(temps + "_____________" + isConnected);
-                            
-                
-                        address = newcon;
-           
-               x = 1;
-                            ip = temps.indexOf(list.get(x));
-                           
-                            
-                             newcon = hel[ip];
-                             System.out.println(newcon + "+++++++");
-                             x++;
-                            
+                    list = Arrays.asList(hel);                
                 }
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                    } else if (data[2].equals(chat)) {
+                       address = newcon;        
+                for (x = 1; x < list.size(); ){ // loop for getting all Ips from connected clients to reconnect to the next ip address
+                            ip = temps.indexOf(list.get(x));                           
+                             newcon = hel[ip];                            
+                             x+=2;
+                   address = newcon;
+            if (isConnected == false) {
+
+                try {                   
+                    sock = new Socket(address, port);                    
+                    InputStreamReader streamreader = new InputStreamReader(sock.getInputStream());
+                    reader = new BufferedReader(streamreader);
+                    writer = new PrintWriter(sock.getOutputStream());
+                    writer.println(username + ":has connected.:Connect" + ":" + NetInterface.IpUser() + ":" + encryptSignature);
+                    writer.flush();
+                    isConnected = true;
+                    uniqueId.setText(userId);
+                    serverInfo.setText("");
+                    serverInfo.append("Host:" + newcon + "\n");
+                    serverInfo.append("My IP:" + NetInterface.IpUser() + "\n");
+                    Connected = true;
+                    FileWriter writer = new FileWriter("ips.txt", false);
+                    writer.write("");
+                    writer.close();
+                    if (Connected) {
+                        Ipnew = address;
+                    }
+                } catch (Exception ex) {                   
+                }
+                ListenThread();
+            } else if (isConnected == true) {
+                display.append(currTime() + "You are already connected. \n");
+            }
+         
+                }
+      
+                    } else if (data[2].equals(chat)) { //used to receive text from server that needs to be displayed
 
                         Scanner inFile1 = new Scanner(new File("ips.txt")).useDelimiter(":");
                         String joinedString = String.join(":", data);
@@ -207,8 +203,6 @@ System.out.println("IM HEERE" + "_____________");
                         ips = joinedString.split(":");
                         String op = ips[3];
 
-                        // Original answer used LinkedList, but probably preferable to use ArrayList in most cases
-                        // List<String> temps = new LinkedList<String>();
                         List<String> temps = new ArrayList<String>();
                         String token1 = "";
                         Boolean writ = true;
@@ -226,11 +220,11 @@ System.out.println("IM HEERE" + "_____________");
                             String[] hel = tempsArray;
 
                             List<String> list = Arrays.asList(hel);
-                            System.out.println(Arrays.toString(hel));
+                           
 
                             for (String str : list) {
                                 if (str.trim().contains(data[0])) {
-                                    System.out.println("goes to change Boolean");
+                                
                                     writ = false;
                                 }
                             }
@@ -242,9 +236,6 @@ System.out.println("IM HEERE" + "_____________");
                             writer.close();
                         }
 
-                        //PrivateKey PrivaKey = Encryption.PrK(A);
-                        //byte[] MessageEncrypt = data[1].getBytes();
-                        //String MessageDecrypted = Encryption.DecryptionPart(MessageEncrypt, PrivaKey);
                         String encryptSignature = Encryption.Signature(data[1]);
 
                         if (i == 0) {
@@ -254,16 +245,16 @@ System.out.println("IM HEERE" + "_____________");
                         } else if (encryptSignature.equals(data[4])) {
                             display.append(currTime() + data[0] + ": " + data[1] + "\n");
                             display.setCaretPosition(display.getDocument().getLength());
-                            System.out.println(encryptSignature + "\n" + data[4]);
+                           
 
                         } else {
                             display.append(currTime() + data[0] + ": " + data[1] + " !messsage has been modified! " + "\n");
-                            System.out.println(Arrays.toString(data));
+                        
                             display.setCaretPosition(display.getDocument().getLength());
-                            System.out.println(encryptSignature + "\n" + data[4]);
+                          
                         }
                         i++;
-                    } else if (data[2].equals(connect)) {
+                    } else if (data[2].equals(connect)) { // receives connect signal from server and adds user to the system
 
                         display.removeAll();
                         userAdd(data[0]);
@@ -286,7 +277,7 @@ System.out.println("IM HEERE" + "_____________");
 
                         }
 
-                    } else if (data[2].equals(disconnect)) {
+                    } else if (data[2].equals(disconnect)) { //receives disconnect of one client from the server and removes him.
 
                         userRemove(data[0]);
                         String conne = Arrays.toString(people);
@@ -397,11 +388,6 @@ System.out.println("IM HEERE" + "_____________");
             }
         });
 
-        input.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                inputActionPerformed(evt);
-            }
-        });
         input.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 inputKeyPressed(evt);
@@ -415,22 +401,12 @@ System.out.println("IM HEERE" + "_____________");
         {
 
         }
-        JtxtAdress.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                JtxtAdressActionPerformed(evt);
-            }
-        });
 
         lb_address.setText("Address : ");
 
         lb_port.setText("Port :");
 
         JtxtPort.setText("7721");
-        JtxtPort.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                JtxtPortActionPerformed(evt);
-            }
-        });
 
         btnconnect.setText("Connect");
         btnconnect.addActionListener(new java.awt.event.ActionListener() {
@@ -443,12 +419,6 @@ System.out.println("IM HEERE" + "_____________");
         btndisconnect.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btndisconnectActionPerformed(evt);
-            }
-        });
-
-        cbOnliners.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbOnlinersActionPerformed(evt);
             }
         });
 
@@ -548,23 +518,16 @@ System.out.println("IM HEERE" + "_____________");
     }// </editor-fold>//GEN-END:initComponents
 
         private void btnsendtxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsendtxtActionPerformed
-
+// sends message to the server and other clients
             String nothing = "";
             if ((input.getText()).equals(nothing)) {
                 input.setText("");
                 input.requestFocus();
             } else {
                 try {
-
-                    //KeyPair A = Encryption.GenerateKey1();
                     String messageToEncrypt = input.getText();
-                    //PublicKey PubliKey = Encryption.PuK(A);
-                    //PrivateKey PrivaKey = Encryption.PrK(A);
-
-                    //byte[] MessageEncrypted = Encryption.EncryptionPart(messageToEncrypt, PubliKey);
                     String encryptSignature = Encryption.Signature(input.getText());
-
-                    writer.println(username + ":" + input.getText() /*Arrays.toString(MessageEncrypted)*/ + ":" + "Chat" + ":" + NetInterface.IpUser() + ":" + encryptSignature);
+                    writer.println(username + ":" + input.getText() + ":" + "Chat" + ":" + NetInterface.IpUser() + ":" + encryptSignature);
                     writer.flush(); // flushes the buffer
 
                 } catch (Exception ex) {
@@ -580,15 +543,8 @@ System.out.println("IM HEERE" + "_____________");
 
         }//GEN-LAST:event_btnsendtxtActionPerformed
 
-        private void JtxtAdressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JtxtAdressActionPerformed
-
-        }//GEN-LAST:event_JtxtAdressActionPerformed
-
-        private void JtxtPortActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JtxtPortActionPerformed
-
-        }//GEN-LAST:event_JtxtPortActionPerformed
-
         private void btndisconnectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndisconnectActionPerformed
+            //disconnect button to disconnect from the server
             sendserverdisconnect();
             Disconnect();
             Onliners.setText("Online Members:");
@@ -596,16 +552,13 @@ System.out.println("IM HEERE" + "_____________");
         }//GEN-LAST:event_btndisconnectActionPerformed
 
         private void btnconnectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnconnectActionPerformed
-
+// connect button to connect to the server
             address = JtxtAdress.getText();
             if (isConnected == false) {
 
-                System.out.println("address main screen line 504: " + address);
-
                 try {
                     String encryptSignature = Encryption.Signature(input.getText());
-                    sock = new Socket(address, port);
-                    System.out.println("sock MainScreen 509: " + sock);
+                    sock = new Socket(address, port);                
                     InputStreamReader streamreader = new InputStreamReader(sock.getInputStream());
                     reader = new BufferedReader(streamreader);
                     writer = new PrintWriter(sock.getOutputStream());
@@ -628,33 +581,20 @@ System.out.println("IM HEERE" + "_____________");
                     display.append("Cannot Connect! The server is Offline! Become a coordinator! \n");
 
                 }
-
                 ListenThread();
-
             } else if (isConnected == true) {
                 display.append(currTime() + "You are already connected. \n");
             }
 
-
         }//GEN-LAST:event_btnconnectActionPerformed
 
-        private void inputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputActionPerformed
-            // TODO add your handling code here:
-        }//GEN-LAST:event_inputActionPerformed
-
-        private void cbOnlinersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbOnlinersActionPerformed
-            // TODO add your handling code here:
-        }//GEN-LAST:event_cbOnlinersActionPerformed
-
         private void btnChatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChatActionPerformed
-
+//btn to make a private chat with other person that is connected to the same server
             String selected = cbOnliners.getSelectedItem().toString();
 
             try {
-
                 BufferedReader br = new BufferedReader(new FileReader("ips.txt"));
                 String dan = "", dp = "", jak = "", jp = "", danny = "", dap = "", bar = "", bp = "";
-
                 Scanner inFile1 = new Scanner(new File("ips.txt")).useDelimiter(":");
 
                 // Original answer used LinkedList, but probably preferable to use ArrayList in most cases
@@ -668,58 +608,48 @@ System.out.println("IM HEERE" + "_____________");
                     temps.add(token1);
                 }
                 inFile1.close();
-
                 String[] tempsArray = temps.toArray(new String[0]);
 
                 for (String s : tempsArray) {
                     String[] hel = tempsArray;
-
-                    List<String> list = Arrays.asList(hel);
-                    System.out.println(Arrays.toString(hel));
-
+                    List<String> list = Arrays.asList(hel);                 
                     for (String str : list) {
                         int ip;
 
-                        if (str.trim().contains("dm5376y")) {
-                            System.out.println("goes Daniels");
-                            ip = list.indexOf("dm5376y");
-                            dan = hel[ip];
-                            dp = hel[ip + 1];
-                        } else if (str.trim().contains("jn9942d")) {
-                            System.out.println("goes Jake");
-                            ip = list.indexOf("jn9942d");
-                            jak = hel[ip];
-                            jp = hel[ip + 1];
-                        } else if (str.trim().contains("dr3344j")) {
-                            System.out.println("goes Danny");
-                            ip = list.indexOf("dr3344j");
-                            danny = hel[ip];
-                            dap = hel[ip + 1];
-                        } else if (str.trim().contains("bm4904f")) {
-                            System.out.println("goes Barney");
-                            ip = list.indexOf("bm4904f");
-                            bar = hel[ip];
-                            bp = hel[ip + 1];
+                        if (str.trim().contains("dm5376y"))//finds the ip of dm5376y 
+                        {
+                           
+                            ip = list.indexOf("dm5376y"); //gets location of dm5376y
+                            dan = hel[ip]; //gets his location in txt file
+                            dp = hel[ip + 1];//gets his ip location in txt file
+                        } else if (str.trim().contains("jn9942d")) { //find the ip of jn9942d
+                        
+                            ip = list.indexOf("jn9942d");//gets location of  jn9942d
+                            jak = hel[ip];//gets his location in txt file
+                            jp = hel[ip + 1];//gets his ip location in txt file
+                        } else if (str.trim().contains("dr3344j")) { //find the ip of dr3344j
+                         
+                            ip = list.indexOf("dr3344j");//gets location of  dr3344j
+                            danny = hel[ip];//gets his location in txt file
+                            dap = hel[ip + 1];//gets his ip location in txt file
+                        } else if (str.trim().contains("bm4904f")) { //find the ip of bm4404f
+                          
+                            ip = list.indexOf("bm4904f");//gets location of bm4904f 
+                            bar = hel[ip];//gets his location in txt file
+                            bp = hel[ip + 1];//gets his ip location in txt file
                         }
                     }
-
                 }
-                System.out.println(dan + "<------------------------------>" + dp);
-                System.out.println(jak + "<------------------------------>" + jp);
-                System.out.println(danny + "<------------------------------>" + dap);
-                System.out.println(bar + "<------------------------------>" + bp);
-
-                if (selected.equals(username)) {
+                if (selected.equals(username)) { //catches if someone wants to start a private messages with himself
                     Component frame = null;
                     JOptionPane.showMessageDialog(frame, "You can't private chat with yourself", "Error", JOptionPane.ERROR_MESSAGE);
 
-                } else if (selected.equals("dm5376y") && dan.equals(selected)) {
+                } else if (selected.equals("dm5376y") && dan.equals(selected)) { //starts a private message with dm5376y
                     sendserverdisconnect();
                     Disconnect();
                     Onliners.setText("Online Members:");
                     cbOnliners.removeAllItems();
                     address = dp;
-
                     try {
                         br = new BufferedReader(new FileReader(filepath1));
 
@@ -728,14 +658,12 @@ System.out.println("IM HEERE" + "_____________");
                         while ((line = br.readLine()) != null) {
 
                             if (line.equals(userId)) {
-                                if (isConnected == false) {
-
-                                    System.out.println("address main screen line 429: " + address);
+                                if (isConnected == false) {//connects to the user
 
                                     try {
                                         String encryptSignature = Encryption.Signature(input.getText());
                                         sock = new Socket(address, port);
-                                        System.out.println("sock MainScreen 426: " + sock);
+                                     
                                         InputStreamReader streamreader = new InputStreamReader(sock.getInputStream());
                                         reader = new BufferedReader(streamreader);
                                         writer = new PrintWriter(sock.getOutputStream());
@@ -772,7 +700,7 @@ System.out.println("IM HEERE" + "_____________");
                         Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
 
                     }
-                } else if (selected.equals("dr3344j") && danny.equals(selected)) {
+                } else if (selected.equals("dr3344j") && danny.equals(selected)) {//starts a private message with dr3344j
                     sendserverdisconnect();
                     Disconnect();
                     Onliners.setText("Online Members:");
@@ -787,14 +715,11 @@ System.out.println("IM HEERE" + "_____________");
                         while ((line = br.readLine()) != null) {
 
                             if (line.equals(userId)) {
-                                if (isConnected == false) {
-
-                                    System.out.println("address main screen line 429: " + address);
+                                if (isConnected == false) {//connects to the user
 
                                     try {
                                         String encryptSignature = Encryption.Signature(input.getText());
-                                        sock = new Socket(address, port);
-                                        System.out.println("sock MainScreen 426: " + sock);
+                                        sock = new Socket(address, port);                                     
                                         InputStreamReader streamreader = new InputStreamReader(sock.getInputStream());
                                         reader = new BufferedReader(streamreader);
                                         writer = new PrintWriter(sock.getOutputStream());
@@ -831,12 +756,11 @@ System.out.println("IM HEERE" + "_____________");
                         Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
 
                     }
-                } else if (selected.equals("jn9942d") && jak.equals(selected)) {
+                } else if (selected.equals("jn9942d") && jak.equals(selected)) {//starts a private message with jn9942d
                     sendserverdisconnect();
                     Disconnect();
                     Onliners.setText("Online Members:");
                     cbOnliners.removeAllItems();
-
                     address = jp;
                     try {
                         br = new BufferedReader(new FileReader(filepath1));
@@ -846,14 +770,12 @@ System.out.println("IM HEERE" + "_____________");
                         while ((line = br.readLine()) != null) {
 
                             if (line.equals(userId)) {
-                                if (isConnected == false) {
-
-                                    System.out.println("address main screen line 429: " + address);
+                                if (isConnected == false) {//connects to the user
 
                                     try {
                                         String encryptSignature = Encryption.Signature(input.getText());
                                         sock = new Socket(address, port);
-                                        System.out.println("sock MainScreen 426: " + sock);
+                                    
                                         InputStreamReader streamreader = new InputStreamReader(sock.getInputStream());
                                         reader = new BufferedReader(streamreader);
                                         writer = new PrintWriter(sock.getOutputStream());
@@ -866,9 +788,7 @@ System.out.println("IM HEERE" + "_____________");
                                         serverInfo.append("My IP:" + NetInterface.IpUser() + "\n");
                                     } catch (Exception ex) {
                                         display.append("Cannot Connect! The server is Offline! Become a coordinator! \n");
-
                                     }
-
                                     ListenThread();
 
                                 } else if (isConnected == true) {
@@ -890,7 +810,7 @@ System.out.println("IM HEERE" + "_____________");
                         Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
 
                     }
-                } else if (selected.equals("bm4904f") && bar.equals(selected)) {
+                } else if (selected.equals("bm4904f") && bar.equals(selected)) {//starts a private message with bm4904f
                     sendserverdisconnect();
                     Disconnect();
                     Onliners.setText("Online Members:");
@@ -904,14 +824,11 @@ System.out.println("IM HEERE" + "_____________");
                         while ((line = br.readLine()) != null) {
 
                             if (line.equals(userId)) {
-                                if (isConnected == false) {
-
-                                    System.out.println("address main screen line 429: " + address);
+                                if (isConnected == false) { //connects to the user
 
                                     try {
                                         String encryptSignature = Encryption.Signature(input.getText());
-                                        sock = new Socket(address, port);
-                                        System.out.println("sock MainScreen 426: " + sock);
+                                        sock = new Socket(address, port);                                  
                                         InputStreamReader streamreader = new InputStreamReader(sock.getInputStream());
                                         reader = new BufferedReader(streamreader);
                                         writer = new PrintWriter(sock.getOutputStream());
@@ -956,41 +873,32 @@ System.out.println("IM HEERE" + "_____________");
                 }//GEN-LAST:event_btnChatActionPerformed
 
                 private void inputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inputKeyPressed
+                 //sends message on the ENTER key press
                     if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-
                         String nothing = "";
                         if ((input.getText()).equals(nothing)) {
                             input.setText("");
                             input.requestFocus();
                         } else {
                             try {
-
-                                //KeyPair A = Encryption.GenerateKey1();
-                                String messageToEncrypt = input.getText();
-                                //PublicKey PubliKey = Encryption.PuK(A);
-                                //PrivateKey PrivaKey = Encryption.PrK(A);
-
-                                //byte[] MessageEncrypted = Encryption.EncryptionPart(messageToEncrypt, PubliKey);
+                                String messageToEncrypt = input.getText();  
                                 String encryptSignature = Encryption.Signature(input.getText());
-
-                                writer.println(username + ":" + input.getText() /*Arrays.toString(MessageEncrypted)*/ + ":" + "Chat" + ":" + NetInterface.IpUser() + ":" + encryptSignature);
+                                writer.println(username + ":" + input.getText() + ":" + "Chat" + ":" + NetInterface.IpUser() + ":" + encryptSignature);
                                 writer.flush(); // flushes the buffer
-
                             } catch (Exception ex) {
                                 display.append("Message was not sent. \n");
                             }
                             input.setText("");
                             input.requestFocus();
                         }
-
                         input.setText("");
                         input.requestFocus();
                     }
                 }//GEN-LAST:event_inputKeyPressed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        //window closing event to show confirm dialog and also send server the needable messages
         Component frame = null;
-
         if (JOptionPane.showConfirmDialog(frame,
                 "Are you sure you want to close this window?", "Close Window?",
                 JOptionPane.YES_NO_OPTION,
@@ -1003,7 +911,6 @@ System.out.println("IM HEERE" + "_____________");
     //Function to set the unique id.
     public void setUniqueId(String uId) {
         uniqueId.setText(uId);
-
         ID = uniqueId.getText();
         userId = uniqueId.getText();
         username = uniqueId.getText();
