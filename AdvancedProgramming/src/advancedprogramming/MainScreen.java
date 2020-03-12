@@ -83,6 +83,7 @@ public class MainScreen extends javax.swing.JFrame {
             display.append(currTime() + "Could not send Disconnect message.\n");
         }
     }
+
     public void SendclosedServer() {
         String disconnectString;
         try {
@@ -134,7 +135,8 @@ public class MainScreen extends javax.swing.JFrame {
                     people = stream.split(":");
 
                     if (data[2].equals(chat) && data[1].equals(ClosedWind)) {
-
+                        isConnected = false;
+                        Disconnect();
                         List<String> list = new ArrayList<>();
 
                         Scanner inFile1 = new Scanner(new File("ips.txt")).useDelimiter(":");
@@ -194,39 +196,46 @@ public class MainScreen extends javax.swing.JFrame {
 
                         }
 
-                        if (isConnected == false) {
+                        while (isConnected == false) {
 
                             System.out.println("address main screen line 504: " + address);
                             for (x = 1; x < list.size();) {
                                 String newip = list.get(x);
-                                address = newip;
+                              
                                 try {
                                     String encryptSignature = Encryption.Signature(input.getText());
-                                    sock = new Socket(address, port);
+                                    sock = new Socket(newip, port);
                                     System.out.println("sock MainScreen 509: " + sock);
                                     InputStreamReader streamreader = new InputStreamReader(sock.getInputStream());
                                     reader = new BufferedReader(streamreader);
                                     writer = new PrintWriter(sock.getOutputStream());
                                     writer.println(username + ":has connected.:Connect" + ":" + NetInterface.IpUser() + ":" + encryptSignature);
                                     writer.flush();
-                                    isConnected = true;
                                     uniqueId.setText(userId);
-                                                                            serverInfo.setText("");
-                                        serverInfo.append("Host:" + address+ "\n");
-                                        serverInfo.append("My IP:" + NetInterface.IpUser()+ "\n");
+                                    serverInfo.setText("");
+                                    serverInfo.append("Host:" + address + "\n");
+                                    serverInfo.append("My IP:" + NetInterface.IpUser() + "\n");
+                                    
 
                                 } catch (Exception ex) {
                                     x += 2;
                                     Onliners.setText("Online members :" + "\n");
                                     display.append("Retrying to connect to the next available coordinator!" + "\n");
                                     System.out.println("GOES HERE AND ADS X++++++++++++++++++++++" + newip);
-
+                                    
                                 }
-
+                                if(data[2].equals(connect)){
+                                    isConnected = true;
+                                }
+                                
+if(isConnected){
+                                        break;
+                                    }
                                 ListenThread();
 
                             }
-                        } else if (isConnected == true) {
+                            
+                        }  if (isConnected == true) {
                             display.append(currTime() + "You are already connected. \n");
                         }
 
@@ -644,9 +653,9 @@ public class MainScreen extends javax.swing.JFrame {
                     writer.flush();
                     isConnected = true;
                     uniqueId.setText(userId);
-                                                            serverInfo.setText("");
-                                        serverInfo.append("Host:" + address+ "\n");
-                                        serverInfo.append("My IP:" + NetInterface.IpUser()+ "\n");
+                    serverInfo.setText("");
+                    serverInfo.append("Host:" + address + "\n");
+                    serverInfo.append("My IP:" + NetInterface.IpUser() + "\n");
                     Connected = true;
                     FileWriter writer = new FileWriter("ips.txt", false);
                     writer.write("");
@@ -775,8 +784,8 @@ public class MainScreen extends javax.swing.JFrame {
                                         isConnected = true;
                                         uniqueId.setText(userId);
                                         serverInfo.setText("");
-                                        serverInfo.append("Host:" + address+ "\n");
-                                        serverInfo.append("My IP:" + NetInterface.IpUser()+ "\n");
+                                        serverInfo.append("Host:" + address + "\n");
+                                        serverInfo.append("My IP:" + NetInterface.IpUser() + "\n");
                                     } catch (Exception ex) {
                                         display.append("Cannot Connect! The server is Offline! Become a coordinator! \n");
 
@@ -833,9 +842,9 @@ public class MainScreen extends javax.swing.JFrame {
                                         writer.flush();
                                         isConnected = true;
                                         uniqueId.setText(userId);
-                                                                                serverInfo.setText("");
-                                        serverInfo.append("Host:" + address+ "\n");
-                                        serverInfo.append("My IP:" + NetInterface.IpUser()+ "\n");
+                                        serverInfo.setText("");
+                                        serverInfo.append("Host:" + address + "\n");
+                                        serverInfo.append("My IP:" + NetInterface.IpUser() + "\n");
                                     } catch (Exception ex) {
                                         display.append("Cannot Connect! The server is Offline! Become a coordinator! \n");
 
@@ -892,9 +901,9 @@ public class MainScreen extends javax.swing.JFrame {
                                         writer.flush();
                                         isConnected = true;
                                         uniqueId.setText(userId);
-                                                                                serverInfo.setText("");
-                                        serverInfo.append("Host:" + address+ "\n");
-                                        serverInfo.append("My IP:" + NetInterface.IpUser()+ "\n");
+                                        serverInfo.setText("");
+                                        serverInfo.append("Host:" + address + "\n");
+                                        serverInfo.append("My IP:" + NetInterface.IpUser() + "\n");
                                     } catch (Exception ex) {
                                         display.append("Cannot Connect! The server is Offline! Become a coordinator! \n");
 
@@ -950,8 +959,8 @@ public class MainScreen extends javax.swing.JFrame {
                                         writer.flush();
                                         isConnected = true;
                                         uniqueId.setText(userId);
-                                                                                serverInfo.setText("");
-                                        serverInfo.append("Host:" + address+ "\n");
+                                        serverInfo.setText("");
+                                        serverInfo.append("Host:" + address + "\n");
                                         serverInfo.append("My IP:" + NetInterface.IpUser() + "\n");
                                     } catch (Exception ex) {
                                         display.append("Cannot Connect! The server is Offline! Become a coordinator! \n");
@@ -1034,7 +1043,7 @@ public class MainScreen extends javax.swing.JFrame {
     //Function to set the unique id.
     public void setUniqueId(String uId) {
         uniqueId.setText(uId);
-        
+
         ID = uniqueId.getText();
         userId = uniqueId.getText();
         username = uniqueId.getText();
