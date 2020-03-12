@@ -5,12 +5,7 @@
  */
 package advancedprogramming;
 
-import advancedprogramming.Serv;
-import advancedprogramming.NetInterface;
-import advancedprogramming.NetInterface;
-import advancedprogramming.Serv;
 import java.awt.Component;
-import java.awt.PopupMenu;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -18,34 +13,19 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.net.InetAddress;
-import java.net.ServerSocket;
 import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import java.awt.event.*;
-
-import java.security.KeyPair;
-import java.security.PrivateKey;
-import java.security.PublicKey;
-
-import java.io.FileOutputStream;
 import java.io.FileWriter;
-import java.io.InputStream;
-import java.io.OutputStream;
-import static java.nio.file.Files.lines;
-import static java.nio.file.Files.lines;
 import java.util.List;
 import java.util.Scanner;
-import javax.swing.JComponent;
-import javax.swing.KeyStroke;
 
 /**
  *
@@ -71,23 +51,19 @@ public class MainScreen extends javax.swing.JFrame {
     Boolean Connected = false;
     String Ipnew = "";
 
-    //--------------------------//
     public void ListenThread() {
         Thread IncomingReader = new Thread(new IncomingReader());
         IncomingReader.start();
     }
 
-    //--------------------------//
     public void userAdd(String data) {
         users.add(data);
     }
 
-    //--------------------------//
     public void userRemove(String data) {
         display.append(data + " is now offline.\n");
     }
 
-    //--------------------------//
     public void writeUsers() {
         String[] tempList = new String[(users.size())];
         users.toArray(tempList);
@@ -96,31 +72,18 @@ public class MainScreen extends javax.swing.JFrame {
         }
     }
 
-    //--------------------------//
     public void sendDisconnect() {
-        String bye;
+        String disconnectString;
         try {
-            String yolo2 = Encryption.Signature(input.getText());
-            bye = username + ": :Disconnect" + ":" + NetInterface.IpUser() + ":" + yolo2;
-            writer.println(bye);
-            writer.flush();
-        } catch (Exception e) {
-            display.append(currTime() + "Could not send Disconnect message.\n");
-        }
-    }
-    public void sendDisconnect1() {
-        String bye;
-        try {
-            String yolo2 = Encryption.Signature(input.getText());
-            bye = username + ": :Disconnectt" + ":" + NetInterface.IpUser() + ":" + yolo2;
-            writer.println(bye);
+            String encryptSignature = Encryption.Signature(input.getText());
+            disconnectString = username + ": :Disconnect" + ":" + NetInterface.IpUser() + ":" + encryptSignature;
+            writer.println(disconnectString);
             writer.flush();
         } catch (Exception e) {
             display.append(currTime() + "Could not send Disconnect message.\n");
         }
     }
 
-    //--------------------------//
     public void Disconnect() {
         try {
 
@@ -151,7 +114,7 @@ public class MainScreen extends javax.swing.JFrame {
             String stream, done = "Done", connect = "Connect", disconnect = "Disconnect", chat = "Chat", hdisconnect = "has disconnected";
 
             try {
-                address =  "";
+                address = "";
                 int i = 0;
                 int x = 0;
                 while ((stream = reader.readLine()) != null) {
@@ -161,11 +124,9 @@ public class MainScreen extends javax.swing.JFrame {
                     people = stream.split(":");
 
                     if (data[2].equals(chat) && data[1].equals(hdisconnect)) {
-                        
-              List<String> list = new ArrayList<String>();
-                        
-                        
-                        
+
+                        List<String> list = new ArrayList<String>();
+
                         Scanner inFile1 = new Scanner(new File("ips.txt")).useDelimiter(":");
                         String joinedString = String.join(":", data);
 
@@ -178,10 +139,10 @@ public class MainScreen extends javax.swing.JFrame {
                         String token1 = "";
                         Boolean writ = true;
                         // while loop
-                        if(tf_address.getText().equals(Ipnew)){
-                                    isConnected = false;
-                                   display.append("Server closed down! Trying to connect to next coordinator!" + "\n");
-                                }
+                        if (tf_address.getText().equals(Ipnew)) {
+                            isConnected = false;
+                            display.append("Server closed down! Trying to connect to next coordinator!" + "\n");
+                        }
                         while (inFile1.hasNext()) {
                             // find next line
                             token1 = inFile1.next();
@@ -198,78 +159,63 @@ public class MainScreen extends javax.swing.JFrame {
                             System.out.println(Arrays.toString(hel));
 
                             for (String str : list) {
-                                 
+
                                 if (str.trim().contains(data[0])) {
                                     System.out.println("goes to change Boolean");
-                                   
-                                        System.out.println(list);
-                                                                          
+
+                                    System.out.println(list);
+
                                     writ = false;
-                                }}
+                                }
+                            }
 
-                                
-                            
-                        
-                        
-                        if (writ) {
+                            if (writ) {
 
-                            FileWriter writer = new FileWriter("ips.txt", true);
-                            writer.write(ips[0] + ":" + ips[3] + ":");
-                            writer.close();
-                        }
+                                FileWriter writer = new FileWriter("ips.txt", true);
+                                writer.write(ips[0] + ":" + ips[3] + ":");
+                                writer.close();
+                            }
 
-             //PrivateKey PrivaKey = Encryption.PrK(A);
-                        //byte[] MessageEncrypt = data[1].getBytes();
-                        //String MessageDecrypted = Encryption.DecryptionPart(MessageEncrypt, PrivaKey);
-                        String yolo = Encryption.Signature(data[1]);
-                        //System.out.println(yolo);
+                            //PrivateKey PrivaKey = Encryption.PrK(A);
+                            //byte[] MessageEncrypt = data[1].getBytes();
+                            //String MessageDecrypted = Encryption.DecryptionPart(MessageEncrypt, PrivaKey);
+                            String encryptSignature = Encryption.Signature(data[1]);
 
                         }
-                        
 
-                            
-                        
-            if (isConnected == false)
-            {
-                
-                
-                System.out.println("address main screen line 504: "+address);
-                for (x = 1; x< list.size();){
-                             String newip = list.get(x);
-                                        address = newip;
-                try
-                {
-                    String yolo2 = Encryption.Signature(input.getText());
-                    sock = new Socket(address, port);
-                    System.out.println("sock MainScreen 509: "+sock);
-                    InputStreamReader streamreader = new InputStreamReader(sock.getInputStream());
-                    reader = new BufferedReader(streamreader);
-                    writer = new PrintWriter(sock.getOutputStream());
-                    writer.println(username + ":has connected.:Connect" + ":" + NetInterface.IpUser()+ ":"+yolo2);
-                    writer.flush();
-                    isConnected = true;
-                    uniqueId.setText(uID);
-                    
-                    
-                }
-                catch (Exception ex)
-                {
-                    x+=2;
-                    Onliners.setText("Online members :" + "\n");
-                    display.append("Retrying to connect to the next available coordinator!" + "\n");
-                    System.out.println("GOES HERE AND ADS X++++++++++++++++++++++" + newip);
-                    
-                    
-                }
-                
-                ListenThread();
-                
-            }} else if (isConnected == true)
-            {
-                display.append(currTime() + "You are already connected. \n");
-            }
+                        if (isConnected == false) {
 
-                       
+                            System.out.println("address main screen line 504: " + address);
+                            for (x = 1; x < list.size();) {
+                                String newip = list.get(x);
+                                address = newip;
+                                try {
+                                    String encryptSignature = Encryption.Signature(input.getText());
+                                    sock = new Socket(address, port);
+                                    System.out.println("sock MainScreen 509: " + sock);
+                                    InputStreamReader streamreader = new InputStreamReader(sock.getInputStream());
+                                    reader = new BufferedReader(streamreader);
+                                    writer = new PrintWriter(sock.getOutputStream());
+                                    writer.println(username + ":has connected.:Connect" + ":" + NetInterface.IpUser() + ":" + encryptSignature);
+                                    writer.flush();
+                                    isConnected = true;
+                                    uniqueId.setText(uID);
+
+                                } catch (Exception ex) {
+                                    x += 2;
+                                    Onliners.setText("Online members :" + "\n");
+                                    display.append("Retrying to connect to the next available coordinator!" + "\n");
+                                    System.out.println("GOES HERE AND ADS X++++++++++++++++++++++" + newip);
+
+                                }
+
+                                ListenThread();
+
+                            }
+                        } else if (isConnected == true) {
+                            display.append(currTime() + "You are already connected. \n");
+                        }
+
                     } else if (data[2].equals(chat)) {
 
                         Scanner inFile1 = new Scanner(new File("ips.txt")).useDelimiter(":");
@@ -317,23 +263,22 @@ public class MainScreen extends javax.swing.JFrame {
                         //PrivateKey PrivaKey = Encryption.PrK(A);
                         //byte[] MessageEncrypt = data[1].getBytes();
                         //String MessageDecrypted = Encryption.DecryptionPart(MessageEncrypt, PrivaKey);
-                        String yolo = Encryption.Signature(data[1]);
-                        //System.out.println(yolo);
+                        String encryptSignature = Encryption.Signature(data[1]);
 
                         if (i == 0) {
                             display.append(currTime() + data[0] + ": " + data[1] + "\n");
                             display.setCaretPosition(display.getDocument().getLength());
 
-                        } else if (yolo.equals(data[4])) {
+                        } else if (encryptSignature.equals(data[4])) {
                             display.append(currTime() + data[0] + ": " + data[1] + "\n");
                             display.setCaretPosition(display.getDocument().getLength());
-                            System.out.println(yolo + "\n" + data[4]);
+                            System.out.println(encryptSignature + "\n" + data[4]);
 
                         } else {
                             display.append(currTime() + data[0] + ": " + data[1] + " !messsage has been modified! " + "\n");
                             System.out.println(Arrays.toString(data));
                             display.setCaretPosition(display.getDocument().getLength());
-                            System.out.println(yolo + "\n" + data[4]);
+                            System.out.println(encryptSignature + "\n" + data[4]);
                         }
                         i++;
                     } else if (data[2].equals(connect)) {
@@ -629,9 +574,9 @@ public class MainScreen extends javax.swing.JFrame {
                     //PrivateKey PrivaKey = Encryption.PrK(A);
 
                     //byte[] MessageEncrypted = Encryption.EncryptionPart(messageToEncrypt, PubliKey);
-                    String yolo2 = Encryption.Signature(input.getText());
+                    String encryptSignature = Encryption.Signature(input.getText());
 
-                    writer.println(username + ":" + input.getText() /*Arrays.toString(MessageEncrypted)*/ + ":" + "Chat" + ":" + NetInterface.IpUser() + ":" + yolo2);
+                    writer.println(username + ":" + input.getText() /*Arrays.toString(MessageEncrypted)*/ + ":" + "Chat" + ":" + NetInterface.IpUser() + ":" + encryptSignature);
                     writer.flush(); // flushes the buffer
 
                 } catch (Exception ex) {
@@ -670,24 +615,23 @@ public class MainScreen extends javax.swing.JFrame {
                 System.out.println("address main screen line 504: " + address);
 
                 try {
-                    String yolo2 = Encryption.Signature(input.getText());
+                    String encryptSignature = Encryption.Signature(input.getText());
                     sock = new Socket(address, port);
                     System.out.println("sock MainScreen 509: " + sock);
                     InputStreamReader streamreader = new InputStreamReader(sock.getInputStream());
                     reader = new BufferedReader(streamreader);
                     writer = new PrintWriter(sock.getOutputStream());
-                    writer.println(username + ":has connected.:Connect" + ":" + NetInterface.IpUser() + ":" + yolo2);
+                    writer.println(username + ":has connected.:Connect" + ":" + NetInterface.IpUser() + ":" + encryptSignature);
                     writer.flush();
                     isConnected = true;
                     uniqueId.setText(uID);
                     Connected = true;
-                     FileWriter writer = new FileWriter("ips.txt", false);
-                            writer.write("");
-                            writer.close();
+                    FileWriter writer = new FileWriter("ips.txt", false);
+                    writer.write("");
+                    writer.close();
                     if (Connected) {
                         Ipnew = address;
                     }
-                    
 
                 } catch (Exception ex) {
                     display.append("Cannot Connect! The server is Offline! Become a coordinator! \n");
@@ -733,7 +677,7 @@ public class MainScreen extends javax.swing.JFrame {
                 // List<String> temps = new LinkedList<String>();
                 List<String> temps = new ArrayList<String>();
                 String token1 = "";
-                // while loop
+
                 while (inFile1.hasNext()) {
                     // find next line
                     token1 = inFile1.next();
@@ -750,46 +694,31 @@ public class MainScreen extends javax.swing.JFrame {
                     System.out.println(Arrays.toString(hel));
 
                     for (String str : list) {
+                        int ip;
+
                         if (str.trim().contains("dm5376y")) {
                             System.out.println("goes Daniels");
-                            int ip;
                             ip = list.indexOf("dm5376y");
                             dan = hel[ip];
                             dp = hel[ip + 1];
-
-                        }
-                    }
-
-                    for (String str : list) {
-                        if (str.trim().contains("jn9942d")) {
+                        } else if (str.trim().contains("jn9942d")) {
                             System.out.println("goes Jake");
-                            int ip;
                             ip = list.indexOf("jn9942d");
                             jak = hel[ip];
                             jp = hel[ip + 1];
-                        }
-
-                    }
-                    for (String str : list) {
-                        if (str.trim().contains("dr3344j")) {
+                        } else if (str.trim().contains("dr3344j")) {
                             System.out.println("goes Danny");
-                            int ip;
                             ip = list.indexOf("dr3344j");
                             danny = hel[ip];
                             dap = hel[ip + 1];
-
-                        }
-                    }
-                    for (String str : list) {
-                        if (str.trim().contains("bm4904f")) {
+                        } else if (str.trim().contains("bm4904f")) {
                             System.out.println("goes Barney");
-                            int ip;
                             ip = list.indexOf("bm4904f");
                             bar = hel[ip];
                             bp = hel[ip + 1];
                         }
-
                     }
+
                 }
                 System.out.println(dan + "<------------------------------>" + dp);
                 System.out.println(jak + "<------------------------------>" + jp);
@@ -819,13 +748,13 @@ public class MainScreen extends javax.swing.JFrame {
                                     System.out.println("address main screen line 429: " + address);
 
                                     try {
-                                        String yolo2 = Encryption.Signature(input.getText());
+                                        String encryptSignature = Encryption.Signature(input.getText());
                                         sock = new Socket(address, port);
                                         System.out.println("sock MainScreen 426: " + sock);
                                         InputStreamReader streamreader = new InputStreamReader(sock.getInputStream());
                                         reader = new BufferedReader(streamreader);
                                         writer = new PrintWriter(sock.getOutputStream());
-                                        writer.println(username + ":has connected.:Connect" + ":" + NetInterface.IpUser() + ":" + yolo2);
+                                        writer.println(username + ":has connected.:Connect" + ":" + NetInterface.IpUser() + ":" + encryptSignature);
                                         writer.flush();
                                         isConnected = true;
                                         uniqueId.setText(uID);
@@ -875,13 +804,13 @@ public class MainScreen extends javax.swing.JFrame {
                                     System.out.println("address main screen line 429: " + address);
 
                                     try {
-                                        String yolo2 = Encryption.Signature(input.getText());
+                                        String encryptSignature = Encryption.Signature(input.getText());
                                         sock = new Socket(address, port);
                                         System.out.println("sock MainScreen 426: " + sock);
                                         InputStreamReader streamreader = new InputStreamReader(sock.getInputStream());
                                         reader = new BufferedReader(streamreader);
                                         writer = new PrintWriter(sock.getOutputStream());
-                                        writer.println(username + ":has connected.:Connect" + ":" + NetInterface.IpUser() + ":" + yolo2);
+                                        writer.println(username + ":has connected.:Connect" + ":" + NetInterface.IpUser() + ":" + encryptSignature);
                                         writer.flush();
                                         isConnected = true;
                                         uniqueId.setText(uID);
@@ -931,13 +860,13 @@ public class MainScreen extends javax.swing.JFrame {
                                     System.out.println("address main screen line 429: " + address);
 
                                     try {
-                                        String yolo2 = Encryption.Signature(input.getText());
+                                        String encryptSignature = Encryption.Signature(input.getText());
                                         sock = new Socket(address, port);
                                         System.out.println("sock MainScreen 426: " + sock);
                                         InputStreamReader streamreader = new InputStreamReader(sock.getInputStream());
                                         reader = new BufferedReader(streamreader);
                                         writer = new PrintWriter(sock.getOutputStream());
-                                        writer.println(username + ":has connected.:Connect" + ":" + NetInterface.IpUser() + ":" + yolo2);
+                                        writer.println(username + ":has connected.:Connect" + ":" + NetInterface.IpUser() + ":" + encryptSignature);
                                         writer.flush();
                                         isConnected = true;
                                         uniqueId.setText(uID);
@@ -986,13 +915,13 @@ public class MainScreen extends javax.swing.JFrame {
                                     System.out.println("address main screen line 429: " + address);
 
                                     try {
-                                        String yolo2 = Encryption.Signature(input.getText());
+                                        String encryptSignature = Encryption.Signature(input.getText());
                                         sock = new Socket(address, port);
                                         System.out.println("sock MainScreen 426: " + sock);
                                         InputStreamReader streamreader = new InputStreamReader(sock.getInputStream());
                                         reader = new BufferedReader(streamreader);
                                         writer = new PrintWriter(sock.getOutputStream());
-                                        writer.println(username + ":has connected.:Connect" + ":" + NetInterface.IpUser() + ":" + yolo2);
+                                        writer.println(username + ":has connected.:Connect" + ":" + NetInterface.IpUser() + ":" + encryptSignature);
                                         writer.flush();
                                         isConnected = true;
                                         uniqueId.setText(uID);
@@ -1025,10 +954,6 @@ public class MainScreen extends javax.swing.JFrame {
                 }
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
-
-            } catch (IOException ex) {
-                Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
-
             }
 
                 }//GEN-LAST:event_jButton3ActionPerformed
@@ -1049,9 +974,9 @@ public class MainScreen extends javax.swing.JFrame {
                                 //PrivateKey PrivaKey = Encryption.PrK(A);
 
                                 //byte[] MessageEncrypted = Encryption.EncryptionPart(messageToEncrypt, PubliKey);
-                                String yolo2 = Encryption.Signature(input.getText());
+                                String encryptSignature = Encryption.Signature(input.getText());
 
-                                writer.println(username + ":" + input.getText() /*Arrays.toString(MessageEncrypted)*/ + ":" + "Chat" + ":" + NetInterface.IpUser() + ":" + yolo2);
+                                writer.println(username + ":" + input.getText() /*Arrays.toString(MessageEncrypted)*/ + ":" + "Chat" + ":" + NetInterface.IpUser() + ":" + encryptSignature);
                                 writer.flush(); // flushes the buffer
 
                             } catch (Exception ex) {
@@ -1073,24 +998,16 @@ public class MainScreen extends javax.swing.JFrame {
                 "Are you sure you want to close this window?", "Close Window?",
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
-            sendDisconnect1();
+            sendDisconnect();
             Disconnect();
             System.exit(0);
         }
     }//GEN-LAST:event_formWindowClosing
     //Function to set the unique id.
-
     public void setUniqueId(String uId) {
         uniqueId.setText(uId);
-
-        ID = uniqueId.getText();
-        uID = uniqueId.getText();
-        username = uniqueId.getText();
-
     }
 
-    //Activates and allows for the use of sending text.
-    //Function to create a new thread and connect to the server.
     //Function to get the current time.
     public String currTime() {
         SimpleDateFormat formatter = new SimpleDateFormat("[HH.mm.ss] ");
@@ -1133,12 +1050,8 @@ public class MainScreen extends javax.swing.JFrame {
                 temp.setResizable(false);
                 temp.setLocationRelativeTo(null);
             }
-
         });
-
     }
-
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea Onliners;
     private javax.swing.JButton b_connect1;
