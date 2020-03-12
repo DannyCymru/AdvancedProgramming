@@ -11,7 +11,7 @@ class p2p_server : public QObject
     Q_OBJECT
 public:
     explicit p2p_server(QObject *parent = nullptr);
-    void send_data(QString new_message);
+    void send_data(QString user_id, QString new_message);
     QString get_data();
     void read_data();
     void local_socket(int port);
@@ -26,7 +26,7 @@ private:
 
 
     void group_broadcast();
-    void connect_request();
+    QString connect_request(int ip_port);
 };
 
 #endif // P2P_SERVER_H

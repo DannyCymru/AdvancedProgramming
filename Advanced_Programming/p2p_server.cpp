@@ -1,4 +1,4 @@
-#include "p2p_server.h" 
+#include "p2p_server.h"
 
 QByteArray datagram;
 
@@ -29,7 +29,7 @@ void p2p_server::group_broadcast(){
 
 }
 
-void p2p_server::connect_request(){
+QString p2p_server::connect_request(int ip_port){
 
 }
 
@@ -42,21 +42,21 @@ void p2p_server::read_data(){
         //Reads the QByteArray and places data into the correct objects previously set up
         udp_get->readDatagram(datagram.data(), datagram.size(), &sender, &sender_port);
         //Logs data to console for debugging.
-        qDebug() << "Message: " << datagram;
-        qDebug() << "Message from: " << sender.toString();
+        qDebug() << "Datagram: " << datagram;
+        qDebug() << "IP: " << sender.toString();
         qDebug() << "Port:" << sender_port;
     }
 }
 
 QString p2p_server::get_data(){
-
-    QString data_as_string = QTextCodec::codecForMib(1015)->toUnicode(datagram);
-    return data_as_string;
+    QString old_data = datagram;
+    datagram.clear();
+    return old_data;
 }
 
 //Sends data from button click to network broadcast
-void p2p_server::send_data(QString new_message){
+void p2p_server::send_data(QString user_id, QString new_message){
     QByteArray datagram;
-    datagram.append(new_message);
+    datagram.append(user_id + ":" + new_message);
     udp_send->writeDatagram(datagram, QHostAddress::Broadcast, 57000);
 }

@@ -11,6 +11,9 @@ MainWindow::MainWindow(QWidget *parent)
     QString open_message = "Please input your name, your port, the person you want to connect to and thier port like so. dr3344j:57000:192.168.23.4:57000";
      ui->message_edit->appendPlainText(open_message);
 
+     QTimer *timer = new QTimer(this);
+     connect(timer, SIGNAL(timeout()), SLOT(datagram_ui()));
+     timer->start(1000);
 
 }
 
@@ -24,9 +27,9 @@ void MainWindow::on_send_button_clicked()
 {
     //Checks if the user has entered their information. This stops the program from crashing or not knowing
     //where to send datagrams.
-    QString id_check = ui->user_id->text();
-    QString host_check = ui->host_list_edit->toPlainText();
-    if (id_check == "user_id" && host_check == ""){
+    QString id = ui->user_id->text();
+    QString host = ui->host_list_edit->toPlainText();
+    if (id == "user_id" && host == ""){
         try {
 
             //Updates UI elements.)
@@ -36,6 +39,7 @@ void MainWindow::on_send_button_clicked()
             ui->message_edit->appendPlainText(user_input);
             ui->main_user_input->clear();
             set_variables(user_input);
+            
         } catch (...) {
             ui->message_edit->appendPlainText("Please try again");
         }
@@ -45,15 +49,18 @@ void MainWindow::on_send_button_clicked()
         QString new_message = ui->main_user_input->text();
         //Clears the ui element for next user input.
         ui->main_user_input->clear();
-        p2p->send_data(new_message);
+        p2p->send_data(id, new_message);
     }
 }
 
 void MainWindow::datagram_ui(){
-
     QString data = p2p->get_data();
-    qDebug() << data;
-    ui->message_edit->appendPlainText(data);
+    if(data.isEmpty()){
+
+    }
+    else{
+        ui->message_edit->appendPlainText(data);
+    }
 }
 
 void MainWindow::set_variables(QString initialise_vars){
@@ -98,14 +105,16 @@ void MainWindow::set_variables(QString initialise_vars){
 
 //Menu bar -> file -> connect action
 void MainWindow::on_actionConnect_triggered(){
-  connect = new connect_dialog;
+  connect_window = new connect_dialog;
   try {
     //If dialog exits in an accepted state then it obtains the information inputted.
-    if ( connect->exec()== QDialog::Accepted) {
-        QVector<QString>v = connect->get_data();
+    if ( connect_window->exec()== QDialog::Accepted) {
+        QVector<QString>v = connect_window->get_data();
         if(v.size() == 4){
         ui->user_id->setText(v[0]);
         ui->host_list_edit->appendPlainText(v[2]+":"+v[3]);
+        p2p->local_socket(v[1].toInt());
+        p2p->ip_socket(v[3].toInt());
         }
         else{
             ui->message_edit->appendPlainText("Did not fill in all the inputs");

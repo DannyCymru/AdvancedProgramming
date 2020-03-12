@@ -24,13 +24,14 @@ private slots:
     void on_send_button_clicked();
     void on_actionConnect_triggered();
     void on_actionClose_triggered();
+    void datagram_ui();
+
 
 private:
     Ui::MainWindow *ui;
     p2p_server *p2p;
-    connect_dialog *connect;
+    connect_dialog *connect_window;
 
-    void datagram_ui();
     void set_variables(QString initialise_vars);
 };
 #endif // MAINWINDOW_H
