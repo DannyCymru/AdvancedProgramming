@@ -10,7 +10,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.lang.*;
 import java.nio.charset.StandardCharsets;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -46,13 +45,13 @@ public class Encryption {
         byte[] PairInByte = PairString.getBytes();
         KeyByte = PairInByte;
 
-        PrintWriter MkFile0 = new PrintWriter("PairInByte.txt", "UTF-8");
+        PrintWriter makeFile = new PrintWriter("PairInByte.txt", "UTF-8");
 
         FileOutputStream Write0 = new FileOutputStream("PuK.txt");
         Write0.write(PairInByte);
         Write0.close();
 
-        MkFile0.close();
+        makeFile.close();
 
         String PK = pub.toString();
 
@@ -63,15 +62,15 @@ public class Encryption {
     static PrivateKey PrK(KeyPair A) throws IOException {
         PrivateKey B = A.getPrivate();
 
-        PrintWriter MkFile1 = new PrintWriter("PrK.txt", "UTF-8");
+        PrintWriter makeFile = new PrintWriter("PrK.txt", "UTF-8");
 
         byte[] PrKB = B.getEncoded();
 
-        FileOutputStream Write1 = new FileOutputStream("PrK.txt");
-        Write1.write(PrKB);
-        Write1.close();
+        FileOutputStream write = new FileOutputStream("PrK.txt");
+        write.write(PrKB);
+        write.close();
 
-        MkFile1.close();
+        makeFile.close();
 
         return B;
     }
@@ -80,15 +79,15 @@ public class Encryption {
     static PublicKey PuK(KeyPair A) throws FileNotFoundException, IOException {
         PublicKey B = A.getPublic();
 
-        PrintWriter MkFile2 = new PrintWriter("PuK.txt", "UTF-8");
+        PrintWriter makeFile = new PrintWriter("PuK.txt", "UTF-8");
 
         byte[] PuKB = B.getEncoded();
 
-        FileOutputStream Write2 = new FileOutputStream("PuK.txt");
-        Write2.write(PuKB);
-        Write2.close();
+        FileOutputStream write = new FileOutputStream("PuK.txt");
+        write.write(PuKB);
+        write.close();
 
-        MkFile2.close();
+        makeFile.close();
 
         return B;
     }
@@ -167,7 +166,8 @@ public class Encryption {
     public static void main(String[] args) throws Exception {
         String text = "Sentence to encrypt and create signature of";
 
-        KeyPair A = GenerateKey1();//method to generate key
+        //method to generate key
+        KeyPair A = GenerateKey1();
 
         //separation of keys
         PrivateKey PrivaKey = Encryption.PrK(A);

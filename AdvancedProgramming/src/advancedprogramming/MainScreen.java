@@ -38,7 +38,7 @@ public class MainScreen extends javax.swing.JFrame {
     public String ID;
     String listPort = "";
     String conAddr = "";
-    String uID;
+    String userId;
     String username, address;
     ArrayList<String> users = new ArrayList();
     int port = 7721;
@@ -199,7 +199,7 @@ public class MainScreen extends javax.swing.JFrame {
                                     writer.println(username + ":has connected.:Connect" + ":" + NetInterface.IpUser() + ":" + encryptSignature);
                                     writer.flush();
                                     isConnected = true;
-                                    uniqueId.setText(uID);
+                                    uniqueId.setText(userId);
 
                                 } catch (Exception ex) {
                                     x += 2;
@@ -624,7 +624,7 @@ public class MainScreen extends javax.swing.JFrame {
                     writer.println(username + ":has connected.:Connect" + ":" + NetInterface.IpUser() + ":" + encryptSignature);
                     writer.flush();
                     isConnected = true;
-                    uniqueId.setText(uID);
+                    uniqueId.setText(userId);
                     Connected = true;
                     FileWriter writer = new FileWriter("ips.txt", false);
                     writer.write("");
@@ -742,7 +742,7 @@ public class MainScreen extends javax.swing.JFrame {
 
                         while ((line = br.readLine()) != null) {
 
-                            if (line.equals(uID)) {
+                            if (line.equals(userId)) {
                                 if (isConnected == false) {
 
                                     System.out.println("address main screen line 429: " + address);
@@ -757,7 +757,7 @@ public class MainScreen extends javax.swing.JFrame {
                                         writer.println(username + ":has connected.:Connect" + ":" + NetInterface.IpUser() + ":" + encryptSignature);
                                         writer.flush();
                                         isConnected = true;
-                                        uniqueId.setText(uID);
+                                        uniqueId.setText(userId);
                                     } catch (Exception ex) {
                                         display.append("Cannot Connect! The server is Offline! Become a coordinator! \n");
 
@@ -798,7 +798,7 @@ public class MainScreen extends javax.swing.JFrame {
 
                         while ((line = br.readLine()) != null) {
 
-                            if (line.equals(uID)) {
+                            if (line.equals(userId)) {
                                 if (isConnected == false) {
 
                                     System.out.println("address main screen line 429: " + address);
@@ -813,7 +813,7 @@ public class MainScreen extends javax.swing.JFrame {
                                         writer.println(username + ":has connected.:Connect" + ":" + NetInterface.IpUser() + ":" + encryptSignature);
                                         writer.flush();
                                         isConnected = true;
-                                        uniqueId.setText(uID);
+                                        uniqueId.setText(userId);
                                     } catch (Exception ex) {
                                         display.append("Cannot Connect! The server is Offline! Become a coordinator! \n");
 
@@ -854,7 +854,7 @@ public class MainScreen extends javax.swing.JFrame {
 
                         while ((line = br.readLine()) != null) {
 
-                            if (line.equals(uID)) {
+                            if (line.equals(userId)) {
                                 if (isConnected == false) {
 
                                     System.out.println("address main screen line 429: " + address);
@@ -869,7 +869,7 @@ public class MainScreen extends javax.swing.JFrame {
                                         writer.println(username + ":has connected.:Connect" + ":" + NetInterface.IpUser() + ":" + encryptSignature);
                                         writer.flush();
                                         isConnected = true;
-                                        uniqueId.setText(uID);
+                                        uniqueId.setText(userId);
                                     } catch (Exception ex) {
                                         display.append("Cannot Connect! The server is Offline! Become a coordinator! \n");
 
@@ -909,7 +909,7 @@ public class MainScreen extends javax.swing.JFrame {
 
                         while ((line = br.readLine()) != null) {
 
-                            if (line.equals(uID)) {
+                            if (line.equals(userId)) {
                                 if (isConnected == false) {
 
                                     System.out.println("address main screen line 429: " + address);
@@ -924,7 +924,7 @@ public class MainScreen extends javax.swing.JFrame {
                                         writer.println(username + ":has connected.:Connect" + ":" + NetInterface.IpUser() + ":" + encryptSignature);
                                         writer.flush();
                                         isConnected = true;
-                                        uniqueId.setText(uID);
+                                        uniqueId.setText(userId);
                                     } catch (Exception ex) {
                                         display.append("Cannot Connect! The server is Offline! Become a coordinator! \n");
 
@@ -1043,13 +1043,11 @@ public class MainScreen extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MainScreen().setVisible(true);
-                MainScreen temp = new MainScreen();
-                temp.setResizable(false);
-                temp.setLocationRelativeTo(null);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new MainScreen().setVisible(true);
+            MainScreen temp = new MainScreen();
+            temp.setResizable(false);
+            temp.setLocationRelativeTo(null);
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
