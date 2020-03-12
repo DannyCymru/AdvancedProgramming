@@ -86,7 +86,6 @@ public class MainScreen extends javax.swing.JFrame {
 
     public void Disconnect() {
         try {
-
             display.append(currTime() + "Disconnected.\n");
             sock.close();
         } catch (Exception ex) {
@@ -125,7 +124,7 @@ public class MainScreen extends javax.swing.JFrame {
 
                     if (data[2].equals(chat) && data[1].equals(hdisconnect)) {
 
-                        List<String> list = new ArrayList<String>();
+                        List<String> list = new ArrayList<>();
 
                         Scanner inFile1 = new Scanner(new File("ips.txt")).useDelimiter(":");
                         String joinedString = String.join(":", data);
@@ -135,7 +134,7 @@ public class MainScreen extends javax.swing.JFrame {
 
                         // Original answer used LinkedList, but probably preferable to use ArrayList in most cases
                         // List<String> temps = new LinkedList<String>();
-                        List<String> temps = new ArrayList<String>();
+                        List<String> temps = new ArrayList<>();
                         String token1 = "";
                         Boolean writ = true;
                         // while loop
@@ -249,7 +248,6 @@ public class MainScreen extends javax.swing.JFrame {
                                 if (str.trim().contains(data[0])) {
                                     System.out.println("goes to change Boolean");
                                     writ = false;
-
                                 }
                             }
                         }
@@ -662,14 +660,7 @@ public class MainScreen extends javax.swing.JFrame {
             try {
 
                 BufferedReader br = new BufferedReader(new FileReader("ips.txt"));
-                String dan = "";
-                String dp = "";
-                String jak = "";
-                String jp = "";
-                String danny = "";
-                String dap = "";
-                String bar = "";
-                String bp = "";
+                String dan = "", dp = "", jak = "", jp = "", danny = "", dap = "", bar = "", bp = "";
 
                 Scanner inFile1 = new Scanner(new File("ips.txt")).useDelimiter(":");
 

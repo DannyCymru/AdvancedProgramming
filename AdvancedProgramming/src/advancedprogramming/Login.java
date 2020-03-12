@@ -5,28 +5,22 @@
  */
 package advancedprogramming;
 
-import advancedprogramming.MainScreen;
 import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.Iterator;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
@@ -268,8 +262,9 @@ public class Login extends javax.swing.JFrame {
         public void run() {
             String message, connect = "Connect", disconnect = "Disconnect", chat = "Chat", disconnectt = "Disconnectt";
             String[] data;
-
-            try { //looks into every situation that it gets from the server if it is connect or sent message or dissconnect
+            
+            //looks into every situation that it gets from the server if it is connect or sent message or dissconnect
+            try { 
                 while ((message = reader.readLine()) != null) {
 
                     data = message.split(":");
@@ -302,7 +297,7 @@ public class Login extends javax.swing.JFrame {
         }
     }
 
-    //SERVER START!!!! THIS IS THE PART WHERE SERVER IS MADE AND IS CALLED FROM THE START BUTTON ATM.
+    //Starts the server
     public class ServerStart implements Runnable {
 
         @Override
