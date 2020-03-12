@@ -84,17 +84,6 @@ public class MainScreen extends javax.swing.JFrame {
         }
     }
 
-    public void SendclosedServer() {
-        String disconnectString;
-        try {
-            String encryptSignature = Encryption.Signature(input.getText());
-            disconnectString = username + ": :Disconnectt" + ":" + NetInterface.IpUser() + ":" + encryptSignature;
-            writer.println(disconnectString);
-            writer.flush();
-        } catch (Exception e) {
-            display.append(currTime() + "Could not send Disconnect message.\n");
-        }
-    }
 
     public void Disconnect() {
         try {
@@ -136,109 +125,80 @@ public class MainScreen extends javax.swing.JFrame {
 
                     if (data[2].equals(chat) && data[1].equals(ClosedWind)) {
                         isConnected = false;
-                        Disconnect();
-                        List<String> list = new ArrayList<>();
+                       
+                       
+                        String encryptSignature = Encryption.Signature(data[1]);
+                    if (i == 0) {
+                            display.append(currTime() + data[0] + ": " + data[1] + "\n");
+                            display.setCaretPosition(display.getDocument().getLength());
 
-                        Scanner inFile1 = new Scanner(new File("ips.txt")).useDelimiter(":");
-                        String joinedString = String.join(":", data);
+                        } else if (encryptSignature.equals(data[4])) {
+                            display.append(currTime() + data[0] + ": " + data[1] + "\n");
+                            display.setCaretPosition(display.getDocument().getLength());
+                            System.out.println(encryptSignature + "\n" + data[4]);
 
-                        ips = joinedString.split(":");
-                        String op = ips[3];
-
-                        // Original answer used LinkedList, but probably preferable to use ArrayList in most cases
-                        // List<String> temps = new LinkedList<String>();
-                        List<String> temps = new ArrayList<>();
-                        String token1 = "";
-                        Boolean writ = true;
-                        // while loop
-                        if (JtxtAdress.getText().equals(Ipnew)) {
-                            isConnected = false;
-                            display.append("Server closed down! Trying to connect to next coordinator!" + "\n");
-                            Onliners.setText("");
+                        } else {
+                            display.append(currTime() + data[0] + ": " + data[1] + " !messsage has been modified! " + "\n");
+                            System.out.println(Arrays.toString(data));
+                            display.setCaretPosition(display.getDocument().getLength());
+                            System.out.println(encryptSignature + "\n" + data[4]);
                         }
-                        while (inFile1.hasNext()) {
-                            // find next line
-                            token1 = inFile1.next();
-                            temps.add(token1);
-                        }
-                        inFile1.close();
+                        i++;
+          
 
-                        String[] tempsArray = temps.toArray(new String[0]);
+         
+String newcon = "";
+int ip;
+System.out.println("IM HEERE" + "_____________");
+                BufferedReader br = new BufferedReader(new FileReader("ips.txt"));
 
-                        for (String s : tempsArray) {
-                            String[] hel = tempsArray;
+                Scanner inFile1 = new Scanner(new File("ips.txt")).useDelimiter(":");
 
-                            list = Arrays.asList(hel);
-                            System.out.println(Arrays.toString(hel));
+                // Original answer used LinkedList, but probably preferable to use ArrayList in most cases
+                // List<String> temps = new LinkedList<String>();
+                List<String> temps = new ArrayList<String>();
+                String token1 = "";
 
-                            for (String str : list) {
+                while (inFile1.hasNext()) {
+                    // find next line
+                    token1 = inFile1.next();
+                    temps.add(token1);
+                }
+                inFile1.close();
 
-                                if (str.trim().contains(data[0])) {
-                                    System.out.println("goes to change Boolean");
+                String[] tempsArray = temps.toArray(new String[0]);
+                        String[] hel = null;
+                        
+                for (String s : tempsArray) {
+                    hel = tempsArray;
 
-                                    System.out.println(list);
-
-                                    writ = false;
-                                }
-                            }
-
-                            if (writ) {
-
-                                FileWriter writer = new FileWriter("ips.txt", true);
-                                writer.write(ips[0] + ":" + ips[3] + ":");
-                                writer.close();
-                            }
-
-                            //PrivateKey PrivaKey = Encryption.PrK(A);
-                            //byte[] MessageEncrypt = data[1].getBytes();
-                            //String MessageDecrypted = Encryption.DecryptionPart(MessageEncrypt, PrivaKey);
-                            String encryptSignature = Encryption.Signature(data[1]);
-
-                        }
-
-                        while (isConnected == false) {
-
-                            System.out.println("address main screen line 504: " + address);
-                            for (x = 1; x < list.size();) {
-                                String newip = list.get(x);
-                              
-                                try {
-                                    String encryptSignature = Encryption.Signature(input.getText());
-                                    sock = new Socket(newip, port);
-                                    System.out.println("sock MainScreen 509: " + sock);
-                                    InputStreamReader streamreader = new InputStreamReader(sock.getInputStream());
-                                    reader = new BufferedReader(streamreader);
-                                    writer = new PrintWriter(sock.getOutputStream());
-                                    writer.println(username + ":has connected.:Connect" + ":" + NetInterface.IpUser() + ":" + encryptSignature);
-                                    writer.flush();
-                                    uniqueId.setText(userId);
-                                    serverInfo.setText("");
-                                    serverInfo.append("Host:" + address + "\n");
-                                    serverInfo.append("My IP:" + NetInterface.IpUser() + "\n");
-                                    
-
-                                } catch (Exception ex) {
-                                    x += 2;
-                                    Onliners.setText("Online members :" + "\n");
-                                    display.append("Retrying to connect to the next available coordinator!" + "\n");
-                                    System.out.println("GOES HERE AND ADS X++++++++++++++++++++++" + newip);
-                                    
-                                }
-                                if(data[2].equals(connect)){
-                                    isConnected = true;
-                                }
-                                
-if(isConnected){
-                                        break;
-                                    }
-                                ListenThread();
-
-                            }
+                    List<String> list = Arrays.asList(hel);
+                    System.out.println(Arrays.toString(hel));
+                
+                    
+                        
+                        
+                         System.out.println(temps + "_____________" + isConnected);
                             
-                        }  if (isConnected == true) {
-                            display.append(currTime() + "You are already connected. \n");
-                        }
-
+                
+                        address = newcon;
+           
+               x = 1;
+                            ip = temps.indexOf(list.get(x));
+                           
+                            
+                             newcon = hel[ip];
+                             System.out.println(newcon + "+++++++");
+                             x++;
+                            
+                }
+                        
+                        
+                        
+                        
+                        
+                        
+                        
                     } else if (data[2].equals(chat)) {
 
                         Scanner inFile1 = new Scanner(new File("ips.txt")).useDelimiter(":");
@@ -357,7 +317,7 @@ if(isConnected){
                 }
             } catch (Exception ex) {
             }
-        }
+        }              
     }
 
     /**
@@ -1035,7 +995,7 @@ if(isConnected){
                 "Are you sure you want to close this window?", "Close Window?",
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
-            SendclosedServer();
+            sendserverdisconnect();
             Disconnect();
             System.exit(0);
         }

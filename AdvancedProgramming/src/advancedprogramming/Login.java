@@ -260,7 +260,7 @@ public class Login extends javax.swing.JFrame {
 
         @Override
         public void run() {
-            String message, connect = "Connect", disconnect = "Disconnect", chat = "Chat", ClosedWind = "Disconnectt";
+            String message, connect = "Connect", disconnect = "Disconnect", chat = "Chat";
             String[] data;
             
             //looks into every situation that it gets from the server if it is connect or sent message or dissconnect
@@ -276,12 +276,15 @@ public class Login extends javax.swing.JFrame {
 
                     } else if (data[2].equals(disconnect)) {
                         System.out.println("Reached dissconnect");
-                        tellEveryone((data[0] + ":has disconnected." + ":" + chat + ":" + data[2] + ":" + data[3]));
-                        userRemove(data[0]);
-                    } else if (data[2].equals(ClosedWind)) {
-                        System.out.println("Reached dissconnect");
+                        if(data[0].equals(users.get(0))){
                         tellEveryone((data[0] + ":has disconnected" + ":" + chat + ":" + data[2] + ":" + data[3]));
-                        userRemove(data[0]);
+                         userRemove(data[0]);  
+                        }
+                        else{
+                        tellEveryone((data[0] + ":has disconnected." + ":" + chat + ":" + data[2] + ":" + data[3]));
+                        userRemove(data[0]);   
+                    }
+                                        
                     } else if (data[2].equals(chat)) {
                         System.out.println("goes through chat in login ");
                         tellEveryone(message);
