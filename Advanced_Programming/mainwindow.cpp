@@ -11,6 +11,7 @@ MainWindow::MainWindow(QWidget *parent)
     QString open_message = "Please input your name, your port, the person you want to connect to and thier port like so. dr3344j:57000:192.168.23.4:57000";
      ui->message_edit->appendPlainText(open_message);
 
+     //Timer to constantly check if there has been any messages received
      QTimer *timer = new QTimer(this);
      connect(timer, SIGNAL(timeout()), SLOT(datagram_ui()));
      timer->start(1000);
@@ -55,6 +56,9 @@ void MainWindow::on_send_button_clicked()
 
 void MainWindow::datagram_ui(){
     QString data = p2p->get_data();
+
+    //Checks to see if their is any data
+    //If not then it does nothing, otherwise it appends the data to the ui.
     if(data.isEmpty()){
 
     }
