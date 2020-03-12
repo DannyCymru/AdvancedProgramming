@@ -138,7 +138,7 @@ public class MainScreen extends javax.swing.JFrame {
                         String token1 = "";
                         Boolean writ = true;
                         // while loop
-                        if (tf_address.getText().equals(Ipnew)) {
+                        if (JtxtAdress.getText().equals(Ipnew)) {
                             isConnected = false;
                             display.append("Server closed down! Trying to connect to next coordinator!" + "\n");
                         }
@@ -199,6 +199,9 @@ public class MainScreen extends javax.swing.JFrame {
                                     writer.flush();
                                     isConnected = true;
                                     uniqueId.setText(userId);
+                                                                            serverInfo.setText("");
+                                        serverInfo.append("Host:" + address+ "\n");
+                                        serverInfo.append("My IP:" + NetInterface.IpUser()+ "\n");
 
                                 } catch (Exception ex) {
                                     x += 2;
@@ -289,12 +292,12 @@ public class MainScreen extends javax.swing.JFrame {
                         String replace2 = replace1.replace(" ", "");
 
                         Onliners.setText("Online Members" + "\n");
-                        combobox.removeAllItems();
+                        cbOnliners.removeAllItems();
                         Onliners.append(users.get(0) + "Coordinator");
                         Onliners.append("\n");
 
                         for (String current_user : users) {
-                            combobox.addItem(current_user);
+                            cbOnliners.addItem(current_user);
                         }
                         for (int z = 1; z < users.size(); z++) {
                             Onliners.append(users.get(z));
@@ -310,12 +313,12 @@ public class MainScreen extends javax.swing.JFrame {
                         String replace1 = replace.replace("Connect", "");
                         String replace2 = replace1.replace(" ", "");
                         users.remove(replace2);
-                        combobox.removeAllItems();
+                        cbOnliners.removeAllItems();
                         Onliners.append(users.get(0) + "Coordinator");
                         Onliners.append("\n");
 
                         for (String current_user : users) {
-                            combobox.removeItem(current_user);
+                            cbOnliners.removeItem(current_user);
                         }
                         for (int z = 1; z < users.size(); z++) {
                             Onliners.append(users.get(z));
@@ -354,17 +357,17 @@ public class MainScreen extends javax.swing.JFrame {
         jScrollPane4 = new javax.swing.JScrollPane();
         serverInfo = new javax.swing.JTextArea();
         uniqueId = new javax.swing.JLabel();
-        sendText = new javax.swing.JButton();
+        btnsendtxt = new javax.swing.JButton();
         input = new javax.swing.JTextField();
-        tf_address = new javax.swing.JTextField();
+        JtxtAdress = new javax.swing.JTextField();
         lb_address = new javax.swing.JLabel();
         lb_port = new javax.swing.JLabel();
-        tf_port = new javax.swing.JTextField();
-        b_connect1 = new javax.swing.JButton();
-        b_disconnect = new javax.swing.JButton();
-        combobox = new javax.swing.JComboBox<>();
+        JtxtPort = new javax.swing.JTextField();
+        btnconnect = new javax.swing.JButton();
+        btndisconnect = new javax.swing.JButton();
+        cbOnliners = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
+        btnChat = new javax.swing.JButton();
 
         javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
         jDialog1.getContentPane().setLayout(jDialog1Layout);
@@ -400,17 +403,16 @@ public class MainScreen extends javax.swing.JFrame {
         serverInfo.setEditable(false);
         serverInfo.setColumns(1);
         serverInfo.setRows(5);
-        serverInfo.setText("My IP address:");
         jScrollPane4.setViewportView(serverInfo);
 
         uniqueId.setText("Unique ID");
         uniqueId.setRequestFocusEnabled(false);
         uniqueId.setVerifyInputWhenFocusTarget(false);
 
-        sendText.setText("Send");
-        sendText.addActionListener(new java.awt.event.ActionListener() {
+        btnsendtxt.setText("Send");
+        btnsendtxt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                sendTextActionPerformed(evt);
+                btnsendtxtActionPerformed(evt);
             }
         });
 
@@ -427,14 +429,14 @@ public class MainScreen extends javax.swing.JFrame {
 
         try
         {
-            tf_address.setText(NetInterface.IpUser());
+            JtxtAdress.setText(NetInterface.IpUser());
         }catch (Exception ex)
         {
 
         }
-        tf_address.addActionListener(new java.awt.event.ActionListener() {
+        JtxtAdress.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tf_addressActionPerformed(evt);
+                JtxtAdressActionPerformed(evt);
             }
         });
 
@@ -442,39 +444,39 @@ public class MainScreen extends javax.swing.JFrame {
 
         lb_port.setText("Port :");
 
-        tf_port.setText("7721");
-        tf_port.addActionListener(new java.awt.event.ActionListener() {
+        JtxtPort.setText("7721");
+        JtxtPort.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tf_portActionPerformed(evt);
+                JtxtPortActionPerformed(evt);
             }
         });
 
-        b_connect1.setText("Connect");
-        b_connect1.addActionListener(new java.awt.event.ActionListener() {
+        btnconnect.setText("Connect");
+        btnconnect.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                b_connect1ActionPerformed(evt);
+                btnconnectActionPerformed(evt);
             }
         });
 
-        b_disconnect.setText("Disconnect");
-        b_disconnect.addActionListener(new java.awt.event.ActionListener() {
+        btndisconnect.setText("Disconnect");
+        btndisconnect.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                b_disconnectActionPerformed(evt);
+                btndisconnectActionPerformed(evt);
             }
         });
 
-        combobox.addActionListener(new java.awt.event.ActionListener() {
+        cbOnliners.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                comboboxActionPerformed(evt);
+                cbOnlinersActionPerformed(evt);
             }
         });
 
         jLabel1.setText("Private chat: ");
 
-        jButton3.setText("Chat");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        btnChat.setText("Chat");
+        btnChat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                btnChatActionPerformed(evt);
             }
         });
 
@@ -483,44 +485,51 @@ public class MainScreen extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 698, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(56, 56, 56)
-                        .addComponent(uniqueId)
-                        .addGap(18, 18, 18)
-                        .addComponent(input))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(11, 11, 11)
-                        .addComponent(lb_address, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tf_address, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(lb_port, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(tf_port, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(b_connect1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(b_disconnect)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(combobox, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton3)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(sendText)
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(lb_address, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(4, 4, 4)
+                                .addComponent(JtxtAdress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(lb_port, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(JtxtPort, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnconnect)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btndisconnect))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(64, 64, 64)
+                                .addComponent(uniqueId)))
+                        .addGap(0, 461, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(9, 9, 9)
+                                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jScrollPane1))
+                            .addGroup(layout.createSequentialGroup()
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(cbOnliners, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(147, 147, 147)
+                                .addComponent(input)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(12, 12, 12)
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btnChat)
+                                    .addComponent(btnsendtxt))))))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -532,23 +541,23 @@ public class MainScreen extends javax.swing.JFrame {
                             .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(uniqueId, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(uniqueId, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(input, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(sendText)))
+                                .addComponent(input, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
+                                .addComponent(btnsendtxt))))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(tf_address, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(lb_address, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(lb_port, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(tf_port, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(b_connect1)
-                        .addComponent(b_disconnect)
-                        .addComponent(combobox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jButton3)))
+                .addGap(13, 13, 13)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnChat)
+                    .addComponent(cbOnliners, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnconnect)
+                    .addComponent(btndisconnect)
+                    .addComponent(JtxtPort, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lb_port, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(JtxtAdress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lb_address, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
         uniqueId.getAccessibleContext().setAccessibleName("uniqueIdLabel");
@@ -557,7 +566,7 @@ public class MainScreen extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-        private void sendTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendTextActionPerformed
+        private void btnsendtxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsendtxtActionPerformed
 
             String nothing = "";
             if ((input.getText()).equals(nothing)) {
@@ -588,26 +597,26 @@ public class MainScreen extends javax.swing.JFrame {
             input.requestFocus();
 
 
-        }//GEN-LAST:event_sendTextActionPerformed
+        }//GEN-LAST:event_btnsendtxtActionPerformed
 
-        private void tf_addressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_addressActionPerformed
+        private void JtxtAdressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JtxtAdressActionPerformed
 
-        }//GEN-LAST:event_tf_addressActionPerformed
+        }//GEN-LAST:event_JtxtAdressActionPerformed
 
-        private void tf_portActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_portActionPerformed
+        private void JtxtPortActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JtxtPortActionPerformed
 
-        }//GEN-LAST:event_tf_portActionPerformed
+        }//GEN-LAST:event_JtxtPortActionPerformed
 
-        private void b_disconnectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_disconnectActionPerformed
+        private void btndisconnectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndisconnectActionPerformed
             sendserverdisconnect();
             Disconnect();
             Onliners.setText("Online Members:");
-            combobox.removeAllItems();
-        }//GEN-LAST:event_b_disconnectActionPerformed
+            cbOnliners.removeAllItems();
+        }//GEN-LAST:event_btndisconnectActionPerformed
 
-        private void b_connect1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_connect1ActionPerformed
+        private void btnconnectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnconnectActionPerformed
 
-            address = tf_address.getText();
+            address = JtxtAdress.getText();
             if (isConnected == false) {
 
                 System.out.println("address main screen line 504: " + address);
@@ -623,6 +632,9 @@ public class MainScreen extends javax.swing.JFrame {
                     writer.flush();
                     isConnected = true;
                     uniqueId.setText(userId);
+                                                            serverInfo.setText("");
+                                        serverInfo.append("Host:" + address+ "\n");
+                                        serverInfo.append("My IP:" + NetInterface.IpUser()+ "\n");
                     Connected = true;
                     FileWriter writer = new FileWriter("ips.txt", false);
                     writer.write("");
@@ -643,19 +655,19 @@ public class MainScreen extends javax.swing.JFrame {
             }
 
 
-        }//GEN-LAST:event_b_connect1ActionPerformed
+        }//GEN-LAST:event_btnconnectActionPerformed
 
         private void inputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputActionPerformed
             // TODO add your handling code here:
         }//GEN-LAST:event_inputActionPerformed
 
-        private void comboboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboboxActionPerformed
+        private void cbOnlinersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbOnlinersActionPerformed
             // TODO add your handling code here:
-        }//GEN-LAST:event_comboboxActionPerformed
+        }//GEN-LAST:event_cbOnlinersActionPerformed
 
-        private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        private void btnChatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChatActionPerformed
 
-            String selected = combobox.getSelectedItem().toString();
+            String selected = cbOnliners.getSelectedItem().toString();
 
             try {
 
@@ -717,13 +729,14 @@ public class MainScreen extends javax.swing.JFrame {
                 System.out.println(bar + "<------------------------------>" + bp);
 
                 if (selected.equals(username)) {
-                    System.out.println("ERRROOOR!!!!!!!");
+                    Component frame = null;
+                    JOptionPane.showMessageDialog(frame, "You can't private chat with yourself", "Error", JOptionPane.ERROR_MESSAGE);
 
                 } else if (selected.equals("dm5376y") && dan.equals(selected)) {
                     sendserverdisconnect();
                     Disconnect();
                     Onliners.setText("Online Members:");
-                    combobox.removeAllItems();
+                    cbOnliners.removeAllItems();
                     address = dp;
 
                     try {
@@ -749,6 +762,9 @@ public class MainScreen extends javax.swing.JFrame {
                                         writer.flush();
                                         isConnected = true;
                                         uniqueId.setText(userId);
+                                        serverInfo.setText("");
+                                        serverInfo.append("Host:" + address+ "\n");
+                                        serverInfo.append("My IP:" + NetInterface.IpUser()+ "\n");
                                     } catch (Exception ex) {
                                         display.append("Cannot Connect! The server is Offline! Become a coordinator! \n");
 
@@ -779,7 +795,7 @@ public class MainScreen extends javax.swing.JFrame {
                     sendserverdisconnect();
                     Disconnect();
                     Onliners.setText("Online Members:");
-                    combobox.removeAllItems();
+                    cbOnliners.removeAllItems();
 
                     address = dp;
                     try {
@@ -805,6 +821,9 @@ public class MainScreen extends javax.swing.JFrame {
                                         writer.flush();
                                         isConnected = true;
                                         uniqueId.setText(userId);
+                                                                                serverInfo.setText("");
+                                        serverInfo.append("Host:" + address+ "\n");
+                                        serverInfo.append("My IP:" + NetInterface.IpUser()+ "\n");
                                     } catch (Exception ex) {
                                         display.append("Cannot Connect! The server is Offline! Become a coordinator! \n");
 
@@ -835,7 +854,7 @@ public class MainScreen extends javax.swing.JFrame {
                     sendserverdisconnect();
                     Disconnect();
                     Onliners.setText("Online Members:");
-                    combobox.removeAllItems();
+                    cbOnliners.removeAllItems();
 
                     address = jp;
                     try {
@@ -861,6 +880,9 @@ public class MainScreen extends javax.swing.JFrame {
                                         writer.flush();
                                         isConnected = true;
                                         uniqueId.setText(userId);
+                                                                                serverInfo.setText("");
+                                        serverInfo.append("Host:" + address+ "\n");
+                                        serverInfo.append("My IP:" + NetInterface.IpUser()+ "\n");
                                     } catch (Exception ex) {
                                         display.append("Cannot Connect! The server is Offline! Become a coordinator! \n");
 
@@ -891,7 +913,7 @@ public class MainScreen extends javax.swing.JFrame {
                     sendserverdisconnect();
                     Disconnect();
                     Onliners.setText("Online Members:");
-                    combobox.removeAllItems();
+                    cbOnliners.removeAllItems();
                     address = bp;
                     try {
                         br = new BufferedReader(new FileReader(filepath1));
@@ -916,6 +938,9 @@ public class MainScreen extends javax.swing.JFrame {
                                         writer.flush();
                                         isConnected = true;
                                         uniqueId.setText(userId);
+                                                                                serverInfo.setText("");
+                                        serverInfo.append("Host:" + address+ "\n");
+                                        serverInfo.append("My IP:" + NetInterface.IpUser() + "\n");
                                     } catch (Exception ex) {
                                         display.append("Cannot Connect! The server is Offline! Become a coordinator! \n");
 
@@ -947,7 +972,7 @@ public class MainScreen extends javax.swing.JFrame {
                 Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-                }//GEN-LAST:event_jButton3ActionPerformed
+                }//GEN-LAST:event_btnChatActionPerformed
 
                 private void inputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inputKeyPressed
                     if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -1046,14 +1071,17 @@ public class MainScreen extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField JtxtAdress;
+    private javax.swing.JTextField JtxtPort;
     private javax.swing.JTextArea Onliners;
-    private javax.swing.JButton b_connect1;
-    private javax.swing.JButton b_disconnect;
-    private javax.swing.JComboBox<String> combobox;
+    private javax.swing.JButton btnChat;
+    private javax.swing.JButton btnconnect;
+    private javax.swing.JButton btndisconnect;
+    private javax.swing.JButton btnsendtxt;
+    private javax.swing.JComboBox<String> cbOnliners;
     private javax.swing.JTextArea display;
     private javax.swing.JTextField input;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton3;
     private javax.swing.JDialog jDialog1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
@@ -1061,10 +1089,7 @@ public class MainScreen extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JLabel lb_address;
     private javax.swing.JLabel lb_port;
-    private javax.swing.JButton sendText;
     private javax.swing.JTextArea serverInfo;
-    private javax.swing.JTextField tf_address;
-    private javax.swing.JTextField tf_port;
     public javax.swing.JLabel uniqueId;
     // End of variables declaration//GEN-END:variables
 
