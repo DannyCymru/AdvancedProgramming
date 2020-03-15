@@ -1,5 +1,7 @@
-# This file is used to ignore files which are generated
-# ----------------------------------------------------------------------------
+/AdvancedProgramming/build/
+/AdvancedProgramming/dist/
+/AdvancedProgramming/AdvancedProgramming/build/
+/AdvancedProgramming/AdvancedProgramming/nbproject/private/
 
 *~
 *.autosave
